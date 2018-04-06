@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './logolong.png';
+import { Button, Menu, Image } from 'semantic-ui-react'
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+      <div>
+        <header>
+        <img src={logo} className="logo" alt="logo" />
+          <div id="right-menu">
+            <Button inverted>Iniciar sesión</Button>
+            <Button inverted color="blue">Registrarse</Button>
+          </div>
         </header>
-        <p className="App-intro">
+
+        <div className="body">
           El front web mas cool del mundo mundial.
-        </p>
+        </div>
+
+        <footer>
+          <img src="images/logos/logocircle.png" className="icon" alt="logo" />
+          <span>Copyright Runapp 2018</span>
+        </footer>
       </div>
     );
   }
