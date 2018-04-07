@@ -16,7 +16,7 @@ class App extends Component {
         </header>
 
         <div className="body">
-          El front web mas cool del mundo mundial.
+          El front web mas cool del mundo mundial. Profile
         </div>
 
         <footer>
