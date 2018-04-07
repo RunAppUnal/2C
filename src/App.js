@@ -3,6 +3,8 @@ import logo from './logolong.png';
 import { Button, Menu, Image } from 'semantic-ui-react'
 import './App.css';
 
+import { ApolloProvider } from "react-apollo";
+
 class App extends Component {
   render() {
     return (

@@ -3,26 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-
+import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
-
-ReactDOM.render(<App/>, document.getElementById('root'));
-registerServiceWorker();
 
 const client = new ApolloClient({
-  uri: "http://192.168.99.101:8000/graphql",
-  connectToDevTools: true
+  uri: "http://192.168.99.101:8000/graphql"
 });
 
-client
-  .query({query: gql`
-    {
-      userById(userid:1){
-        username
-        userid
-      }
-    }
-  `})
-  .then(data => console.log({ data }));
+const Index = () => (
+  <ApolloProvider client={client}>
+    <App/>
+  </ApolloProvider>
+);
+
+
+ReactDOM.render(<Index/>, document.getElementById('root'));
+registerServiceWorker();
