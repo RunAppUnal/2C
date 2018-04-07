@@ -12,16 +12,17 @@ ReactDOM.render(<App/>, document.getElementById('root'));
 registerServiceWorker();
 
 const client = new ApolloClient({
-  uri: "http://192.168.99.101:8000/graphql",
+  uri: "http://192.168.99.102:8000/graphql",
   connectToDevTools: true
 });
 
 client
   .query({query: gql`
     {
-      userById(userid:1){
-        username
-        userid
+      vehicleById(id:1){
+        plate
+        brand
+        color
       }
     }
   `})
