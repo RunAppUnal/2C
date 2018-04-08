@@ -9,7 +9,7 @@ class Home extends Component {
     return (
       <div>
         <div className="body">
-          <h1>Página principal</h1>
+          <h1>Página principal.</h1>
         </div>
       </div>
     );
