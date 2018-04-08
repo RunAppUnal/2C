@@ -1,7 +1,10 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { HashRouter, NavLink, Route } from 'react-router-dom'
-import Home from './Home';
-import Profile from './Profile';
+import Home from './home';
+import Profile from './profile';
+import Login from './login';
+import Signup from './signup';
 import { Button } from 'semantic-ui-react'
 import './css/App.css';
 
@@ -22,7 +25,9 @@ class App extends Component {
 
           <div className="body">
             <Route exact path path="/" component={Home}/>
-            <Route path="/profile" component={Profile}/>
+            {/* <Route path="/profile" component={Profile}/> */}
+            <Route path="/login" component={Login}/>
+            <Route path="/signup" component={Signup}/>
           </div>
 
           <footer>

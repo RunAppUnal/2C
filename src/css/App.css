@@ -37,10 +37,6 @@ footer {
 
 /* content styles */
 
-body {
-  /* padding-bottom:80px; */
-}
-
 #root {
    min-height:100%;
    position:relative;
