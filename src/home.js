@@ -10,6 +10,7 @@ class Home extends Component {
       <div>
         <div className="body">
           <h1>Página principal.</h1>
+          <p>Esta es nuestra página principal :).</p>
         </div>
       </div>
     );

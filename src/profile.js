@@ -107,7 +107,7 @@ class Profile extends Component {
     return (
       <div>
         <div className="body">
-          <h1>Perfil de ususario.</h1>
+          <h1>Perfil del ususario.</h1>
           <h3>Información personal</h3>
           <Info/>
           <h3>Mis vehículos</h3>
