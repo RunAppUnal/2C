@@ -36,6 +36,19 @@ const GET_MY_INFO = gql`
   }
 `;
 
+const GET_MY_ROUTES = gql`
+  {
+    myRoutes(userid:1){
+      title
+      description
+      departure
+      cost
+      users_in_route
+      spaces_avaible
+    }
+  }
+`;
+
 client.query({query: GET_MY_INFO}).then(data => console.log(data));
 
 const MyVehicles = ({ onVehicleSelected }) => (
@@ -65,10 +78,7 @@ const MyVehicles = ({ onVehicleSelected }) => (
               </tr>  
             )}
           </tbody>          
-        </table>       
-
-
-
+        </table>
       );
     }}
   </Query>
@@ -91,6 +101,42 @@ const MyInfo = ({ onUserSelected }) => (
   </Query>
 );
 
+const MyRoutes = ({ onRouteSelected }) => (
+  <Query query={GET_MY_ROUTES}>
+    {({ loading, error, data }) => {
+      if (loading) return "CARGANDO TUS RUTAS...";
+      if (error) return `Error! ${error.message}`;
+      return (
+        <table>
+          <thead>
+            <tr>
+              <th><b>Título</b></th>
+              <th><b>Descripción</b></th> 
+              <th><b>Fecha</b></th>
+              <th><b>Precio</b></th>
+              <th><b>Pasajeros</b></th>
+              <th><b>Cupos</b></th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.myRoutes.map(route => 
+              <tr>
+                <td>{route.title}</td>
+                <td>{route.description}</td>
+                <td>{route.departure}</td>
+                <td>{route.cost}</td>
+                <td>{route.users_in_route}</td>
+                <td>{route.spaces_avaible}</td>
+              </tr>  
+            )}
+          </tbody>          
+        </table>
+      );
+    }}
+  </Query>
+);
+
+
 const Vehicles = () => (
   <ApolloProvider client={client}>
     <MyVehicles/>
@@ -99,6 +145,11 @@ const Vehicles = () => (
 const Info = () => (
   <ApolloProvider client={client}>
     <MyInfo/>
+  </ApolloProvider>
+);
+const Routes = () => (
+  <ApolloProvider client={client}>
+    <MyRoutes/>
   </ApolloProvider>
 );
 
@@ -112,6 +163,8 @@ class Profile extends Component {
           <Info/>
           <h3>Mis vehículos</h3>
           <Vehicles />
+          <h3>Mis rutas</h3>
+          <Routes />
         </div>
       </div>
     );
