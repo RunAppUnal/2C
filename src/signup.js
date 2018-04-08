@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Button, Form } from 'semantic-ui-react'
 import './css/signup.css';
@@ -20,7 +21,7 @@ const CreateUser = () => {
 
   return (
     <Mutation mutation={CREATE_USER}>
-      {(createUser, { data }) => (
+      {(createUser, { loading, error }) => (
         <div>
           <Form onSubmit={e => {
               e.preventDefault();
