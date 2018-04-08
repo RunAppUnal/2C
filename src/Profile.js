@@ -6,6 +6,7 @@ import {Route, NavLink, HashRouter} from "react-router-dom";
 import MyInfo from './MyInfo'
 import MyVehicles from './MyVehicles'
 import MyRoutes from './MyRoutes'
+import AddVehicle from './AddVehicle'
 
 import ApolloClient from "apollo-boost";
 import { Query } from "react-apollo";
@@ -19,7 +20,7 @@ class Profile extends Component {
         <div>
           <h1>Perfil del ususario.</h1>
           <ul className="header">
-            <li><NavLink exact to="/profile">My información</NavLink></li>
+            <li><NavLink exact to="/profile">Mi información</NavLink></li>
             <li><NavLink to="/profile/my-vehicles">Mis vehículos</NavLink></li>
             <li><NavLink to="/profile/my-routes">Mis rutas</NavLink></li>
           </ul>
