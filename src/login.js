@@ -2,26 +2,12 @@
 import React from 'react';
 import { Button, Form } from 'semantic-ui-react'
 import './css/signup.css';
+import { update, withAuth } from "./auth";
 
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { NavLink } from 'react-router-dom'
 
-import {currentUser} from './index';
-
-
-const GET_USER_BY_ID= gql`
-  query userById($userid: Int!){
-    userById(userid: $userid){
-      userid
-      username
-      email
-      name
-      lastname
-      cellphone
-    }
-  }
-`;
 
 const LOGIN_USER= gql`
   mutation loginUser($username: String!, $password: String!){
@@ -52,7 +38,8 @@ const LoginUser = () => {
                 password: inputPassword.value
               } })
               .then(data => (
-                console.log(data.data.login)
+                // console.log(data.data.login)
+                update(data.data.login)
               )
             );;
             }}>
