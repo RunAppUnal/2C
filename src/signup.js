@@ -5,7 +5,7 @@ import './css/signup.css';
 
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { NavLink } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 
 const CREATE_USER = gql`
@@ -21,7 +21,7 @@ const CreateUser = () => {
 
   return (
     <Mutation mutation={CREATE_USER}>
-      {(createUser, { loading, error }) => (
+      {(createUser, { loading, error, called }) => (
         <div>
           <Form onSubmit={e => {
               e.preventDefault();
@@ -62,6 +62,7 @@ const CreateUser = () => {
             </Form.Field>
             <Button type='submit'>Registrarse</Button>
           </Form>
+          {error ? <p>Hubo un error! Intenta de nuevo</p> : called && <Redirect to='/login'/>}
         </div>
       )}
     </Mutation>
@@ -72,7 +73,7 @@ const Signup = () => (
   <div>
     <h1 className="ui centered header">Registrarse:</h1>
     <h4 className="ui centered header">
-      ¿Ya habías venido por aquí? <NavLink to="/login">Iniciar Sesión</NavLink>
+      ¿Ya habías venido por aquí? <Link to="/login">Iniciar Sesión</Link>
     </h4>
     <CreateUser/>
   </div>

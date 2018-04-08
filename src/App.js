@@ -1,51 +1,84 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { HashRouter, NavLink, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import Home from './home';
 import Profile from './profile';
-import Login from './login';
+import { Login, Logout } from './login';
 import Signup from './signup';
-import { Button } from 'semantic-ui-react'
+import { Dropdown, Button } from 'semantic-ui-react'
 import './css/App.css';
-import { update, withAuth } from "./auth";
+import { update, withAuth, CurrUser } from "./auth";
+
 
 const AuthState = withAuth(({ auth }) => {
-  if (auth.userid != null) {
+  if (auth) {
+    let trigger = <span><img className="ui avatar image" src="images/default-user.png"/> {auth.username}</span>
     return (
       <div>
-        <img className="ui avatar image" src="images/default-user.png"/>
-        Bienvenido(a), {auth.username}
+        <Dropdown trigger={trigger} pointing='top left' direction='right' icon={null}>
+          <Dropdown.Menu>
+            <Dropdown.Item><Link to="/profile">Mi perfil</Link></Dropdown.Item>
+            <Dropdown.Item><Link to="/logout">Cerrar Sesión</Link></Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
     )
   } else {
     return (
       <div>
-        <NavLink to="/login"><Button inverted>Iniciar sesión</Button></NavLink>
-        <NavLink to="/signup"><Button inverted color="blue">Registrarse</Button></NavLink>
+        <Link to="/login"><Button inverted>Iniciar sesión</Button></Link>
+        <Link to="/signup"><Button inverted color="blue">Registrarse</Button></Link>
       </div>
     );
   }
 });
 
+
+const auth = true;
+
+const PrivateRoute = ({component: Component, ...rest}) => (
+  // withAuth(({ auth }) => {
+  //   if (auth) {
+  //     return (
+  //       <Route {...rest} render={(props) => (<Component {...props}/>)}/>
+  //     );
+  //   } else {
+  //     return (
+  //       <Route {...rest} render={(props) => (<Redirect to='/login'/>)}/>
+  //     );
+  //   }
+  // })
+  <Route {...rest} render={(props) => (
+    <CurrUser/> === "none"
+      ? <Component {...props}/>
+      : <Redirect to='/login'/>
+  )}/>
+);
+
+
 class App extends Component {
   render() {
     return (
-      <HashRouter>
+      <Router>
         <div>
           <header>
-            <NavLink to="/">
+            <Link to="/">
               <img src="images/logos/logolong.png" className="logo" alt="logo" />
-            </NavLink>
+            </Link>
             <div id="right-menu">
               <AuthState/>
             </div>
           </header>
 
           <div className="body">
+            {/* <h3>Current User: <CurrUser/></h3> */}
+
             <Route exact path path="/" component={Home}/>
-            {/* <Route path="/profile" component={Profile}/> */}
             <Route path="/login" component={Login}/>
+            <Route path="/logout" component={Logout}/>
             <Route path="/signup" component={Signup}/>
+
+            <Route path="/profile" component={Profile}/>
           </div>
 
           <footer>
@@ -53,7 +86,7 @@ class App extends Component {
             <span>Copyright Runapp 2018</span>
           </footer>
         </div>
-      </HashRouter>
+      </Router>
     );
   }
 }

@@ -6,7 +6,7 @@ import { update, withAuth } from "./auth";
 
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { NavLink } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 
 const LOGIN_USER= gql`
@@ -29,7 +29,7 @@ const LoginUser = () => {
 
   return (
     <Mutation mutation={LOGIN_USER} ignoreResults={false} >
-      {(loginUser, { loading, error, data }) => (
+      {(loginUser, { loading, error, data, called }) => (
         <div>
           <Form onSubmit={e => {
               e.preventDefault();
@@ -37,11 +37,7 @@ const LoginUser = () => {
                 username: inputUsername.value,
                 password: inputPassword.value
               } })
-              .then(data => (
-                // console.log(data.data.login)
-                update(data.data.login)
-              )
-            );;
+              .then(data => update(data.data.login));;
             }}>
             <Form.Field>
               <label>Usuario</label>
@@ -54,7 +50,7 @@ const LoginUser = () => {
             <Button type='submit'>Iniciar Sesión</Button>
           </Form>
           {loading && <p>Loading...</p>}
-          {error && <p>Error :( Please try again</p>}
+          {error ? <p>Hubo un error! Intenta de nuevo</p> : called && <Redirect to='/'/>}
         </div>
       )}
     </Mutation>
@@ -65,10 +61,15 @@ const Login = () => (
   <div>
     <h1 className="ui centered header">Iniciar Sesión:</h1>
     <h4 className="ui centered header">
-      ¿Eres nuevo en Runapp? <NavLink to="/signup">Regístrate</NavLink>
+      ¿Eres nuevo en Runapp? <Link to="/signup">Regístrate</Link>
     </h4>
     <LoginUser/>
   </div>
 );
 
-export default Login;
+const Logout = () => {
+  update(null);
+  return <Redirect to='/login'/>;
+};
+
+export { Login, Logout };

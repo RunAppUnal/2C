@@ -1,6 +1,6 @@
 import React from "react";
 
-let state = "anonymous";
+let state = null;
 
 const subscribers = [];
 
@@ -32,3 +32,7 @@ export const update = newState => {
   state = newState;
   subscribers.forEach(subscriber => subscriber());
 };
+
+export const CurrUser = withAuth(({ auth }) => {
+  return auth ? auth.userid : "none";
+});
