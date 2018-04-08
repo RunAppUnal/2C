@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { Button, Form } from 'semantic-ui-react'
-import './css/signup.css';
+import '../css/signup.css';
 
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";

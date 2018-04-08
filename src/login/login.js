@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React from 'react';
 import { Button, Form } from 'semantic-ui-react'
-import './css/signup.css';
-import { update, withAuth } from "./auth";
+import '../css/signup.css';
+import { update, withAuth } from "../auth";
 
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";

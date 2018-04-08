@@ -2,12 +2,23 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import Home from './home';
-import Profile from './profile';
-import { Login, Logout } from './login';
-import Signup from './signup';
+import Profile from './Profile';
+import { Login, Logout } from './login/login';
+import Signup from './login/signup';
 import { Dropdown, Button } from 'semantic-ui-react'
 import './css/App.css';
 import { update, withAuth, CurrUser } from "./auth";
+
+
+// const auth = true;
+//
+// const PrivateRoute = ({component: Component, ...rest}) => (
+//   <Route {...rest} render={(props) => (
+//     auth
+//       ? <Component {...props}/>
+//       : <Redirect to='/login'/>
+//   )}/>
+// );
 
 
 const AuthState = withAuth(({ auth }) => {
@@ -32,28 +43,6 @@ const AuthState = withAuth(({ auth }) => {
     );
   }
 });
-
-
-const auth = true;
-
-const PrivateRoute = ({component: Component, ...rest}) => (
-  // withAuth(({ auth }) => {
-  //   if (auth) {
-  //     return (
-  //       <Route {...rest} render={(props) => (<Component {...props}/>)}/>
-  //     );
-  //   } else {
-  //     return (
-  //       <Route {...rest} render={(props) => (<Redirect to='/login'/>)}/>
-  //     );
-  //   }
-  // })
-  <Route {...rest} render={(props) => (
-    <CurrUser/> === "none"
-      ? <Component {...props}/>
-      : <Redirect to='/login'/>
-  )}/>
-);
 
 
 class App extends Component {
