@@ -3,10 +3,10 @@ import { Button, Menu, Image } from 'semantic-ui-react'
 import './css/profile.css';
 import registerServiceWorker from './registerServiceWorker';
 import {Route, NavLink, HashRouter} from "react-router-dom";
-import MyInfo from './MyInfo'
-import MyVehicles from './MyVehicles'
-import MyRoutes from './MyRoutes'
-import AddVehicle from './AddVehicle'
+import MyInfo from './MyInfo/MyInfo'
+import MyVehicles from './Vehicles/MyVehicles'
+import MyRoutes from './Routes/MyRoutes'
+import AddVehicle from './Vehicles/AddVehicle'
 
 import ApolloClient from "apollo-boost";
 import { Query } from "react-apollo";

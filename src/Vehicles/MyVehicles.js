@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
-import './css/myVehicle.css';
-import registerServiceWorker from './registerServiceWorker';
+import '../css/myVehicle.css';
+import registerServiceWorker from '../registerServiceWorker';
 import {Route, NavLink, HashRouter} from "react-router-dom";
 import AddVehicle from './AddVehicle'
 import ShowMyVehicles from './ShowMyVehicles'

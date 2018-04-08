@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
-import './css/myVehicle.css';
-import registerServiceWorker from './registerServiceWorker';
+import '../css/myVehicle.css';
+import registerServiceWorker from '../registerServiceWorker';
 
 import ApolloClient from "apollo-boost";
 import { Query } from "react-apollo";
@@ -68,6 +68,7 @@ class MyVehicles extends Component {
   render() {
     return (
       <div>
+      	
       	<h2>Mis vehículos</h2>
         <Vehicles/>
       </div>

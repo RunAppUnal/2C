@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
-import './css/profile.css';
-import registerServiceWorker from './registerServiceWorker';
+import '../css/profile.css';
+import registerServiceWorker from '../registerServiceWorker';
 
 import ApolloClient from "apollo-boost";
 import { Query } from "react-apollo";

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gql from "graphql-tag";
-import './css/myVehicle.css';
+import '../css/myVehicle.css';
 import { Mutation } from "react-apollo";
 
 const ADD_TODO = gql`
