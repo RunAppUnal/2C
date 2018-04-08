@@ -1,28 +1,26 @@
 import React, { Component } from 'react';
-import {Route, NavLink, HashRouter} from "react-router-dom";
 import { Button, Menu, Image } from 'semantic-ui-react'
-
-import logo from './logolong.png';
-import './App.css';
-import Profile from "./profile";
-import Home from "./home";
+import { HashRouter, NavLink, Route } from 'react-router-dom'
+import Home from './Home';
+import Profile from './Profile';
+import './css/App.css';
 
 class App extends Component {
   render() {
     return (
       <HashRouter>
-      <div>
+        <div>
           <header>
             <NavLink to="/">
-              <img src={logo} className="logo" alt="logo" />
+              <img src="images/logos/logolong.png" className="logo" alt="logo" />
             </NavLink>
             <div id="right-menu">
               <NavLink to="/login"><Button inverted>Iniciar sesión</Button></NavLink>
               <NavLink to="/signup"><Button inverted color="blue">Registrarse</Button></NavLink>
             </div>
           </header>
-          
-          <div className="content">
+
+          <div className="body">
             <Route exact path path="/" component={Home}/>
             <Route path="/profile" component={Profile}/>
           </div>
@@ -30,7 +28,7 @@ class App extends Component {
           <footer>
             <img src="images/logos/logocircle.png" className="icon" alt="logo" />
             <span>Copyright Runapp 2018</span>
-          </footer>        
+          </footer>
         </div>
       </HashRouter>
     );
