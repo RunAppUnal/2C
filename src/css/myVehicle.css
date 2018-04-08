@@ -1,0 +1,33 @@
+#vehicleButton{
+	margin: 50px;
+	padding: 10px;
+	text-align: center;
+}
+#addVehicleBtn{
+	background-color: transparent;
+	color: #54c8ff;
+	width: 150px;
+	height: 50px;
+	box-shadow: 0 0 0 2px #54c8ff inset!important;
+	font-size: 1rem;
+	cursor: pointer;
+    display: inline-block;
+    min-height: 1em;
+    outline: 0;
+    border: none;
+    vertical-align: baseline;
+    margin: 0 .25em 0 0;
+    text-transform: none;
+    text-shadow: none;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-align: center;
+    text-decoration: none;
+    border-radius: .28571429rem;
+}
+
+#addVehicleBtn:hover{
+	background-color: #54c8ff;
+	color: white;
+}
