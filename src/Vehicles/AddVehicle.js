@@ -1,53 +1,92 @@
+/* eslint-disable */
 import React, { Component } from 'react';
-import gql from "graphql-tag";
+import { Button, Form } from 'semantic-ui-react'
 import '../css/myVehicle.css';
+
+import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
-const ADD_TODO = gql`
-  mutation addTodo($type: String!) {
-    addTodo(type: $type) {
-      id
-      type
+
+const CREATE_VEHICLE = gql`
+  mutation createVehicle($vehicle: VehicleInput!) {
+    createVehicle(vehicle: $vehicle){
+      user_id
     }
   }
 `;
 
-const AddTodo = () => {
-  let input;
+const CreateVehicle = () => {
+  let inputPlate, inputKind, inputModel, inputColor, inputCapacity, inputBrand;
 
   return (
-    <Mutation mutation={ADD_TODO}>
-      {(addTodo, { data }) => (
+    <Mutation mutation={CREATE_VEHICLE}>
+      {(createVehicle, { loading, error, called }) => (
         <div>
-          <form
-            onSubmit={e => {
+          <Form onSubmit={e => {
               e.preventDefault();
-              addTodo({ variables: { type: input.value } });
-              input.value = "";
-            }}
-          >
-            <input
-              ref={node => {
-                input = node;
-              }}
-            />
-            <button type="submit">Add Todo</button>
-          </form>
+              createVehicle({ variables: {
+                vehicle: {
+                  plate: inputPlate.value,
+                  user_id: 2,
+                  kind: inputKind.value,
+                  model: inputModel.value,
+                  color: inputColor.value,
+                  capacity: inputCapacity.value,
+                  image: "",
+                  brand: inputBrand.value,
+                }
+              } });
+            }}>
+            <Form.Field>
+              <label>Placa</label>
+              <input ref={node => {inputPlate = node;}} />
+            </Form.Field>
+            <Form.Field>
+              <label>Tipo</label>
+              <input ref={node => {inputKind = node;}} />
+            </Form.Field>
+            <Form.Field>
+              <label>Marca</label>
+              <input ref={node => {inputBrand = node;}} />
+            </Form.Field>
+            <Form.Field>
+              <label>Modelo</label>
+              <input ref={node => {inputModel = node;}} />
+            </Form.Field>
+            <Form.Field>
+              <label>Color</label>
+              <input ref={node => {inputColor = node;}} />
+            </Form.Field>
+            <Form.Field>
+              <label>Capacidad</label>
+              <input ref={node => {inputCapacity = node;}} />
+            </Form.Field>
+            <Button type='submit'>Crear Vehículo</Button>
+          </Form>
+          {error && <p>Hubo un error! Intenta de nuevo</p>}
         </div>
       )}
     </Mutation>
   );
 };
 
-class AddVehicle extends Component {
-  render() {
-    return (      
-      <div>
-        <h2>Agregar vehículo.</h2>
-        hola mundo.
-      </div>
-    );
-  }
-}
+const AddVehicle = () => (
+  <div>
+    <h1 className="ui centered header">Agregar Vehículo:</h1>
+    <CreateVehicle/>
+  </div>
+);
+
+
+// class AddVehicle extends Component {
+//   render() {
+//     return (
+//       <div>
+//         <h2>Agregar vehículo.</h2>
+//         hola mundo.
+//       </div>
+//     );
+//   }
+// }
 
 export default AddVehicle;

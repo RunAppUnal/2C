@@ -1,8 +1,9 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
 import '../css/myVehicle.css';
 import registerServiceWorker from '../registerServiceWorker';
-import {Route, Link, BrowserRouter as Router} from "react-router-dom";
+import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import AddVehicle from './AddVehicle'
 import ShowMyVehicles from './ShowMyVehicles'
 
@@ -15,21 +16,25 @@ class MyVehicles extends Component {
     return (
       <Router>
         <div>
-          <div class="row">
-            <div class="col-sm-4 col-md-4 col-lg-4"></div>
+          <ul className="header">
+            <li><NavLink exact to="/profile/my-vehicles">Ver mis vehículos</NavLink></li>
+            <li><NavLink to="/profile/my-vehicles/new">Agregar un vehículo</NavLink></li>
+          </ul>
+          <div className="row">
+            <div className="col-sm-4 col-md-4 col-lg-4"></div>
 
-            <div class="col-sm-4 col-md-4 col-lg-4">
-              <div class="row">
-                <div class="col-sm-6 col-md-6 col-lg-6" id="vehiclesNav">
-                  <Link exact to="/profile/my-vehicles" class="nav-link">Ver mis vehículos</Link>
+            <div className="col-sm-4 col-md-4 col-lg-4">
+              <div className="row">
+                <div className="col-sm-6 col-md-6 col-lg-6" id="vehiclesNav">
+                  <NavLink exact to="/profile/my-vehicles" className="nav-link">Ver mis vehículos</NavLink>
                 </div>
-                <div class="col-sm-6 col-md-6 col-lg-6" id="vehiclesNav">
-                  <Link exact to="/profile/my-vehicles/new" class="nav-link">Agregar un vehículo</Link>
+                <div className="col-sm-6 col-md-6 col-lg-6" id="vehiclesNav">
+                  <NavLink exact to="/profile/my-vehicles/new" className="nav-link">Agregar un vehículo</NavLink>
                 </div>
-              </div>    
+              </div>
             </div>
 
-            <div class="col-sm-4 col-md-4 col-lg-4"></div>
+            <div className="col-sm-4 col-md-4 col-lg-4"></div>
           </div>
           <div className="content">
             <Route exact path="/profile/my-vehicles" component={ShowMyVehicles}/>

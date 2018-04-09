@@ -1,14 +1,15 @@
+/* eslint-disable */
 import React, { Component } from 'react';
-import { Button, Menu, Image } from 'semantic-ui-react'
 import '../css/myInfo.css';
+import { withAuth } from "../auth";
 import registerServiceWorker from '../registerServiceWorker';
 
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
 const GET_MY_INFO = gql`
-  {
-    userById(userid:1){
+  query userById($userid: Int!){
+    userById(userid: $userid){
       name
       lastname
       username
@@ -17,22 +18,24 @@ const GET_MY_INFO = gql`
   }
 `;
 
-const My_Info = ({ onUserSelected }) => (
-  <Query query={GET_MY_INFO}>
-    {({ loading, error, data }) => {
-      if (loading) return "Cargando...";
-      if (error) return `Error! ${error.message}`;
+const My_Info = withAuth(({ auth }) => {
+  return (
+    <Query query={GET_MY_INFO} variables={{ userid: auth.userid }}>
+      {({ loading, error, data }) => {
+        if (loading) return "Cargando...";
+        if (error) return `Error! ${error.message}`;
 
-      return (
-        <div>
-          <p><b>Nombre:</b> {data.userById.name} {data.userById.lastname}</p>
-          <p><b>Usuario:</b> {data.userById.username}</p>
-          <p><b>Correo:</b> {data.userById.email}</p>
-        </div>
-      );
-    }}
-  </Query>
-);
+        return (
+          <div>
+            <p><b>Nombre:</b> {data.userById.name} {data.userById.lastname}</p>
+            <p><b>Usuario:</b> {data.userById.username}</p>
+            <p><b>Correo:</b> {data.userById.email}</p>
+          </div>
+        );
+      }}
+    </Query>
+  )
+});
 
 const Info = () => (
   <My_Info/>

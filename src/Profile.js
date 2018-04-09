@@ -1,8 +1,9 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
 import './css/profile.css';
 import registerServiceWorker from './registerServiceWorker';
-import { Route, Link, Redirect, BrowserRouter as Router } from "react-router-dom";
+import { Route, NavLink, Redirect, BrowserRouter as Router } from "react-router-dom";
 import { withAuth } from "./auth";
 import MyInfo from './MyInfo/MyInfo'
 import MyVehicles from './Vehicles/MyVehicles'
@@ -17,22 +18,21 @@ import { ApolloProvider } from "react-apollo";
 const Profile = withAuth(({ auth }) => {
     return (
       <Router>
-        <div>
-          <h1>Perfil del ususario.</h1>
-          <ul className="header">
-            <li><Link exact to="/profile">Mi información</Link></li>
-            <li><Link to="/profile/my-vehicles">Mis vehículos</Link></li>
-            <li><Link to="/profile/my-routes">Mis rutas</Link></li>
-          </ul>
-          <div className="content">
-            <Route exact path="/profile" component={MyInfo}/>
-            <Route path="/profile/my-vehicles" component={MyVehicles}/>
-            <Route path="/profile/my-routes" component={MyRoutes}/>
-          </div>
+      <div>
+        <h1>Perfil del ususario:</h1>
+        <ul className="header">
+          <li><NavLink exact to="/profile">Mi información</NavLink></li>
+          <li><NavLink to="/profile/my-vehicles">Mis vehículos</NavLink></li>
+          <li><NavLink to="/profile/my-routes">Mis rutas</NavLink></li>
+        </ul>
+        <div className="content">
+          <Route exact path="/profile" component={MyInfo}/>
+          <Route path="/profile/my-vehicles" component={MyVehicles}/>
+          <Route path="/profile/my-routes" component={MyRoutes}/>
         </div>
+      </div>
       </Router>
     )
-  
 });
 
 export default Profile;
