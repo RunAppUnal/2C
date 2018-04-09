@@ -7,6 +7,9 @@ import registerServiceWorker from '../registerServiceWorker';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
+
+var currUserId = localStorage.getItem('currUserId');
+
 const GET_MY_INFO = gql`
   query userById($userid: Int!){
     userById(userid: $userid){
@@ -20,7 +23,7 @@ const GET_MY_INFO = gql`
 
 const My_Info = withAuth(({ auth }) => {
   return (
-    <Query query={GET_MY_INFO} variables={{ userid: auth.userid }}>
+    <Query query={GET_MY_INFO} variables={{ userid: currUserId }}>
       {({ loading, error, data }) => {
         if (loading) return "Cargando...";
         if (error) return `Error! ${error.message}`;

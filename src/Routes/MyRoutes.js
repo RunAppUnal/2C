@@ -8,6 +8,9 @@ import registerServiceWorker from '../registerServiceWorker';
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
+
+var currUserId = localStorage.getItem('currUserId');
+
 const GET_MY_ROUTES = gql`
   query myRoutes($userid: Int!){
     myRoutes(userid: $userid){
@@ -22,7 +25,7 @@ const GET_MY_ROUTES = gql`
 
 const My_Routes = withAuth(({ auth }) => {
   return (
-    <Query query={GET_MY_ROUTES} variables={{ userid: auth.userid }}>
+    <Query query={GET_MY_ROUTES} variables={{ userid: currUserId }}>
       {({ loading, error, data }) => {
         if (loading) return "CARGANDO TUS RUTAS...";
         if (error) return `Error! ${error.message}`;

@@ -10,23 +10,32 @@ import './css/App.css';
 import { update, withAuth, CurrUser } from "./auth";
 
 
-// const auth = true;
-//
-// const PrivateRoute = ({component: Component, ...rest}) => (
-//   <Route {...rest} render={(props) => (
-//     auth
-//       ? <Component {...props}/>
-//       : <Redirect to='/login'/>
-//   )}/>
-// );
+var currUserId = localStorage.getItem('currUserId');
+var currUserName = localStorage.getItem('currUserName');
+console.log(currUserId);
 
+const PrivateRoute = ({component: Component, ...rest}) => (
+  <Route {...rest} render={(props) => (
+    currUserId > 0
+      ? <Component {...props}/>
+      : <Redirect to='/login'/>
+  )}/>
+);
+
+const NotLoggedInRoute = ({component: Component, ...rest}) => (
+  <Route {...rest} render={(props) => (
+    currUserId > 0
+      ? <Redirect to='/'/>
+      : <Component {...props}/>
+  )}/>
+);
 
 const AuthState = withAuth(({ auth }) => {
-  if (auth) {
-    let trigger = <span><img className="ui avatar image" src="images/default-user.png"/> {auth.username}</span>
+  if(currUserId > 0) {
+    let trigger = <span><img className="ui avatar image" src="images/default-user.png"/> {currUserName}</span>
     return (
       <div>
-        <Dropdown trigger={trigger} pointing='top left' direction='right' icon={null}>
+        <Dropdown trigger={trigger} pointing='top left' direction='right'>
           <Dropdown.Menu>
             <Dropdown.Item><Link to="/profile">Mi perfil</Link></Dropdown.Item>
             <Dropdown.Item><Link to="/logout">Cerrar Sesión</Link></Dropdown.Item>
@@ -60,14 +69,12 @@ class App extends Component {
           </header>
 
           <div className="body">
-            {/* <h3>Current User: <CurrUser/></h3> */}
-
             <Route exact path path="/" component={Home}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/logout" component={Logout}/>
-            <Route path="/signup" component={Signup}/>
+            <NotLoggedInRoute path="/login" component={Login}/>
+            <PrivateRoute path="/logout" component={Logout}/>
+            <NotLoggedInRoute path="/signup" component={Signup}/>
 
-            <Route path="/profile" component={Profile}/>
+            <PrivateRoute path="/profile" component={Profile}/>
           </div>
 
           <footer>

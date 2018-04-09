@@ -8,6 +8,8 @@ import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
 
+var currUserId = localStorage.getItem('currUserId');
+
 const GET_MY_CARS = gql`
   query myVehicles($userid: Int!){
     myVehicles(user: $userid){
@@ -23,7 +25,7 @@ const GET_MY_CARS = gql`
 
 const My_Vehicles = withAuth(({ auth }) => {
   return (
-    <Query query={GET_MY_CARS} variables={{ userid: auth.userid }}>
+    <Query query={GET_MY_CARS} variables={{ userid: currUserId }}>
       {({ loading, error, data }) => {
         if (loading) return "CARGANDO TUS VEHÍCULOS...";
         if (error) return `Error! ${error.message}`;

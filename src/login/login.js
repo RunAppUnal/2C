@@ -31,13 +31,16 @@ const LoginUser = () => {
     <Mutation mutation={LOGIN_USER} ignoreResults={false} >
       {(loginUser, { loading, error, data, called }) => (
         <div>
-          <Form onSubmit={e => {
+          <Form loading={loading} onSubmit={e => {
               e.preventDefault();
               loginUser({ variables: {
                 username: inputUsername.value,
                 password: inputPassword.value
               } })
-              .then(data => update(data.data.login));;
+              .then(data => {
+                localStorage.setItem('currUserId', data.data.login.userid);
+                localStorage.setItem('currUserName', data.data.login.username);
+              });;
             }}>
             <Form.Field>
               <label>Usuario</label>
@@ -45,12 +48,12 @@ const LoginUser = () => {
             </Form.Field>
             <Form.Field>
               <label>Contraseña</label>
-              <input ref={node => {inputPassword = node;}} />
+              <input type='password' ref={node => {inputPassword = node;}} />
             </Form.Field>
             <Button type='submit'>Iniciar Sesión</Button>
           </Form>
           {loading && <p>Loading...</p>}
-          {error ? <p>Hubo un error! Intenta de nuevo</p> : called && <Redirect to='/'/>}
+          {error && <p>Hubo un error! Intenta de nuevo</p>}
         </div>
       )}
     </Mutation>
@@ -68,7 +71,7 @@ const Login = () => (
 );
 
 const Logout = () => {
-  update(null);
+  localStorage.setItem('currUserId', 0);
   return <Redirect to='/login'/>;
 };
 
