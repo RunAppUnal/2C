@@ -1,8 +1,9 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
 import '../css/myVehicle.css';
 import registerServiceWorker from '../registerServiceWorker';
-import {Route, Link, BrowserRouter as Router} from "react-router-dom";
+import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import AddVehicle from './AddVehicle'
 import ShowMyVehicles from './ShowMyVehicles'
 
@@ -17,8 +18,8 @@ class MyVehicles extends Component {
       <Router>
         <div>
           <ul className="header">
-            <li><Link exact to="/profile/my-vehicles">Ver mis vehículos</Link></li>
-            <li><Link to="/profile/my-vehicles/new">Agregar un vehículo</Link></li>
+            <li><NavLink exact to="/profile/my-vehicles">Ver mis vehículos</NavLink></li>
+            <li><NavLink to="/profile/my-vehicles/new">Agregar un vehículo</NavLink></li>
           </ul>
           <div className="content">
             <Route exact path="/profile/my-vehicles" component={ShowMyVehicles}/>

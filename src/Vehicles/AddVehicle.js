@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import gql from "graphql-tag";
 import '../css/myVehicle.css';
@@ -41,7 +42,7 @@ const AddTodo = () => {
 
 class AddVehicle extends Component {
   render() {
-    return (      
+    return (
       <div>
         <h2>Agregar vehículo.</h2>
         hola mundo.
