@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
-import '../css/profile.css';
+import '../css/myInfo.css';
 import registerServiceWorker from '../registerServiceWorker';
 
 import { Query } from "react-apollo";
@@ -42,8 +42,13 @@ class MyInfo extends Component {
   render() {
     return (
       <div>
-        <h3>Información personal</h3>
-        <Info/>
+        <div>
+          <h3>Información personal</h3>
+          <Info/>
+        </div>
+        <div class="removeCountBtn">
+          <button class="btn btn-danger">Eliminar cuenta</button>
+        </div>
       </div>
     );
   }
