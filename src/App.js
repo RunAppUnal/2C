@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import Home from './home';
 import Profile from './Profile';
+import Routes from './Routes';
 import { Login, Logout } from './login/login';
 import Signup from './login/signup';
 import { Dropdown, Button } from 'semantic-ui-react'
@@ -68,6 +69,7 @@ class App extends Component {
             <Route path="/signup" component={Signup}/>
 
             <Route path="/profile" component={Profile}/>
+            <Route path="/routes" component={Routes}/>
           </div>
 
           <footer>

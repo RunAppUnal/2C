@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
 import './css/profile.css';

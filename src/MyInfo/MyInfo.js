@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import '../css/myInfo.css';
 import { withAuth } from "../auth";
 import registerServiceWorker from '../registerServiceWorker';
-
+//import deleteUserAccount from '../MyInfo/DeleteAccount'
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -20,7 +20,7 @@ const GET_MY_INFO = gql`
 
 const My_Info = withAuth(({ auth }) => {
   return (
-    <Query query={GET_MY_INFO} variables={{ userid: auth.userid }}>
+    <Query query={GET_MY_INFO} variables={{ userid: 2 }}>
       {({ loading, error, data }) => {
         if (loading) return "Cargando...";
         if (error) return `Error! ${error.message}`;
@@ -40,6 +40,7 @@ const My_Info = withAuth(({ auth }) => {
 const Info = () => (
   <My_Info/>
 );
+
 
 class MyInfo extends Component {
   render() {

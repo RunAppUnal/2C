@@ -48,8 +48,12 @@ h2{
 }
 #vehiclesNav a{
     color: #54c8ff;
+    box-shadow: 0 0 0 2px #54c8ff inset!important;
 }
 #vehiclesNav a:hover{
     background-color: #54c8ff;
     color: white;
+}
+#vehiclesNav .active{
+    color: white;   
 }

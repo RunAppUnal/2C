@@ -20,10 +20,9 @@ const GET_MY_CARS = gql`
   }
 `;
 
-
 const My_Vehicles = withAuth(({ auth }) => {
   return (
-    <Query query={GET_MY_CARS} variables={{ userid: auth.userid }}>
+    <Query query={GET_MY_CARS} variables={{ userid: 2 }}>
       {({ loading, error, data }) => {
         if (loading) return "CARGANDO TUS VEHÍCULOS...";
         if (error) return `Error! ${error.message}`;
@@ -64,7 +63,6 @@ class MyVehicles extends Component {
   render() {
     return (
       <div>
-
       	<h2>Mis vehículos</h2>
         <Vehicles/>
       </div>
