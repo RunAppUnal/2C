@@ -22,7 +22,6 @@ const GET_MY_CARS = gql`
   }
 `;
 
-
 const My_Vehicles = withAuth(({ auth }) => {
   return (
     <Query query={GET_MY_CARS} variables={{ userid: currUserId }}>
@@ -66,7 +65,6 @@ class MyVehicles extends Component {
   render() {
     return (
       <div>
-
       	<h2>Mis vehículos</h2>
         <Vehicles/>
       </div>

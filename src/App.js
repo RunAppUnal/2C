@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import Home from './home';
 import Profile from './Profile';
+import Routes from './Routes';
 import { Login, Logout } from './login/login';
 import Signup from './login/signup';
 import { Dropdown, Button } from 'semantic-ui-react'
@@ -12,7 +13,6 @@ import { update, withAuth, CurrUser } from "./auth";
 
 var currUserId = localStorage.getItem('currUserId');
 var currUserName = localStorage.getItem('currUserName');
-console.log(currUserId);
 
 const PrivateRoute = ({component: Component, ...rest}) => (
   <Route {...rest} render={(props) => (
@@ -32,13 +32,18 @@ const NotLoggedInRoute = ({component: Component, ...rest}) => (
 
 const AuthState = withAuth(({ auth }) => {
   if(currUserId > 0) {
-    let trigger = <span><img className="ui avatar image" src="images/default-user.png"/> {currUserName}</span>
+    let trigger = <span>
+      <img className="ui circular inline profile image" src="images/default-user.png"/>
+      <span className="profile name">{currUserName}</span>
+    </span>
     return (
       <div>
         <Dropdown trigger={trigger} pointing='top left' direction='right'>
           <Dropdown.Menu>
-            <Dropdown.Item><Link to="/profile">Mi perfil</Link></Dropdown.Item>
-            <Dropdown.Item><Link to="/logout">Cerrar Sesión</Link></Dropdown.Item>
+            <Link exact to="/profile"><Dropdown.Item><i className="user icon"></i>Mi perfil</Dropdown.Item></Link>
+            {/* <Link exact to="/profile/my-vehicles"><Dropdown.Item><i className="car icon"></i>Mis vehiculos</Dropdown.Item></Link>
+            <Link exact to="/profile/my-routes"><Dropdown.Item><i className="road icon"></i>Mis Rutas</Dropdown.Item></Link> */}
+            <Link to="/logout"><Dropdown.Item><i className="sign out icon"></i>Cerrar Sesión</Dropdown.Item></Link>
           </Dropdown.Menu>
         </Dropdown>
       </div>
@@ -75,6 +80,7 @@ class App extends Component {
             <NotLoggedInRoute path="/signup" component={Signup}/>
 
             <PrivateRoute path="/profile" component={Profile}/>
+            <Route path="/routes" component={Routes}/>
           </div>
 
           <footer>

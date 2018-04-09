@@ -110,16 +110,4 @@ const AddVehicle = () => (
   </div>
 );
 
-
-// class AddVehicle extends Component {
-//   render() {
-//     return (
-//       <div>
-//         <h2>Agregar vehículo.</h2>
-//         hola mundo.
-//       </div>
-//     );
-//   }
-// }
-
 export default AddVehicle;

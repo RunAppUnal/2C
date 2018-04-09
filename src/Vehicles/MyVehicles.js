@@ -16,10 +16,6 @@ class MyVehicles extends Component {
     return (
       <Router>
         <div>
-          <ul className="header">
-            <li><NavLink exact to="/profile/my-vehicles">Ver mis vehículos</NavLink></li>
-            <li><NavLink to="/profile/my-vehicles/new">Agregar un vehículo</NavLink></li>
-          </ul>
           <div className="row">
             <div className="col-sm-4 col-md-4 col-lg-4"></div>
 

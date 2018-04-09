@@ -39,7 +39,7 @@ const LoginUser = () => {
               } })
               .then(data => {
                 localStorage.setItem('currUserId', data.data.login.userid);
-                localStorage.setItem('currUserName', data.data.login.username);
+                localStorage.setItem('currUserName', data.data.login.name);
               });;
             }}>
             <Form.Field>

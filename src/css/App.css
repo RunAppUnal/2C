@@ -12,6 +12,32 @@
   display: inline-block;
 }
 
+.circular.profile.image {
+  margin-top: -5px;
+  width: 40px;
+}
+
+.profile.name {
+  font-weight: 700;
+  margin-left: 10px;
+  border-bottom: 2px solid #02D6F6;
+  padding-bottom: 2px;
+}
+
+.dropdown .menu a .item {
+  padding: 10px;
+}
+
+.dropdown .menu a .item:hover {
+  background-color: #efefef;
+}
+
+.dropdown .menu a {
+  text-decoration: none;
+  color: #292828;
+}
+
+
 /* menu and footer styles */
 
 #right-menu {

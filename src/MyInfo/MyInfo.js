@@ -1,9 +1,9 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import '../css/profile.css';
+import '../css/myInfo.css';
 import { withAuth } from "../auth";
 import registerServiceWorker from '../registerServiceWorker';
-
+//import deleteUserAccount from '../MyInfo/DeleteAccount'
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -44,12 +44,18 @@ const Info = () => (
   <My_Info/>
 );
 
+
 class MyInfo extends Component {
   render() {
     return (
       <div>
-        <h3>Información personal</h3>
-        <Info/>
+        <div>
+          <h3>Información personal</h3>
+          <Info/>
+        </div>
+        <div class="removeCountBtn">
+          <button class="btn btn-danger">Eliminar cuenta</button>
+        </div>
       </div>
     );
   }
