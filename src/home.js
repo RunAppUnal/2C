@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { Button } from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -23,8 +24,16 @@ class Home extends React.Component {
     if (currUserId > 0) {
       return (
       	<div>
-  	  		<h1 className="ui centered header">¿En qué andas?</h1><br/><br/>
+          <div className="home">
+            <div id ="overlay">
+              <h3 className="subtitle">¿Tienes problemas para transportarte en la UN?</h3>
+              <h1 className="title">¡Conoce R<span className="blue">un</span>app!</h1><br/>
+              <Button size="huge" color="teal">Comenzar</Button>
+            </div>
+          </div>
 
+          <h2 class="section-heading text-uppercase">¿En qué andas?</h2>
+          <h3 class="section-subheading text-muted">Elige tu tu medio de trasporte en la UN</h3>
           <div className="ui stackable grid three column">
             <div className="column" onMouseOver={this.mouseOver} onMouseOut={this.mouseOut}>
               <Link exact to="/routes">
