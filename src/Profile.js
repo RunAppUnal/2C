@@ -16,11 +16,10 @@ import gql from "graphql-tag";
 import { ApolloProvider } from "react-apollo";
 
 const Profile = withAuth(({ auth }) => {
-  if (auth) {
     return (
       <Router>
       <div>
-        <h1>Perfil del ususario.</h1>
+        <h1>Perfil del ususario:</h1>
         <ul className="header">
           <li><NavLink exact to="/profile">Mi información</NavLink></li>
           <li><NavLink to="/profile/my-vehicles">Mis vehículos</NavLink></li>
@@ -32,11 +31,8 @@ const Profile = withAuth(({ auth }) => {
           <Route path="/profile/my-routes" component={MyRoutes}/>
         </div>
       </div>
-    </Router>
-  )
-  } else {
-    return (<Redirect to="/login"/>);
-  }
+      </Router>
+    )
 });
 
 export default Profile;

@@ -14,13 +14,28 @@ import gql from "graphql-tag";
 class MyVehicles extends Component {
   render() {
     return (
-
       <Router>
         <div>
           <ul className="header">
             <li><NavLink exact to="/profile/my-vehicles">Ver mis vehículos</NavLink></li>
             <li><NavLink to="/profile/my-vehicles/new">Agregar un vehículo</NavLink></li>
           </ul>
+          <div className="row">
+            <div className="col-sm-4 col-md-4 col-lg-4"></div>
+
+            <div className="col-sm-4 col-md-4 col-lg-4">
+              <div className="row">
+                <div className="col-sm-6 col-md-6 col-lg-6" id="vehiclesNav">
+                  <NavLink exact to="/profile/my-vehicles" className="nav-link">Ver mis vehículos</NavLink>
+                </div>
+                <div className="col-sm-6 col-md-6 col-lg-6" id="vehiclesNav">
+                  <NavLink exact to="/profile/my-vehicles/new" className="nav-link">Agregar un vehículo</NavLink>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-sm-4 col-md-4 col-lg-4"></div>
+          </div>
           <div className="content">
             <Route exact path="/profile/my-vehicles" component={ShowMyVehicles}/>
             <Route path="/profile/my-vehicles/new" component={AddVehicle}/>
