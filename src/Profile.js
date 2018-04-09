@@ -15,27 +15,24 @@ import gql from "graphql-tag";
 import { ApolloProvider } from "react-apollo";
 
 const Profile = withAuth(({ auth }) => {
-  if (auth) {
     return (
       <Router>
-      <div>
-        <h1>Perfil del ususario.</h1>
-        <ul className="header">
-          <li><Link exact to="/profile">Mi información</Link></li>
-          <li><Link to="/profile/my-vehicles">Mis vehículos</Link></li>
-          <li><Link to="/profile/my-routes">Mis rutas</Link></li>
-        </ul>
-        <div className="content">
-          <Route exact path="/profile" component={MyInfo}/>
-          <Route path="/profile/my-vehicles" component={MyVehicles}/>
-          <Route path="/profile/my-routes" component={MyRoutes}/>
+        <div>
+          <h1>Perfil del ususario.</h1>
+          <ul className="header">
+            <li><Link exact to="/profile">Mi información</Link></li>
+            <li><Link to="/profile/my-vehicles">Mis vehículos</Link></li>
+            <li><Link to="/profile/my-routes">Mis rutas</Link></li>
+          </ul>
+          <div className="content">
+            <Route exact path="/profile" component={MyInfo}/>
+            <Route path="/profile/my-vehicles" component={MyVehicles}/>
+            <Route path="/profile/my-routes" component={MyRoutes}/>
+          </div>
         </div>
-      </div>
-    </Router>
-  )
-  } else {
-    return (<Redirect to="/login"/>);
-  }
+      </Router>
+    )
+  
 });
 
 export default Profile;

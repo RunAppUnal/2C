@@ -36,3 +36,20 @@ h2{
     text-align: center;
     margin: 100px;
 }
+
+.navbar{
+    text-align: center;
+}
+#vehiclesNav{
+    padding: 0px;
+    text-align: center;
+    background-color: transparent;
+    border: solid #54c8ff;
+}
+#vehiclesNav a{
+    color: #54c8ff;
+}
+#vehiclesNav a:hover{
+    background-color: #54c8ff;
+    color: white;
+}
