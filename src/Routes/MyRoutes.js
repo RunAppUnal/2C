@@ -23,40 +23,42 @@ const GET_MY_ROUTES = gql`
   }
 `;
 
-const My_Routes = withAuth(({ auth }) => {
-  return (
-    <Query query={GET_MY_ROUTES} variables={{ userid: currUserId }}>
-      {({ loading, error, data }) => {
-        if (loading) return "CARGANDO TUS RUTAS...";
-        if (error) return `Error! ${error.message}`;
-        return (
-          <table>
-            <thead>
-              <tr>
-                <th><b>Título</b></th>
-                <th><b>Descripción</b></th>
-                <th><b>Fecha</b></th>
-                <th><b>Precio</b></th>
-                <th><b>Pasajeros</b></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.myRoutes.map(route =>
+class My_Routes extends React.Component {
+  render() {
+    return(
+      <Query query={GET_MY_ROUTES} variables={{ userid: currUserId }}>
+        {({ loading, error, data }) => {
+          if (loading) return "CARGANDO TUS RUTAS...";
+          if (error) return `Error! ${error.message}`;
+          return (
+            <table>
+              <thead>
                 <tr>
-                  <td>{route.title}</td>
-                  <td>{route.description}</td>
-                  <td>{route.departure}</td>
-                  <td>{route.cost}</td>
-                  <td>{route.users_in_route}</td>
+                  <th><b>Título</b></th>
+                  <th><b>Descripción</b></th>
+                  <th><b>Fecha</b></th>
+                  <th><b>Precio</b></th>
+                  <th><b>Pasajeros</b></th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        );
-      }}
-    </Query>
-  )
-});
+              </thead>
+              <tbody>
+                {data.myRoutes.map(route =>
+                  <tr>
+                    <td>{route.title}</td>
+                    <td>{route.description}</td>
+                    <td>{route.departure}</td>
+                    <td>{route.cost}</td>
+                    <td>{route.users_in_route}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          );
+        }}
+      </Query>
+    )
+  }
+}
 
 const Routes = () => (
   <My_Routes/>

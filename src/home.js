@@ -41,7 +41,7 @@ class Home extends React.Component {
             </div>
 
             <div className="column">
-              <Link exact to="/">
+              <Link exact to="/bikeRoutes">
                 <img id="bike" className="ui centered gif bordered circular image" src="images/bike.jpg" onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} />
                 <h3 className="ui centered header">Bici</h3>
               </Link>
