@@ -1,6 +1,5 @@
-/* eslint-disable */
 import React, { Component } from 'react';
-import '../css/myVehicle.css';
+import '../css/vehicleAndRoute.css';
 import registerServiceWorker from '../registerServiceWorker';
 import { withAuth } from "../auth";
 

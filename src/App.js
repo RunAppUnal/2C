@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import Home from './home';
 import Profile from './Profile';
-import Routes from './Routes';
+import OtherRoutes from './Routes/OtherRoutes';
 import BikeRoutes from './BikeRoutes';
 import { Login, Logout } from './login/login';
 import Signup from './login/signup';
@@ -81,7 +81,7 @@ class App extends Component {
             <NotLoggedInRoute path="/signup" component={Signup}/>
 
             <PrivateRoute path="/profile" component={Profile}/>
-            <PrivateRoute path="/routes" component={Profile}/>
+            <PrivateRoute path="/routes" component={OtherRoutes}/>
             <PrivateRoute path="/bikeRoutes" component={BikeRoutes}/>
           </div>
 

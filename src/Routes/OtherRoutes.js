@@ -1,72 +1,38 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Button, Menu, Image } from 'semantic-ui-react'
-import { withAuth } from "../auth";
 import registerServiceWorker from '../registerServiceWorker';
-
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-
-
-var currUserId = localStorage.getItem('currUserId');
-
-const GET_OTHER_ROUTES = gql`
-  query otherRoutes($userid: Int!){
-    otherRoutes(userid: $userid){
-      title
-      description
-      departure
-      cost
-      users_in_route
-    }
-  }
-`;
-
-const Other_Routes = withAuth(({ auth }) => {
-  return (
-    <Query query={GET_OTHER_ROUTES} variables={{ userid: currUserId }}>
-      {({ loading, error, data }) => {
-        if (loading) return "CARGANDO OTRAS RUTAS...";
-        if (error) return `Error! ${error.message}`;
-        return (
-          <table>
-            <thead>
-              <tr>
-                <th><b>Título</b></th>
-                <th><b>Descripción</b></th>
-                <th><b>Fecha</b></th>
-                <th><b>Precio</b></th>
-                <th><b>Pasajeros</b></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.otherRoutes.map(route =>
-                <tr>
-                  <td>{route.title}</td>
-                  <td>{route.description}</td>
-                  <td>{route.departure}</td>
-                  <td>{route.cost}</td>
-                  <td>{route.users_in_route}</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        );
-      }}
-    </Query>
-  )
-});
-
-const Routes = () => (
-  <Other_Routes/>
-);
+import Routes from './ShowOtherRoutes'
+import SearchRoute from './SearchOtherRoutes'
+import '../css/vehicleAndRoute.css';
+import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 
 class OtherRoutes extends Component {
   render() {
     return (
-      <div>
-          <Routes />
-      </div>
+      <Router>
+        <div>
+          <div className="row">
+            <div className="col-sm-4 col-md-4 col-lg-4"></div>
+
+            <div className="col-sm-4 col-md-4 col-lg-4">
+              <div className="row">
+                <div className="col-sm-6 col-md-6 col-lg-6" id="routesNav">
+                  <NavLink exact to="/routes" className="nav-link">Ver rutas</NavLink>
+                </div>
+                <div className="col-sm-6 col-md-6 col-lg-6" id="routesNav">
+                  <NavLink exact to="/routes/search" className="nav-link">Buscar ruta</NavLink>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-sm-4 col-md-4 col-lg-4"></div>
+          </div>
+          <div className="content">
+            <Route exact path="/routes" component={Routes}/>
+            <Route path="/routes/search" component={SearchRoute}/>
+          </div>
+        </div>
+      </Router>
     );
   }
 }

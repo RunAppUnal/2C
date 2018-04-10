@@ -40,20 +40,20 @@ h2{
 .navbar{
     text-align: center;
 }
-#vehiclesNav{
+#vehiclesNav, #routesNav{
     padding: 0px;
     text-align: center;
     background-color: transparent;
     border: solid #54c8ff;
 }
-#vehiclesNav a{
+#vehiclesNav a, , #routesNav a{
     color: #54c8ff;
     box-shadow: 0 0 0 2px #54c8ff inset!important;
 }
-#vehiclesNav a:hover{
+#vehiclesNav a:hover, #routesNav a:hover{
     background-color: #54c8ff;
     color: white;
 }
-#vehiclesNav .active{
+#vehiclesNav .active, #routesNav .active{
     color: white;   
 }

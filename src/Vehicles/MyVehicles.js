@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
-import '../css/myVehicle.css';
+import '../css/vehicleAndRoute.css';
 import registerServiceWorker from '../registerServiceWorker';
 import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import AddVehicle from './AddVehicle'
