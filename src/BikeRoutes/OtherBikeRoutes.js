@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { Button, Card, Image } from 'semantic-ui-react'
-import { withAuth } from "../auth";
+import { Link, Redirect } from "react-router-dom";
 import registerServiceWorker from '../registerServiceWorker';
 import '../css/bikeRoutes.css';
 import moment from 'moment';
@@ -25,7 +25,7 @@ const GET_ALL_BIKE_ROUTES = gql`
   }
 `;
 
-const GET_USER_NAME = gql`
+const GET_USER_DATA = gql`
   query userById($userid: Int!){
     userById(userid: $userid){
       name
@@ -36,9 +36,9 @@ const GET_USER_NAME = gql`
   }
 `;
 
-const GetUserName = () => {
+const GetUserName = (data) => {
   return (
-    <Query query={GET_USER_NAME} variables={{ userid: currUserId }}>
+    <Query query={GET_USER_DATA} variables={{ userid: data.userId }}>
       {({ loading, error, data }) => {
         if (loading) return "Cargando...";
         if (error) return `Error! ${error.message}`;
@@ -65,11 +65,11 @@ const AllBikeRoutes = () => (
         {
           data.allBikeRoutes.map(route =>
           <Card
-            href={`/bikeRoutes/${route.user_id}`}
+            // href={`/bikeRoutes/${route.user_id}`}
             // image='/assets/images/avatar/large/elliot.jpg'
-            header={`Origen: ${route.origin}`}
-            meta={<GetUserName/>}
-            description={`Destino: ${route.destination}`}
+            header={`Origen - Destino`}
+            meta={<GetUserName userId={route.user_id} />}
+            description={`desde ${route.origin} hacia ${route.destination}`}
             extra={`Hora Salida: ${time(new Date(route.time))}`}
           />
         )
@@ -83,7 +83,14 @@ const AllBikeRoutes = () => (
 class OtherBikeRoutes extends Component {
   render() {
     return (
-      <AllBikeRoutes />
+      <div>
+        <Link exact to="/bikeRoutes/new">
+          <Button color="teal" floated="right"><i className="plus icon"></i> Crear mi ruta de bici</Button>
+        </Link><br/><br/><br/><br/>
+        <h2 className="section-heading"><i className="bicycle icon"></i> Rutas en Bici</h2>
+        <h3 className="section-subheading">Encuentra una ruta que se parezca a la tuya</h3>
+        <AllBikeRoutes />
+      </div>
     );
   }
 }

@@ -61,7 +61,7 @@ footer {
   width:100%;
 }
 
-/* content styles */
+/* General styles */
 
 #root {
    min-height:100%;
@@ -99,3 +99,8 @@ h3.section-subheading {
 .text-muted {
     color: #6c757d!important;
 }
+
+/* .ui.teal.button {
+  background-color: #16d3f1;
+  border-color: #16d3f1;
+} */

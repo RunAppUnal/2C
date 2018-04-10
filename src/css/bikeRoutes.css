@@ -1,3 +1,7 @@
 .ui.card {
   text-decoration: none;
 }
+
+.ui.teal.button {
+  margin-bottom: 30px;
+}

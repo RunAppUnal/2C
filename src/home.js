@@ -28,10 +28,11 @@ class Home extends React.Component {
             <div id ="overlay">
               <h3 className="subtitle">¿Tienes problemas para transportarte en la UN?</h3>
               <h1 className="title">¡Conoce R<span className="blue">un</span>app!</h1><br/>
-              <Button size="huge" color="teal">Comenzar</Button>
+              <Button size="huge" color="teal" href="#transports">Comenzar</Button>
             </div>
           </div>
 
+          <a name="transports" id="transports"></a>
           <h2 class="section-heading text-uppercase">¿En qué andas?</h2>
           <h3 class="section-subheading text-muted">Elige tu tu medio de trasporte en la UN</h3>
           <div className="ui stackable grid three column">

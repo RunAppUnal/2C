@@ -38,30 +38,6 @@ const CreateVehicle = () => {
                 }
               } });
             }}>
-            {/* <Form.Field>
-              <label>Placa</label>
-              <input ref={node => {inputPlate = node;}} />
-            </Form.Field>
-            <Form.Field>
-              <label>Tipo</label>
-              <input ref={node => {inputKind = node;}} />
-            </Form.Field>
-            <Form.Field>
-              <label>Marca</label>
-              <input ref={node => {inputBrand = node;}} />
-            </Form.Field>
-            <Form.Field>
-              <label>Modelo</label>
-              <input ref={node => {inputModel = node;}} />
-            </Form.Field>
-            <Form.Field>
-              <label>Color</label>
-              <input ref={node => {inputColor = node;}} />
-            </Form.Field>
-            <Form.Field>
-              <label>Capacidad</label>
-              <input ref={node => {inputCapacity = node;}} />
-            </Form.Field> */}
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Placa</label>
@@ -93,6 +69,30 @@ const CreateVehicle = () => {
                 <label>Capacidad</label>
                 <input type='number' ref={node => {inputCapacity = node;}} />
               </Form.Field>
+              {/* <Form.Field>
+                <label>Placa</label>
+                <input ref={node => {inputPlate = node;}} />
+              </Form.Field>
+              <Form.Field>
+              <label>Tipo</label>
+              <input ref={node => {inputKind = node;}} />
+            </Form.Field>
+            <Form.Field>
+            <label>Marca</label>
+            <input ref={node => {inputBrand = node;}} />
+          </Form.Field>
+          <Form.Field>
+          <label>Modelo</label>
+          <input ref={node => {inputModel = node;}} />
+        </Form.Field>
+        <Form.Field>
+        <label>Color</label>
+        <input ref={node => {inputColor = node;}} />
+      </Form.Field>
+      <Form.Field>
+      <label>Capacidad</label>
+      <input ref={node => {inputCapacity = node;}} />
+    </Form.Field> */}
             </Form.Group>
             <Button type='submit'>Crear Vehículo</Button>
           </Form>
