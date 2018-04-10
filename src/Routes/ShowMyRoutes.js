@@ -9,9 +9,9 @@ import gql from "graphql-tag";
 
 var currUserId = localStorage.getItem('currUserId');
 
-const GET_OTHER_ROUTES = gql`
-  query otherRoutes($userid: Int!){
-    otherRoutes(userid: $userid){
+const GET_MY_ROUTES = gql`
+  query myRoutes($userid: Int!){
+    myRoutes(userid: $userid){
       title
       description
       departure
@@ -21,11 +21,11 @@ const GET_OTHER_ROUTES = gql`
   }
 `;
 
-const Other_Routes = withAuth(({ auth }) => {
-  return (
-    <Query query={GET_OTHER_ROUTES} variables={{ userid: currUserId }}>
+const My_Routes = withAuth(({ auth }) => {
+  return(
+    <Query query={GET_MY_ROUTES} variables={{ userid: currUserId }}>
       {({ loading, error, data }) => {
-        if (loading) return "CARGANDO OTRAS RUTAS...";
+        if (loading) return "CARGANDO TUS RUTAS...";
         if (error) return `Error! ${error.message}`;
         return (
           <table>
@@ -39,7 +39,7 @@ const Other_Routes = withAuth(({ auth }) => {
               </tr>
             </thead>
             <tbody>
-              {data.otherRoutes.map(route =>
+              {data.myRoutes.map(route =>
                 <tr>
                   <td>{route.title}</td>
                   <td>{route.description}</td>
@@ -57,18 +57,18 @@ const Other_Routes = withAuth(({ auth }) => {
 });
 
 const Routes = () => (
-  <Other_Routes/>
+  <My_Routes/>
 );
 
-class OtherRoutes extends Component {
+class MyRoutes extends Component {
   render() {
     return (
       <div>
-      	<h2>Rutas creadas por otros usuarios.</h2>
-        <Routes/>
+          <h3>Mis rutas</h3>
+          <Routes />
       </div>
     );
   }
 }
 
-export default OtherRoutes;
+export default MyRoutes;
