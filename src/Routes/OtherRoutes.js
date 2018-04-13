@@ -28,7 +28,7 @@ class OtherRoutes extends Component {
           </div>
           <div className="content">
             <Route exact path="/routes" component={Routes}/>
-            <Route path="/routes/search" component={SearchRoute}/>
+            <Route exact path="/routes/search" component={SearchRoute}/>
           </div>
         </div>
       </Router>

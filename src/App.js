@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom
 import Home from './home';
 import Profile from './Profile';
 import OtherRoutes from './Routes/OtherRoutes';
+import RouteInfo from './Routes/RouteInfo';
 import BikeRoutes from './BikeRoutes';
 import { Login, Logout } from './login/login';
 import Signup from './login/signup';
@@ -82,6 +83,7 @@ class App extends Component {
 
             <PrivateRoute path="/profile" component={Profile}/>
             <PrivateRoute path="/routes" component={OtherRoutes}/>
+            <Route exact path="/route/:routeid" component={RouteInfo}/>
             <PrivateRoute path="/bikeRoutes" component={BikeRoutes}/>
           </div>
 
