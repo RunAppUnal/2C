@@ -56,7 +56,7 @@ const Other_Routes = (data) => {
                         <span class="time">ALL DAY</span>
                       </time>
                       <div class="info">
-                        <h2 class="title"><NavLink to={`/route/${route.id}`}>{route.title}</NavLink></h2>
+                        <h2 class="title"><NavLink to={`/route/${route.id}`} onClick={() => window.location.reload()}>{route.title}</NavLink></h2>
                         <p class="desc">{route.description}</p>
                         <ul class="infoUL">
                           <li><span class="fa fa-users"> {route.spaces_available}</span></li>

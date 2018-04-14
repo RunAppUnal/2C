@@ -5,6 +5,7 @@ import { withAuth } from "../auth";
 import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import $ from 'jquery';
 
 var currUserId = localStorage.getItem('currUserId');
 function getMonth(monthNumber){
@@ -90,11 +91,14 @@ const RouteInfo = ({ match }) => {
 	    	{({ loading, error, data }) => {
 	        	if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
 	        	if (error) return `Error! ${error.message}`;
-	        	var isUserInRoute = data.routeById.users_in_route.split(',').includes(currUserId);
+	        	var isUserInRoute = data.routeById.users_in_route.split(', ').includes(currUserId);
+	        	var isSpacesFull = data.routeById.spaces_available == 0;
+	        	var isDriver = false;
+	        	if(data.routeById.user_id == currUserId) isDriver = true;
 	        	var numUsersInRoute = [];
 	        	var mailTo = '';
 	        	if(data.routeById.users_in_route.length != 0){
-	        		numUsersInRoute = data.routeById.users_in_route.split(',');
+	        		numUsersInRoute = data.routeById.users_in_route.split(', ');
 	        	}
 	        	return (
 	        		<div className= "container">
@@ -229,24 +233,40 @@ const RouteInfo = ({ match }) => {
 	      						}}
 	    					</Query>
 			           	</div>
-			           	{isUserInRoute ? (
-							< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} > 
-	          					{( removeUserFromRoute , { loading , error , data }) => (
-	             					<button onClick ={ removeUserFromRoute } class="btn btn-outline-danger"> Salirme de la ruta </button>
-	          					)}
-	        				</ Mutation >
-			           	) : (
-						   	< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} > 
-	          					{( addUserFromRoute , { loading , error , data }) => (
-	             					<button onClick ={ addUserFromRoute } class="btn btn-outline-success"> Unirme a la ruta </button>
-	          					)}
-	        				</ Mutation >
-			           	)}
+						{isDriver ? (
+							<div></div>
+						) : (isUserInRoute ? (
+								< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} > 
+		          					{( removeUserFromRoute , { loading , error , data }) => (
+		             					<button onClick ={ removeUserFromRoute } class="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
+		          					)}
+		        				</ Mutation >
+			           		) : (isSpacesFull ? (
+									<button class="btn" disabled> Cupos completos </button>
+				           		) : (
+									< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} > 
+			          					{( addUserFromRoute , { loading , error , data }) => (
+			             					<button onClick ={ addUserFromRoute } class="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
+			          					)}
+		        					</ Mutation >
+			           			)
+			           		)
+						)}
 	          		</div>
 	        	);
 	      	}}
 	    </Query>
 	)
 };
+
+$(document).ready(function(){
+	$('#addUserToRouteBtn').click(function(){
+		window.location.reload(true);
+	});
+	$('#removeUserToRouteBtn').click(function(){
+		window.location.reload(true);
+	});
+});
+
 
 export default RouteInfo;

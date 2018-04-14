@@ -12,6 +12,7 @@ class MyRoutes extends Component {
       <Router>
         <div>
           <div className="row">
+            <h3 id="OtherRoutesTitle">Mis rutas</h3>
             <div className="col-sm-3 col-md-3 col-lg-3"></div>
 
             <div className="col-sm-6 col-md-6 col-lg-6">
