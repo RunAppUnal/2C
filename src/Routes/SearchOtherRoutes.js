@@ -2,20 +2,36 @@ import React, { Component } from 'react';
 import '../css/vehicleAndRoute.css';
 import registerServiceWorker from '../registerServiceWorker';
 import { withAuth } from "../auth";
-
+import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
 var currUserId = localStorage.getItem('currUserId');
+function getMonth(monthNumber){
+  if(monthNumber == '01') return 'Ene';
+  if(monthNumber == '02') return 'Feb';
+  if(monthNumber == '03') return 'Mar';
+  if(monthNumber == '04') return 'Abr';
+  if(monthNumber == '05') return 'May';
+  if(monthNumber == '06') return 'Jun';
+  if(monthNumber == '07') return 'Jul';
+  if(monthNumber == '08') return 'Ago';
+  if(monthNumber == '09') return 'Sep';
+  if(monthNumber == '10') return 'Oct';
+  if(monthNumber == '11') return 'Nov';
+  if(monthNumber == '12') return 'Dic';
+}
 
 const GET_OTHER_ROUTES = gql`
 	query searchOtherRoutes($userid: Int!, $word: String!, $cost: String!, $spaces: String!, $date: String!){
   		searchOtherRoutes(userid: $userid, word: $word, cost:$cost, spaces: $spaces, date: $date){
-		    title
-		    description
-		    departure
-		    cost
-		    users_in_route
+		    id
+        title
+        description
+        departure
+        cost
+        users_in_route
+        spaces_available
   		}
   	}
 `;
@@ -27,28 +43,34 @@ const Other_Routes = (data) => {
         if (loading) return "CARGANDO OTRAS RUTAS...";
         if (error) return '';//`Error! ${error.message}`;
         return (
-        	<table>
-        		<thead>
-                	<tr>
-	                	<th><b>Título</b></th>
-	                  	<th><b>Descripción</b></th>
-	                  	<th><b>Fecha</b></th>
-	                  	<th><b>Precio</b></th>
-	                  	<th><b>Pasajeros</b></th>
-                	</tr>
-              	</thead>
-              	<tbody>
-              		{data.searchOtherRoutes.map(route =>
-                		<tr>
-		                  	<td>{route.title}</td>
-		                    <td>{route.description}</td>
-		                    <td>{route.departure}</td>
-		                    <td>{route.cost}</td>
-		                    <td>{route.users_in_route}</td>
-                		</tr>
-              		)}
-              	</tbody>
-            </table>
+        	<Router>
+            <div class="row" id="otherRoutesCards">
+              {data.searchOtherRoutes.map(route =>
+                <div class="col-xs-12 col-sm-offset-12 col-sm-12">
+                  <ul class="event-list">
+                    <li>
+                      <time datetime="2014-07-20">
+                        <span class="day">{route.departure.substring(8, 10)}</span>
+                        <span class="month">{getMonth(route.departure.substring(5, 7))}</span>
+                        <span class="year">{route.departure.substring(0, 4)}</span>
+                        <span class="time">ALL DAY</span>
+                      </time>
+                      <div class="info">
+                        <h2 class="title"><NavLink to={`/route/${route.id}`}>{route.title}</NavLink></h2>
+                        <p class="desc">{route.description}</p>
+                        <ul class="infoUL">
+                          <li><span class="fa fa-users"> {route.spaces_available}</span></li>
+                          <li><span class="fa fa-dollar"> {route.cost}</span></li>
+                        </ul>
+                      </div>
+                      <div class="social">
+                      </div>
+                    </li>
+                  </ul> 
+                </div>
+              )}
+            </div>
+          </Router>
         );
       }}
     </Query>

@@ -11,6 +11,7 @@ class OtherRoutes extends Component {
       <Router>
         <div>
           <div className="row">
+            <h2 id="OtherRoutesTitle">Rutas creadas por otros usuarios.</h2>  
             <div className="col-sm-4 col-md-4 col-lg-4"></div>
 
             <div className="col-sm-4 col-md-4 col-lg-4">
