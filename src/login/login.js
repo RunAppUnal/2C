@@ -31,7 +31,7 @@ const LoginUser = () => {
     <Mutation mutation={LOGIN_USER} ignoreResults={false} >
       {(loginUser, { loading, error, data, called }) => (
         <div>
-          <Form loading={loading} onSubmit={e => {
+          <Form id="login" loading={loading} onSubmit={e => {
               e.preventDefault();
               loginUser({ variables: {
                 username: inputUsername.value,

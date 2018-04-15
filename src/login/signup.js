@@ -23,7 +23,7 @@ const CreateUser = () => {
     <Mutation mutation={CREATE_USER}>
       {(createUser, { loading, error, called }) => (
         <div>
-          <Form loading={loading} onSubmit={e => {
+          <Form id="login" loading={loading} onSubmit={e => {
               e.preventDefault();
               createUser({ variables: {
                 user: {

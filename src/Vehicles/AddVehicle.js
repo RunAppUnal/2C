@@ -38,7 +38,6 @@ const CreateVehicle = () => {
                 }
               } });
             }}>
-            {}
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Placa</label>
