@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import registerServiceWorker from '../registerServiceWorker';
 import Routes from './ShowOtherRoutes'
@@ -12,12 +11,13 @@ class OtherRoutes extends Component {
       <Router>
         <div>
           <div className="row">
+            <h2 id="OtherRoutesTitle">Rutas creadas por otros usuarios.</h2>  
             <div className="col-sm-4 col-md-4 col-lg-4"></div>
 
             <div className="col-sm-4 col-md-4 col-lg-4">
               <div className="row">
                 <div className="col-sm-6 col-md-6 col-lg-6" id="routesNav">
-                  <NavLink exact to="/routes" className="nav-link">Ver rutas</NavLink>
+                  <NavLink exact to="/routes" className="nav-link">Todas las rutas</NavLink>
                 </div>
                 <div className="col-sm-6 col-md-6 col-lg-6" id="routesNav">
                   <NavLink exact to="/routes/search" className="nav-link">Buscar ruta</NavLink>
@@ -29,7 +29,7 @@ class OtherRoutes extends Component {
           </div>
           <div className="content">
             <Route exact path="/routes" component={Routes}/>
-            <Route path="/routes/search" component={SearchRoute}/>
+            <Route exact path="/routes/search" component={SearchRoute}/>
           </div>
         </div>
       </Router>

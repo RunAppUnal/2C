@@ -24,9 +24,9 @@ function getMonth(monthNumber){
   if(monthNumber == '12') return 'Dic';
 }
 
-const GET_OTHER_ROUTES = gql`
-  query otherRoutes($userid: Int!){
-    otherRoutes(userid: $userid){
+const GET_MY_ROUTES = gql`
+  query myRoutes($userid: Int!){
+    myRoutes(userid: $userid){
       id
       title
       description
@@ -38,20 +38,20 @@ const GET_OTHER_ROUTES = gql`
   }
 `;
 
-const Other_Routes = withAuth(({ auth }) => {
-  return (
-    <Query query={GET_OTHER_ROUTES} variables={{ userid: currUserId }}>
+const My_Routes = withAuth(({ auth }) => {
+  return(
+    <Query query={GET_MY_ROUTES} variables={{ userid: currUserId }}>
       {({ loading, error, data }) => {
-        if (loading) return "CARGANDO OTRAS RUTAS...";
+        if (loading) return "CARGANDO TUS RUTAS...";
         if (error) return `Error! ${error.message}`;
         return (
           <Router>
             <div class="row" id="otherRoutesCards">
-              {data.otherRoutes.map(route =>
+              {data.myRoutes.map(route =>
                 <div class="col-xs-12 col-sm-offset-12 col-sm-12">
                   <ul class="event-list">
                     <li>
-                      <time datetime="2014-07-20">
+                      <time>
                         <span class="day">{route.departure.substring(8, 10)}</span>
                         <span class="month">{getMonth(route.departure.substring(5, 7))}</span>
                         <span class="year">{route.departure.substring(0, 4)}</span>
@@ -79,14 +79,18 @@ const Other_Routes = withAuth(({ auth }) => {
   )
 });
 
-class OtherRoutes extends Component {
+const Routes = () => (
+  <My_Routes/>
+);
+
+class MyRoutes extends Component {
   render() {
     return (
       <div>
-        <Other_Routes/>        
+          <Routes />
       </div>
     );
   }
 }
 
-export default OtherRoutes;
+export default MyRoutes;

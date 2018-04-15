@@ -4,7 +4,7 @@ import { Button, Card, Dimmer, Loader } from 'semantic-ui-react'
 import { Link, Redirect } from "react-router-dom";
 import registerServiceWorker from '../registerServiceWorker';
 import '../css/bikeRoutes.css';
-import moment from 'moment';
+//import moment from 'moment';
 
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
