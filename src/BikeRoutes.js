@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Button, Menu, Image } from 'semantic-ui-react'
 import './css/bikeRoutes.css';
 import registerServiceWorker from './registerServiceWorker';
-import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
+import {Route, Link, BrowserRouter as Router} from "react-router-dom";
 import { withAuth } from "./auth";
 import OtherBikeRoutes from './BikeRoutes/OtherBikeRoutes'
 import MyBikeRoutes from './BikeRoutes/MyBikeRoutes'
@@ -28,13 +28,13 @@ const BikeRoutes = withAuth(({ auth }) => {
             <div className="col-sm-8 col-md-8 col-lg-8">
               <div className="row">
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/bikeRoutes/" className="nav-link"><i class="fa fa-eye"></i> Rutas de otros usuarios</NavLink>
+                  <Link exact="true" to="/bikeRoutes/" className="nav-link"><i className="fa fa-eye"></i> Rutas de otros usuarios</Link>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/bikeRoutes/my-routes" className="nav-link"><i className="fa fa-search"></i> Mis rutas</NavLink>
+                  <Link exact="true" to="/bikeRoutes/my-routes" className="nav-link"><i className="fa fa-search"></i> Mis rutas</Link>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/bikeRoutes/new" className="nav-link"><i className="fa fa-plus"></i> Crear ruta</NavLink>
+                  <Link exact="true" to="/bikeRoutes/new" className="nav-link"><i className="fa fa-plus"></i> Crear ruta</Link>
                 </div>
               </div>
             </div>
@@ -49,7 +49,7 @@ const BikeRoutes = withAuth(({ auth }) => {
             </div>
           </div>
         </div>
-      </Router>      
+      </Router>
     )
 });
 

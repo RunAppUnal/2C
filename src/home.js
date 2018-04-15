@@ -31,27 +31,26 @@ class Home extends React.Component {
               <Button size="huge" color="teal" href="#transports">Comenzar</Button>
             </div>
           </div>
-className=
           <a name="transports" id="transports"></a>
           <h2 className="section-heading text-uppercase">¿En qué andas?</h2>
           <h3 className="section-subheading text-muted">Elige tu tu medio de trasporte en la UN</h3>
           <div className="ui stackable grid three column">
             <div className="column" onMouseOver={this.mouseOver} onMouseOut={this.mouseOut}>
-              <Link exact={true} to="/routes">
+              <Link exact="true" to="/routes">
                 <img id="walk" className="ui centered gif bordered circular image" src="images/walk.jpg" />
                 <h3 className="ui centered header">Caminando</h3>
               </Link>
             </div>
 
             <div className="column">
-              <Link exact to="/my-routes">
+              <Link exact="true" to="/my-routes">
                 <img id="car" className="ui centered gif bordered circular image" src="images/car.jpg" onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} />
                 <h3 className="ui centered header">Carro o Moto</h3>
               </Link>
             </div>
 
             <div className="column">
-              <Link exact to="/bikeRoutes">
+              <Link exact="true" to="/bikeRoutes">
                 <img id="bike" className="ui centered gif bordered circular image" src="images/bike.jpg" onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} />
                 <h3 className="ui centered header">Bici</h3>
               </Link>
