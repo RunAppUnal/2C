@@ -19,7 +19,6 @@ const Profile = withAuth(({ auth }) => {
     return (
       <Router>
       <div>
-        <h1>Perfil del ususario:</h1>
         <ul className="header">
           <li><NavLink exact to="/profile">Mi información</NavLink></li>
           <li><NavLink to="/profile/my-vehicles">Mis vehículos</NavLink></li>
