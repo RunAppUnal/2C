@@ -4,7 +4,6 @@ import { Button, Card, Dimmer, Loader } from 'semantic-ui-react'
 import { Link, Redirect } from "react-router-dom";
 import registerServiceWorker from '../registerServiceWorker';
 import '../css/bikeRoutes.css';
-//import moment from 'moment';
 
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -85,12 +84,19 @@ const AllBikeRoutes = () => (
         <Card.Group stackable itemsPerRow="four">
         {
           data.allBikeRoutes.map(route =>
-          <Card
-            href={`/bikeRoutes/${route.user_id}`}
-            header={<GeocodeLatLng latlng={{lat: route.origin[1], lng: route.origin[0]}} />}
-            meta={<GetUserName userId={route.user_id} />}
-            extra={`Hora Salida: ${time(new Date(route.time))}`}
-          />
+            <div>
+              {route.user_id != currUserId ? (
+                <Card
+                  href={`/bikeRoutes/${route.user_id}`}
+                  header={<GeocodeLatLng latlng={{lat: route.origin[1], lng: route.origin[0]}} />}
+                  meta={<GetUserName userId={route.user_id} />}
+                  extra={`Hora Salida: ${time(new Date(route.time))}`}
+                />
+              ): (
+                <div></div>              
+              )}
+          </div>
+            
         )
         }
         </Card.Group>
@@ -103,11 +109,7 @@ class OtherBikeRoutes extends Component {
   render() {
     return (
       <div>
-        <Link exact="true" to="/bikeRoutes/new">
-          <Button color="teal" floated="right"><i className="plus icon"></i> Crear mi ruta de bici</Button>
-        </Link><br/><br/><br/><br/>
-        <h2 className="section-heading"><i className="bicycle icon"></i> Rutas en Bici</h2>
-        <h3 className="section-subheading">Encuentra una ruta que se parezca a la tuya</h3>
+        <br/><br/>
         <AllBikeRoutes />
       </div>
     );
