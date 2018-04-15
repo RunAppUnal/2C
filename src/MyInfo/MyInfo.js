@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import '../css/myInfo.css';
 import { withAuth } from "../auth";
 import registerServiceWorker from '../registerServiceWorker';
-//import deleteUserAccount from '../MyInfo/DeleteAccount'
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -50,7 +49,6 @@ class MyInfo extends Component {
     return (
       <div>
         <div>
-          <h3>Información personal</h3>
           <Info/>
         </div>
         <div class="removeCountBtn">

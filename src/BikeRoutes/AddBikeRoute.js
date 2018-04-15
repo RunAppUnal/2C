@@ -143,9 +143,7 @@ class AddBikeRoute extends Component {
   render() {
     return(
       <div>
-        <Link exact="true" to="/bikeRoutes"><Button color="teal">
-          <i className="angle left icon"></i> Volver a Todas las rutas
-        </Button></Link><br/><br/>
+        <br/><br/>
         <h2 className="section-heading"><i className="plus icon"></i> Nueva Ruta en Bici</h2>
         <h3 className="section-subheading">Crea tu propia ruta para encontrar otras similares</h3>
 
