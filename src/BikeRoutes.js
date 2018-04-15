@@ -31,7 +31,7 @@ const BikeRoutes = withAuth(({ auth }) => {
                   <Link exact="true" to="/bikeRoutes/" className="nav-link"><i className="fa fa-eye"></i> Rutas de otros usuarios</Link>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <Link exact="true" to="/bikeRoutes/my-routes" className="nav-link"><i className="fa fa-search"></i> Mis rutas</Link>
+                  <Link exact="true" to="/bikeRoutes/my" className="nav-link"><i className="fa fa-search"></i> Mis rutas</Link>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
                   <Link exact="true" to="/bikeRoutes/new" className="nav-link"><i className="fa fa-plus"></i> Crear ruta</Link>
@@ -43,7 +43,7 @@ const BikeRoutes = withAuth(({ auth }) => {
           </div>
           <div className="content">
             <Route exact path="/bikeRoutes/" component={OtherBikeRoutes}/>
-            <Route exact path="/bikeRoutes/my-routes" component={MyBikeRoutes}/>
+            <Route exact path="/bikeRoutes/my" component={MyBikeRoutes}/>
             <Route exact path="/bikeRoutes/new" component={AddBikeRoute}/>
           </div>
         </div>

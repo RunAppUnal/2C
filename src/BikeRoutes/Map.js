@@ -5,7 +5,29 @@ import PropTypes from 'prop-types';
 import MapStyles from './mapStyles';
 
 
-export default class Map extends Component {
+function geocode(latlng, type) {
+  let geocoder = new google.maps.Geocoder();
+
+  var result = geocoder.geocode({'location': latlng}, function(results, status) {
+    if (status === 'OK') {
+      if (results[1]){
+        let address = results[1].formatted_address.replace(', Bogotá','').replace(', Bogota','').replace(', Colombia','');
+        localStorage.setItem(type, address);
+        console.log(address);
+      }
+      else {
+        localStorage.setItem(type, 0);
+        console.log('No results found');
+      }
+    } else {
+      localStorage.setItem(type, 0);
+      console.log('Geocoder failed due to: ' + status);
+    }
+  });
+}
+
+
+class Map extends Component {
   componentDidMount() {
     const from = this.props.from;
     const to = this.props.to;
@@ -109,3 +131,5 @@ Map.propTypes = {
   from: PropTypes.object.isRequired,
   to: PropTypes.object.isRequired
 }
+
+export {Map, geocode}
