@@ -15,12 +15,12 @@ import { ApolloProvider } from "react-apollo";
 const Routes = withAuth(({ auth }) => {
     return (
       <Router>
-      <div>
-        <h1>Rutas de otros usuarios.</h1>
-        <div className="content">
-          <Route exact path="/routes" component={OtherRoutes}/>
+        <div>
+          <h1>Rutas de otros usuarios.</h1>
+          <div className="content">
+            <Route exact path="/routes" component={OtherRoutes}/>
+          </div>
         </div>
-      </div>
       </Router>
     )
 });
