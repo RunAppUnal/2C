@@ -44,7 +44,7 @@ className=
             </div>
 
             <div className="column">
-              <Link exact to="/profile/my-vehicles/new">
+              <Link exact to="/my-routes">
                 <img id="car" className="ui centered gif bordered circular image" src="images/car.jpg" onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} />
                 <h3 className="ui centered header">Carro o Moto</h3>
               </Link>

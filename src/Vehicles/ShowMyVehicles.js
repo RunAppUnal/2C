@@ -65,8 +65,7 @@ class MyVehicles extends Component {
   render() {
     return (
       <div>
-      	<h2>Mis vehículos</h2>
-        <Vehicles/>
+      	<Vehicles/>
       </div>
     );
   }

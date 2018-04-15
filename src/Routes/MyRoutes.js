@@ -19,13 +19,13 @@ class MyRoutes extends Component {
             <div className="col-sm-6 col-md-6 col-lg-6">
               <div className="row">
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/profile/my-routes" className="nav-link">Todas mis rutas</NavLink>
+                  <NavLink exact to="/my-routes" className="nav-link"><i class="fa fa-eye"></i> Todas mis rutas</NavLink>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/profile/my-routes/search" className="nav-link">Buscar ruta</NavLink>
+                  <NavLink exact to="/my-routes/search" className="nav-link"><i className="fa fa-search"></i> Buscar ruta</NavLink>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/profile/my-routes/new" className="nav-link">Crear ruta</NavLink>
+                  <NavLink exact to="/my-routes/new" className="nav-link"><i className="fa fa-plus"></i> Crear ruta</NavLink>
                 </div>
               </div>
             </div>
@@ -33,9 +33,9 @@ class MyRoutes extends Component {
             <div className="col-sm-3 col-md-3 col-lg-3"></div>
           </div>
           <div className="content">
-            <Route exact path="/profile/my-routes" component={Routes}/>
-            <Route path="/profile/my-routes/search" component={SearchRoute}/>
-            <Route path="/profile/my-routes/new" component={CreateRoute}/>
+            <Route exact path="/my-routes" component={Routes}/>
+            <Route path="/my-routes/search" component={SearchRoute}/>
+            <Route path="/my-routes/new" component={CreateRoute}/>
           </div>
         </div>
       </Router>
