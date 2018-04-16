@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { Card, Button } from 'semantic-ui-react'
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -7,6 +8,7 @@ import gql from "graphql-tag";
 const GET_USER_DATA = gql`
   query userById($userid: Int!){
     userById(userid: $userid){
+      userid
       name
       lastname
       username
@@ -25,19 +27,20 @@ class GetUser extends Component {
           if (loading) return "Cargando...";
           if (error) return `Error! ${error.message}`;
           let mailTo = 'mailto:' + "" + data.userById.email;
+          const extra = (
+            <div>
+              {data.userById.email}<br/>
+              <a href={mailTo}><i className="mail icon"></i> Enviar correo</a>
+            </div>
+          )
 
           return (
-            <tr>
-              <td>
-                <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-                <a href="#" class="user-link">{data.userById.name} {data.userById.lastname}</a>
-                <span class="user-subhead">{data.userById.username}</span>
-                <span class="label label-default">{data.userById.email}</span>
-                <a href={mailTo} class="table-link">
-                  <span class="fa fa-envelope-square"> Enviar correo</span>
-                </a>
-              </td>
-            </tr>
+            <Card className="user"
+              image={`/images/users/user_${data.userById.userid%3}.jpg`}
+              header={`${data.userById.name} ${data.userById.lastname}`}
+              meta={data.userById.username}
+              description={extra}
+            />
           );
         }}
       </Query>
