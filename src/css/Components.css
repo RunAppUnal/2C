@@ -1,0 +1,15 @@
+.ui.card.user {
+  width: 290px;
+  height: 100px;
+}
+
+.ui.card.user img {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
+
+.ui.card.user .content {
+  width: 190px;
+  margin-left: 100px;
+}

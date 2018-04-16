@@ -14,6 +14,7 @@ import { Login, Logout } from './login/login';
 import Signup from './login/signup';
 import { Dropdown, Button } from 'semantic-ui-react'
 import './css/App.css';
+import './css/Components.css';
 import { update, withAuth, CurrUser } from "./auth";
 
 
