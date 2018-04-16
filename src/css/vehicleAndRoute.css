@@ -59,7 +59,7 @@ h2{
     color: white;
 }
 #vehiclesNav .active, #routesNav .active{
-    color: white;   
+    color: white;
 }
 
 /* --------------- Styles of route cards  -------------------- */
@@ -151,13 +151,13 @@ h2{
     width: 100%;
     color: rgb(30, 30, 30);
     text-decoration: none;
-} 
-.event-list > li > .social > ul > li {    
+}
+.event-list > li > .social > ul > li {
     padding: 0px;
 }
 .event-list > li > .social > ul > li > a {
     padding: 3px 0px;
-} 
+}
 .event-list > li > .info > ul > li:hover,
 .event-list > li > .social > ul > li:hover {
     color: rgb(30, 30, 30);
@@ -202,8 +202,8 @@ h2{
         height: 120px;
         text-align: left;
         padding-right: 40px;
-    }   
-    .event-list > li > .info > .title, 
+    }
+    .event-list > li > .info > .title,
     .event-list > li > .info > .desc {
         padding: 0px 10px;
     }
@@ -222,7 +222,7 @@ h2{
     .event-list > li > .social > ul {
         border-left: 1px solid rgb(230, 230, 230);
     }
-    .event-list > li > .social > ul > li {          
+    .event-list > li > .social > ul > li {
         display: block;
         padding: 0px;
     }
@@ -306,3 +306,11 @@ a {
     font-size: 20px;
 }
 /* ---------------------------------------------------------- */
+
+/* --------------- Rating style --------------------*/
+.rating .glyphicon {font-size: 22px;}
+.rating-num { margin-top:0px;font-size: 54px; }
+.progress { margin-bottom: 5px;}
+.progress-bar { text-align: left; }
+.rating-desc .col-md-3 {padding-right: 0px;}
+.sr-only { margin-left: 5px;overflow: visible;clip: auto; }
