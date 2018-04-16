@@ -110,7 +110,7 @@ class CreateBikeRoute extends Component {
               user_id: currUserId,
               origin: [originLng, originLat],
               destination: [destinationLng, destinationLat],
-              time: new Date(this.inputTime)
+              time: this.inputTime.value
             }
           } });
         }}>
@@ -122,9 +122,9 @@ class CreateBikeRoute extends Component {
             <label><i className="red point icon"></i> Destino:</label>
             <input id="destination" ref={node => {this.inputTo = node;}} onBlur={this.goToPos.bind(this)} />
           </Form.Field><br/>
-          <Form.Field width="5">
-            <label>Hora de Salida:</label>
-            <input type="time" ref={node => {this.inputTime = node;}} />
+          <Form.Field width="10">
+            <label>Fecha de Salida:</label>
+            <input type="datetime-local" ref={node => {this.inputTime = node;}} />
           </Form.Field>
           <Button color="teal" fluid={true} floated="right" type="submit">Crear</Button>
           {this.props.error && <p>Hubo un error! Intenta de nuevo</p>}

@@ -72,7 +72,10 @@ const My_Bike_Routes = () => (
                     href={`/bikeRoutes/${route.id}`}
                     header={`${localStorage.getItem('originAddr')} - ${localStorage.getItem('destinationAddr')}`}
                     meta={<GetUserName userId={route.user_id} />}
-                    extra={`Hora Salida: ${time(new Date(route.time))}`}
+                    extra={`Salida: ${
+                      route.time.substring(8, 10) + '/' + route.time.substring(5, 7)+ '/' + 
+                      route.time.substring(0, 4) + ' - ' + route.time.substring(11, 16)}`
+                    }
                   />
                 ): (
                   <div></div>
