@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Button, Card, Dimmer, Loader } from 'semantic-ui-react'
 import { Link, Redirect } from "react-router-dom";
+import { Map, geocode } from './Map';
 import registerServiceWorker from '../registerServiceWorker';
 import '../css/bikeRoutes.css';
 
@@ -51,28 +52,6 @@ const GetUserName = (data) => {
   )
 };
 
-const GeocodeLatLng = (latlng) => {
-  let geocoder = new google.maps.Geocoder();
-  var text;
-  console.log(latlng.latlng);
-
-  geocoder.geocode({'location': latlng.latlng}, function(results, status) {
-    if (status === 'OK') {
-      if (results[1]){
-        let result = results[1].formatted_address.replace(', Bogotá','').replace(', Bogota, Colombia','')
-        console.log(result);
-      }
-
-      else
-      console.log('No results found');
-    } else {
-      console.log('Geocoder failed due to: ' + status);
-    }
-  });
-
-  return (<h6>Origen - Destino</h6>)
-};
-
 const My_Bike_Routes = () => (
   <Query query={GET_ALL_BIKE_ROUTES}>
     {({ loading, error, data }) => {
@@ -82,20 +61,26 @@ const My_Bike_Routes = () => (
       return (
         <Card.Group stackable itemsPerRow="four">
         {
-          data.allBikeRoutes.map(route =>
-            <div>
-              {route.user_id == currUserId ? (
-                <Card
-                  href={`/bikeRoutes/${route.id}`}
-                  header={<GeocodeLatLng latlng={{lat: route.origin[1], lng: route.origin[0]}} />}
-                  meta={<GetUserName userId={route.user_id} />}
-                  extra={`Hora Salida: ${time(new Date(route.time))}`}
-                />
-              ): (
-                <div></div>              
-              )}
-          </div>
-            
+          data.allBikeRoutes.map(route => {
+            geocode({lat: route.origin[1], lng: route.origin[0]}, "originAddr");
+            geocode({lat: route.destination[1], lng: route.destination[0]}, "destinationAddr");
+
+            return (
+              <div>
+                {route.user_id == currUserId ? (
+                  <Card
+                    href={`/bikeRoutes/${route.id}`}
+                    header={`${localStorage.getItem('originAddr')} - ${localStorage.getItem('destinationAddr')}`}
+                    meta={<GetUserName userId={route.user_id} />}
+                    extra={`Hora Salida: ${time(new Date(route.time))}`}
+                  />
+                ): (
+                  <div></div>
+                )}
+              </div>
+            )
+          }
+
         )
         }
         </Card.Group>

@@ -5,19 +5,41 @@ import PropTypes from 'prop-types';
 import MapStyles from './mapStyles';
 
 
-export default class Map extends Component {
+function geocode(latlng, type) {
+  let geocoder = new google.maps.Geocoder();
+
+  var result = geocoder.geocode({'location': latlng}, function(results, status) {
+    if (status === 'OK') {
+      if (results[1]){
+        let address = results[1].formatted_address.replace(', Bogotá','').replace(', Bogota','').replace(', Colombia','');
+        localStorage.setItem(type, address);
+      }
+      else {
+        localStorage.setItem(type, 0);
+        console.log('No results found');
+      }
+    } else {
+      localStorage.setItem(type, 0);
+      console.log('Geocoder failed due to: ' + status);
+    }
+  });
+}
+
+
+class Map extends Component {
   componentDidMount() {
     const from = this.props.from;
     const to = this.props.to;
+    const waypoints = this.props.waypoints;
 
-    console.log(from);
-    this.renderMap(from.pos, to.pos);
+    this.renderMap(from, to);
     this.setMarkers(from, to);
+    this.setWaypoints(from, to, waypoints, this.map);
   }
 
-  renderMap(fromPos, toPos) {
+  renderMap(from, to) {
     this.map = new google.maps.Map(this.refs.map, {
-      center: fromPos,
+      center: from,
       styles: MapStyles,
       zoom: 15
     });
@@ -25,34 +47,39 @@ export default class Map extends Component {
 
   setMarkers(from, to){
     this.markers = [
-      this.newMarker(from.pos, from.input),
-      this.newMarker(to.pos, to.input)
+      this.newMarker(from).setIcon("/images/map-icons/green.png"),
+      this.newMarker(to)
     ]
   }
 
-  newMarker(pos, input){
+  newMarker(pos){
     let marker = new google.maps.Marker({
       map: this.map,
-      position: pos,
-      draggable: true
-    });
-    if (input.id == "origin") marker.setIcon("/images/map-icons/green.png");
-    marker.addListener('dragend', function() {
-      let geocoder = new google.maps.Geocoder();
-
-      geocoder.geocode({'location': marker.position}, function(results, status) {
-        if (status === 'OK') {
-          if (results[1])
-            input.value = results[1].formatted_address;
-          else
-            input.value = "Dirección no encontrada";
-        } else {
-          input.value = "No es posible buscar la dirección";
-          console.log('Geocoder failed due to: ' + status);
-        }
-      });
+      position: pos
     });
     return marker;
+  }
+
+  setWaypoints(from, to, waypoints, map) {
+    let directionsService = new google.maps.DirectionsService;
+    let directionsDisplay = new google.maps.DirectionsRenderer;
+
+    directionsDisplay.setMap(map);
+    directionsDisplay.setOptions({ suppressMarkers: true });
+
+    directionsService.route({
+      origin: from,
+      destination: to,
+      waypoints: waypoints,
+      optimizeWaypoints: true,
+      travelMode: 'DRIVING'
+    }, function(response, status) {
+      if (status === 'OK') {
+        directionsDisplay.setDirections(response);
+      } else {
+        console.log('Directions request failed due to ' + status);
+      }
+    });
   }
 
   geocode(inputText, map, marker) {
@@ -78,34 +105,15 @@ export default class Map extends Component {
   }
 
   render() {
-    return(
-      // <div className="create map">
-      //   <Form className="map form" onSubmit={this.goToPos.bind(this)}>
-      //     <Form.Field>
-      //       <label><i className="green point icon"></i> Origen:</label>
-      //       <input id="origin" ref={node => {this.inputFrom = node;}} />
-      //     </Form.Field>
-      //     <Form.Field>
-      //       <label><i className="red point icon"></i> Destino:</label>
-      //       <input id="destination" ref={node => {this.inputTo = node;}} />
-      //     </Form.Field><br/>
-      //
-      //     <center>
-      //       <Form.Field width="5">
-      //         <label>Hora de Salida:</label>
-      //         <input type="time" ref={node => {this.inputTime = node;}} />
-      //       </Form.Field>
-      //       <Button color="teal" fluid={true} floated="right" type="submit">Crear</Button>
-      //     </center>
-      //   </Form>
-        <div id="map" ref="map"></div>
-      // </div>
-    )
+    return <div id="map" ref="map"></div>
   }
 }
 
 
 Map.propTypes = {
   from: PropTypes.object.isRequired,
-  to: PropTypes.object.isRequired
+  to: PropTypes.object.isRequired,
+  waypoints: PropTypes.array.isRequired
 }
+
+export {Map, geocode}

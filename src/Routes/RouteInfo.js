@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import '../css/vehicleAndRoute.css';
 import registerServiceWorker from '../registerServiceWorker';
@@ -134,7 +135,7 @@ const RouteInfo = ({ match }) => {
 										        						if (loading) return "CARGANDO INFORMACIÓN DEL PASAJERO...";
 										        						if (error) return `Error! ${error.message}`;
 										        						mailTo = 'mailto:' + "" + data.userById.email;
-										        						return (	
+										        						return (
 								                            				<tr>
 											                                    <td>
 											                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
@@ -155,10 +156,10 @@ const RouteInfo = ({ match }) => {
 		        								</div>
 		        							</div>
 		        						</div>
-									</div>				  			
+									</div>
 							  	</dd>
 							</dl>
-							
+
 							<Query query={GET_INFO_DRIVER} variables={{ userid: data.routeById.user_id }}>
 	    						{({ loading, error, data }) => {
 	        						if (loading) return "CARGANDO INFORMACIÓN DEL CONDUCTOR...";
@@ -191,7 +192,7 @@ const RouteInfo = ({ match }) => {
 												                                            <span class="fa fa-envelope-square"> Enviar correo</span>
 												                                        </a>
 												                                    </td>
-												                                </tr>										        				
+												                                </tr>
 												                            </tbody>
 												                        </table>
 							        								</div>
@@ -236,7 +237,7 @@ const RouteInfo = ({ match }) => {
 						{isDriver ? (
 							<div></div>
 						) : (isUserInRoute ? (
-								< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} > 
+								< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
 		          					{( removeUserFromRoute , { loading , error , data }) => (
 		             					<button onClick ={ removeUserFromRoute } class="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
 		          					)}
@@ -244,7 +245,7 @@ const RouteInfo = ({ match }) => {
 			           		) : (isSpacesFull ? (
 									<button class="btn" disabled> Cupos completos </button>
 				           		) : (
-									< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} > 
+									< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
 			          					{( addUserFromRoute , { loading , error , data }) => (
 			             					<button onClick ={ addUserFromRoute } class="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
 			          					)}

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import '../css/vehicleAndRoute.css';
 import registerServiceWorker from '../registerServiceWorker';
@@ -68,7 +69,7 @@ const Other_Routes = withAuth(({ auth }) => {
                       <div class="social">
                       </div>
                     </li>
-                  </ul> 
+                  </ul>
                 </div>
               )}
             </div>
@@ -83,7 +84,7 @@ class OtherRoutes extends Component {
   render() {
     return (
       <div>
-        <Other_Routes/>        
+        <Other_Routes/>
       </div>
     );
   }

@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Grid } from 'semantic-ui-react'
 import MapStyles from './mapStyles';
-import Map from './Map';
 import '../css/bikeRoutes.css';
 
 import { Link, Redirect } from "react-router-dom";

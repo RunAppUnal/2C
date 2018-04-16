@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import '../css/vehicleAndRoute.css';
 import registerServiceWorker from '../registerServiceWorker';
@@ -66,7 +67,7 @@ const My_Routes = (data) => {
                       <div class="social">
                       </div>
                     </li>
-                  </ul> 
+                  </ul>
                 </div>
               )}
             </div>

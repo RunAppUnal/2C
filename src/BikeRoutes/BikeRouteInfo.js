@@ -1,7 +1,11 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import '../css/bikeRoutes.css';
-import registerServiceWorker from '../registerServiceWorker';
-import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
+import { Button } from 'semantic-ui-react'
+import { Route, NavLink, BrowserRouter as Router } from "react-router-dom";
+import { Map, geocode } from './Map.js';
+
+import { GetUser } from '../Queries/GetUser';
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import $ from 'jquery';
@@ -70,20 +74,50 @@ const BikeRouteInfo = ({ match }) => {
 	    	{({ loading, error, data }) => {
 	        	if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
 	        	if (error) return `Error! ${error.message}`;
+
+						let userid = data.bikeRoutesById.user_id;
+						let from = {lat: data.bikeRoutesById.origin[1], lng: data.bikeRoutesById.origin[0]};
+						let to = {lat: data.bikeRoutesById.destination[1], lng: data.bikeRoutesById.destination[0]};
+						let date = data.bikeRoutesById.time.substring(8,10) + " / " + getMonth(data.bikeRoutesById.time.substring(5,7)) + " / " + data.bikeRoutesById.time.substring(0,4);
+						let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
+						let waypoints = [];
+
+				    for(let i = 0; i < data.bikeRoutesById.route_points.length; i++) {
+				      waypoints.push({
+				        location: {lat: data.bikeRoutesById.route_points[i][1], lng: data.bikeRoutesById.route_points[i][0]},
+				        stopover: true
+				      });
+				    }
+
+						geocode(from, "originAddr");
+						geocode(to, "destinationAddr");
+
 	        	return (
-	        		<div className= "container">
-	        			<div className="row">
-	        				<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-	        					<h3>Información de la ruta</h3>
-  								<dt>Origen</dt>
-							  	<dd>{data.bikeRoutesById.origin[0]} - {data.bikeRoutesById.origin[1]}</dd>
-							  	<dt>Destino</dt>
-							  	<dd>{data.bikeRoutesById.destination[0]} - {data.bikeRoutesById.destination[1]}</dd>
-							  	<dt>Fecha</dt>
-							  	<dd>{data.bikeRoutesById.time.substring(8,10) + " / " + getMonth(data.bikeRoutesById.time.substring(5,7)) + " / " + data.bikeRoutesById.time.substring(0,4)}</dd>
-							</dl>
-						</div>
-	          		</div>
+	        		<div className="container">
+								<h2 className="section-heading">
+									<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
+								</h2><br/><br/>
+
+								<h3>
+									Desde <i className="green point icon"></i>
+									{localStorage.getItem('originAddr')}
+								</h3>
+
+								<h3>
+									Hacia <i className="red point icon"></i>
+									{localStorage.getItem('destinationAddr')}
+								</h3><br/>
+
+								<div className="create map">
+									<div className="map info">
+										<h5>Fecha de Salida:</h5>{date}<br/><br/>
+										<h5>Distancia:</h5>{`${distance} km`}<br/><br/>
+										<h5>Creador(a):</h5>{<GetUser userId={userid} />}
+									</div>
+
+									<Map from={from} to={to} waypoints={waypoints} />
+								</div>
+	          	</div>
 	        	);
 	      	}}
 	    </Query>
