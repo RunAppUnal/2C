@@ -7,17 +7,17 @@
 }
 
 .create.map {
-  height: 500px;
+  height: 550px;
   margin: 0 -15%;
 }
 
 .map.form {
-  min-width: 400px;
+  width: 300px;
   padding: 20px;
   background: white;
   position: absolute;
   z-index: 1;
-  margin-top: 90px;
+  margin-top: 60px;
   margin-left: 40px;
 
   border: none;

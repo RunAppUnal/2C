@@ -62,7 +62,7 @@ class CreateBikeRoute extends Component {
       geocoder.geocode({'location': marker.position}, function(results, status) {
         if (status === 'OK') {
           if (results[1])
-            input.value = results[1].formatted_address;
+            input.value = results[1].formatted_address.replace(', Bogotá','').replace(', Bogota','').replace(', Colombia','');
           else
             input.value = "Dirección no encontrada";
         } else {

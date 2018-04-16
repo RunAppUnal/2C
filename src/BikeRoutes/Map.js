@@ -12,7 +12,6 @@ function geocode(latlng, type) {
     if (status === 'OK') {
       if (results[1]){
         let address = results[1].formatted_address.replace(', Bogotá','').replace(', Bogota','').replace(', Colombia','');
-        console.log(address);
         localStorage.setItem(type, address);
       }
       else {

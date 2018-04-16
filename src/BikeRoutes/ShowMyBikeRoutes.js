@@ -73,7 +73,7 @@ const My_Bike_Routes = () => (
                     header={`${localStorage.getItem('originAddr')} - ${localStorage.getItem('destinationAddr')}`}
                     meta={<GetUserName userId={route.user_id} />}
                     extra={`Salida: ${
-                      route.time.substring(8, 10) + '/' + route.time.substring(5, 7)+ '/' +
+                      route.time.substring(8, 10) + '/' + route.time.substring(5, 7)+ '/' + 
                       route.time.substring(0, 4) + ' - ' + route.time.substring(11, 16)}`
                     }
                   />
