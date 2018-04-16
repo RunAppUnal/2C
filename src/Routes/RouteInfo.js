@@ -118,11 +118,11 @@ const RouteInfo = ({ match }) => {
 							  	<dd>{data.routeById.spaces_available}</dd>
 							  	<dt>Usuarios en la ruta</dt>
 							  	<dd>
-							  		<div class="col-lg-12">
-										<div class="main-box no-header clearfix">
-		    								<div class="main-box-body clearfix">
-		        								<div class="table-responsive">
-		        									<table class="table user-list">
+							  		<div className="col-lg-12">
+										<div className="main-box no-header clearfix">
+		    								<div className="main-box-body clearfix">
+		        								<div className="table-responsive">
+		        									<table className="table user-list">
 							                            <thead>
 							                                <tr>
 							                                <th><span>Pasajeros</span></th>
@@ -139,11 +139,11 @@ const RouteInfo = ({ match }) => {
 								                            				<tr>
 											                                    <td>
 											                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-													                                <a href="#" class="user-link">{data.userById.name} {data.userById.lastname}</a>
-													                                <span class="user-subhead">{data.userById.username}</span>
-													                                <span class="label label-default">{data.userById.email}</span>
-													                                <a href={mailTo} class="table-link">
-											                                            <span class="fa fa-envelope-square"> Enviar correo</span>
+													                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
+													                                <span className="user-subhead">{data.userById.username}</span>
+													                                <span className="label label-default">{data.userById.email}</span>
+													                                <a href={mailTo} className="table-link">
+											                                            <span className="fa fa-envelope-square"> Enviar correo</span>
 											                                        </a>
 											                                    </td>
 											                                </tr>
@@ -166,16 +166,16 @@ const RouteInfo = ({ match }) => {
 	        						if (error) return `Error! ${error.message}`;
 	        						mailTo = 'mailto:' + "" + data.userById.email;
 	        						return (
-						       			<div class= "container">
-						       				<div class="row">
-						       					<dl class="dl-horizontal col-sm-6 col-md-6 col-lg-6">
+						       			<div className= "container">
+						       				<div className="row">
+						       					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
 						       						<h3>Información del conductor</h3>
 												  	<dd>
-														<div class="col-lg-12">
-															<div class="main-box no-header clearfix">
-							    								<div class="main-box-body clearfix">
-							        								<div class="table-responsive">
-							        									<table class="table user-list">
+														<div className="col-lg-12">
+															<div className="main-box no-header clearfix">
+							    								<div className="main-box-body clearfix">
+							        								<div className="table-responsive">
+							        									<table className="table user-list">
 												                            <thead>
 												                                <tr>
 												                                <th><span>Conductor</span></th>
@@ -185,11 +185,11 @@ const RouteInfo = ({ match }) => {
 								                            					<tr>
 												                                    <td>
 												                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-														                                <a href="#" class="user-link">{data.userById.name} {data.userById.lastname}</a>
-														                                <span class="user-subhead">{data.userById.username}</span>
-														                                <span class="label label-default">{data.userById.email}</span>
-														                                <a href={mailTo} class="table-link">
-												                                            <span class="fa fa-envelope-square"> Enviar correo</span>
+														                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
+														                                <span className="user-subhead">{data.userById.username}</span>
+														                                <span className="label label-default">{data.userById.email}</span>
+														                                <a href={mailTo} className="table-link">
+												                                            <span className="fa fa-envelope-square"> Enviar correo</span>
 												                                        </a>
 												                                    </td>
 												                                </tr>
@@ -211,9 +211,9 @@ const RouteInfo = ({ match }) => {
 	        						if (loading) return "CARGANDO INFORMACIÓN DEL VEHÍCULO...";
 	        						if (error) return `Error! ${error.message}`;
 	        						return (
-						       			<div class= "container">
-						       				<div class="row">
-						       					<dl class="dl-horizontal">
+						       			<div className= "container">
+						       				<div className="row">
+						       					<dl className="dl-horizontal">
 						       						<h3>Información del vehículo</h3>
 					  								<dt>Placa</dt>
 												  	<dd>{data.vehicleById.plate}</dd>
@@ -236,77 +236,77 @@ const RouteInfo = ({ match }) => {
 			           	</div>
 
 
-                  <div class="container">
-                      <div class="row">
-                          <div class="col-xs-12 col-md-6">
+                  <div className="container">
+                      <div className="row">
+                          <div className="col-xs-12 col-md-6">
                             <h3>Calificaciones</h3><br></br>
-                            <div class="well well-sm">
-                                <div class="row">
-                                  <div class="col-xs-12 col-md-6 text-center">
-                                    <h1 class="rating-num">4<span style={{fontSize: 28 + 'px'}}>/5</span></h1>
-                                    <div class="rating">
-                                        <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
-                                        </span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star">
-                                        </span><span class="glyphicon glyphicon-star-empty"></span>
+                            <div className="well well-sm">
+                                <div className="row">
+                                  <div className="col-xs-12 col-md-6 text-center">
+                                    <h1 className="rating-num">4<span style={{fontSize: 28 + 'px'}}>/5</span></h1>
+                                    <div className="rating">
+                                        <span className="glyphicon glyphicon-star"></span><span className="glyphicon glyphicon-star">
+                                        </span><span className="glyphicon glyphicon-star"></span><span className="glyphicon glyphicon-star">
+                                        </span><span className="glyphicon glyphicon-star-empty"></span>
                                     </div>
                                     <div>
-                                        <span class="glyphicon glyphicon-user"></span>1,050,008 total
+                                        <span className="glyphicon glyphicon-user"></span>1,050,008 total
                                     </div>
                                   </div>
-                                  <div class="col-xs-12 col-md-6">
-                                      <div class="row rating-desc">
-                                        <div class="col-xs-3 col-md-3 text-right">
-                                          <span class="glyphicon glyphicon-star"></span>5
+                                  <div className="col-xs-12 col-md-6">
+                                      <div className="row rating-desc">
+                                        <div className="col-xs-3 col-md-3 text-right">
+                                          <span className="glyphicon glyphicon-star"></span>5
                                         </div>
-                                        <div class="col-xs-8 col-md-9">
-                                          <div class="progress progress-striped">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        <div className="col-xs-8 col-md-9">
+                                          <div className="progress progress-striped">
+                                            <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
                                                 aria-valuemin="0" aria-valuemax="100" style={{width: 80 + '%'}}>
-                                                <span class="sr-only">80%</span>
+                                                <span className="sr-only">80%</span>
                                             </div>
                                           </div>
                                         </div>
-                                        <div class="col-xs-3 col-md-3 text-right">
-                                          <span class="glyphicon glyphicon-star"></span>4
+                                        <div className="col-xs-3 col-md-3 text-right">
+                                          <span className="glyphicon glyphicon-star"></span>4
                                         </div>
-                                        <div class="col-xs-8 col-md-9">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
+                                        <div className="col-xs-8 col-md-9">
+                                            <div className="progress">
+                                                <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
                                                     aria-valuemin="0" aria-valuemax="100" style={{width: 60 + '%'}}>
-                                                    <span class="sr-only">60%</span>
+                                                    <span className="sr-only">60%</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3 col-md-3 text-right">
-                                          <span class="glyphicon glyphicon-star"></span>3
+                                        <div className="col-xs-3 col-md-3 text-right">
+                                          <span className="glyphicon glyphicon-star"></span>3
                                         </div>
-                                        <div class="col-xs-8 col-md-9">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
+                                        <div className="col-xs-8 col-md-9">
+                                            <div className="progress">
+                                                <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
                                                     aria-valuemin="0" aria-valuemax="100" style={{width: 40 + '%'}}>
-                                                    <span class="sr-only">40%</span>
+                                                    <span className="sr-only">40%</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3 col-md-3 text-right">
-                                            <span class="glyphicon glyphicon-star"></span>2
+                                        <div className="col-xs-3 col-md-3 text-right">
+                                            <span className="glyphicon glyphicon-star"></span>2
                                         </div>
-                                        <div class="col-xs-8 col-md-9">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
+                                        <div className="col-xs-8 col-md-9">
+                                            <div className="progress">
+                                                <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
                                                     aria-valuemin="0" aria-valuemax="100" style={{width: 20 + '%'}}>
-                                                    <span class="sr-only">20%</span>
+                                                    <span className="sr-only">20%</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3 col-md-3 text-right">
-                                            <span class="glyphicon glyphicon-star"></span>1
+                                        <div className="col-xs-3 col-md-3 text-right">
+                                            <span className="glyphicon glyphicon-star"></span>1
                                         </div>
-                                        <div class="col-xs-8 col-md-9">
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
+                                        <div className="col-xs-8 col-md-9">
+                                            <div className="progress">
+                                                <div className="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
                                                     aria-valuemin="0" aria-valuemax="100" style={{width: 15 + '%'}}>
-                                                    <span class="sr-only">15%</span>
+                                                    <span className="sr-only">15%</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -347,15 +347,15 @@ const RouteInfo = ({ match }) => {
 						) : (isUserInRoute ? (
 								< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
 		          					{( removeUserFromRoute , { loading , error , data }) => (
-		             					<button onClick ={ removeUserFromRoute } class="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
+		             					<button onClick ={ removeUserFromRoute } className="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
 		          					)}
 		        				</ Mutation >
 			           		) : (isSpacesFull ? (
-									<button class="btn" disabled> Cupos completos </button>
+									<button className="btn" disabled> Cupos completos </button>
 				           		) : (
 									< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
 			          					{( addUserFromRoute , { loading , error , data }) => (
-			             					<button onClick ={ addUserFromRoute } class="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
+			             					<button onClick ={ addUserFromRoute } className="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
 			          					)}
 		        					</ Mutation >
 			           			)

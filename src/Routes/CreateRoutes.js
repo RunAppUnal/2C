@@ -21,6 +21,9 @@ const CREATE_ROUTE = gql`
 
 class CreateBikeRoute extends Component {
   componentDidMount() {
+    this.directionsService = new google.maps.DirectionsService;
+    this.directionsDisplay = new google.maps.DirectionsRenderer;
+    this.waypoints = [];
     this.from = {
       pos: {lat: 4.6381938, lng: -74.0862351},
       input: this.inputFrom
@@ -32,7 +35,7 @@ class CreateBikeRoute extends Component {
 
     this.renderMap(this.from.pos, this.to.pos);
     this.setMarkers(this.from, this.to);
-    this.setWaypoints(this.from.pos, this.to.pos, this.map);
+    this.setWaypoints();
   }
 
   renderMap(fromPos, toPos) {
@@ -40,6 +43,12 @@ class CreateBikeRoute extends Component {
       center: fromPos,
       styles: MapStyles,
       zoom: 15
+    });
+    let map = this.map;
+    const addWaypoint = (pos, map) => this.addWaypoint(pos, map);
+
+    google.maps.event.addListener(map, 'click', function(event) {
+      addWaypoint(event.latLng, map);
     });
   }
 
@@ -56,6 +65,7 @@ class CreateBikeRoute extends Component {
       position: pos,
       draggable: true
     });
+    const setWaypoints = () => this.setWaypoints();
 
     if (input.id == "origin") marker.setIcon("/images/map-icons/green.png");
     marker.addListener('dragend', function() {
@@ -73,21 +83,63 @@ class CreateBikeRoute extends Component {
         }
       });
 
-      
+      setWaypoints();
     });
     return marker;
   }
 
-  setWaypoints(from, to, map) {
-    let directionsService = new google.maps.DirectionsService;
-    let directionsDisplay = new google.maps.DirectionsRenderer;
+  addWaypoint(pos, map) {
+    var marker = new google.maps.Marker({
+      position: pos,
+      map: map,
+      draggable: true,
+      icon: "/images/map-icons/pink.png"
+    });
+    let waypoint = {
+      location: pos,
+      stopover: true
+    };
+    const changeWaypoint = (waypoint, pos) => this.changeWaypoint(waypoint, pos);
+    const deleteWaypoint = (waypoint) => this.deleteWaypoint(waypoint);
 
-    directionsDisplay.setMap(map);
+    marker.addListener('dragend', function(event){
+      changeWaypoint(waypoint, event.latLng);
+    });
+    marker.addListener('click', function(){
+      deleteWaypoint(waypoint);
+      this.setMap(null);
+    });
+
+    this.waypoints.push(waypoint);
+    this.setWaypoints();
+  }
+
+  changeWaypoint(waypoint, pos) {
+    let index = this.waypoints.indexOf(waypoint);
+    waypoint.location = pos;
+    this.waypoints[index] = waypoint;
+    this.setWaypoints();
+  }
+
+  deleteWaypoint(waypoint) {
+    let index = this.waypoints.indexOf(waypoint);
+    this.waypoints.splice(index, 1);;
+    this.setWaypoints();
+  }
+
+  setWaypoints() {
+    let directionsService = this.directionsService;
+    let directionsDisplay = this.directionsDisplay;
+    let from = this.markers[0].position;
+    let to = this.markers[1].position;
+
+    directionsDisplay.setMap(this.map);
     directionsDisplay.setOptions({ suppressMarkers: true });
 
     directionsService.route({
       origin: from,
       destination: to,
+      waypoints: this.waypoints,
       optimizeWaypoints: true,
       travelMode: 'DRIVING'
     }, function(response, status) {
@@ -119,6 +171,7 @@ class CreateBikeRoute extends Component {
     e.preventDefault();
     this.geocode(this.inputFrom.value, this.map, this.markers[0]);
     this.geocode(this.inputTo.value, this.map, this.markers[1]);
+    this.setWaypoints();
   }
 
   render() {
@@ -132,49 +185,64 @@ class CreateBikeRoute extends Component {
           let destinationLng = this.markers[1].position.lng();
           this.props.createRoute({ variables: {
             route: {
-              user_id: 1,
+              user_id: currUserId,
               car_id: 1,
-              title: "de mi casa a la nacho",
-              description: "creada con graphQL",
+              title: this.inputTitle.value,
+              description: this.inputDescription.value,
               from_lat: originLat,
               from_lng: originLng,
               to_lat: destinationLat,
               to_lng: destinationLng,
-              waypoints:"{}",
+              waypoints:JSON.stringify(this.waypoints),
               departure: this.inputDate.value,
               cost: this.inputCost.value,
               users_in_route: "",
               active: true,
-              spaces_available: 4
+              spaces_available:this.inputSpaces.value
             }
           } });
         }}>
           <Form.Field>
-            <label><i className="green point icon"></i> Origen:</label>
-            <input id="origin" ref={node => {this.inputFrom = node;}} onBlur={this.goToPos.bind(this)} />
+            <label>Nombre de la ruta:</label>
+            <input ref={node => {this.inputTitle = node;}} />
           </Form.Field>
           <Form.Field>
-            <label><i className="red point icon"></i> Destino:</label>
-            <input id="destination" ref={node => {this.inputTo = node;}} onBlur={this.goToPos.bind(this)} />
+            <label>Descripción:</label>
+            <input ref={node => {this.inputDescription = node;}} />
           </Form.Field>
-          <Form.Field>
-            <label>Fecha:</label>
-            <input type="datetime-local" ref={node => {this.inputDate = node;}} />
-          </Form.Field>
-          <Form.Field>
-            <label>Precio:</label>
-            <input type="number" ref={node => {this.inputCost = node;}} />
-          </Form.Field>
+          <Form.Group widths="equal">
+            <Form.Field>
+              <label><i className="green point icon"></i> Origen:</label>
+              <input id="origin" ref={node => {this.inputFrom = node;}} onBlur={this.goToPos.bind(this)} />
+            </Form.Field>
+            <Form.Field>
+              <label><i className="red point icon"></i> Destino:</label>
+              <input id="destination" ref={node => {this.inputTo = node;}} onBlur={this.goToPos.bind(this)} />
+            </Form.Field>
+          </Form.Group>
+          <Form.Group>
+            <Form.Field width="9">
+              <label>Fecha:</label>
+              <input type="datetime-local" ref={node => {this.inputDate = node;}} />
+            </Form.Field>
+            <Form.Field width="4">
+              <label>Precio:</label>
+              <input type="number" ref={node => {this.inputCost = node;}} />
+            </Form.Field>
+            <Form.Field width="3">
+              <label>Cupos:</label>
+              <input type="number" ref={node => {this.inputSpaces = node;}} />
+            </Form.Field>
+          </Form.Group>
           <Form.Field>
             <label>Vehiculo:</label>
             <input type="number" ref={node => {this.inputVehicle = node;}} />
           </Form.Field>
-          <Button color="teal" fluid={true} floated="right" type="submit">Crear</Button>
+          <Button color="teal" fluid={true} type="submit">Crear</Button>
           {this.props.error && <p>Hubo un error! Intenta de nuevo</p>}
         </Form>
 
         <div id="map" ref="map"></div>
-
       </div>
     );
   }
