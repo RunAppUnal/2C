@@ -80,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
 h2.section-heading {
     font-size: 40px;
     margin-top: 0;
-    margin-bottom: 15px !important;
+    margin-bottom: 15px;
 }
 
 h3.section-subheading {
@@ -103,6 +103,11 @@ h3.section-subheading {
 .ui.card {
   text-decoration: none;
   color: #212529;
+}
+
+.underline {
+  border-bottom: 2px solid #06a9c1;
+  padding-bottom: 2px;
 }
 
 /* .ui.teal.button {

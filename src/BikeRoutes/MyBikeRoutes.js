@@ -27,7 +27,7 @@ class MyBikeRoutes extends Component {
             <div className="col-sm-8 col-md-8 col-lg-8">
               <div className="row">
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/bikeRoutes/" className="nav-link"><i class="fa fa-eye"></i> Rutas de otros usuarios</NavLink>
+                  <NavLink exact to="/bikeRoutes/" className="nav-link"><i className="fa fa-eye"></i> Rutas de otros usuarios</NavLink>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
                   <NavLink exact to="/my-bikeRoutes" className="nav-link"><i className="fa fa-search"></i> Mis rutas</NavLink>

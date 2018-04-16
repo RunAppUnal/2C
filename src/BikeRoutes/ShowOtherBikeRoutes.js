@@ -6,6 +6,8 @@ import registerServiceWorker from '../registerServiceWorker';
 import { Map, geocode } from './Map';
 import '../css/bikeRoutes.css';
 
+import { GetUserName } from '../Queries/GetUser';
+
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -24,34 +26,6 @@ const GET_ALL_BIKE_ROUTES = gql`
     }
   }
 `;
-
-const GET_USER_DATA = gql`
-  query userById($userid: Int!){
-    userById(userid: $userid){
-      name
-      lastname
-      username
-      email
-    }
-  }
-`;
-
-const GetUserName = (data) => {
-  return (
-    <Query query={GET_USER_DATA} variables={{ userid: data.userId }}>
-      {({ loading, error, data }) => {
-        if (loading) return "Cargando...";
-        if (error) return `Error! ${error.message}`;
-
-        return (
-          <span>
-            {data.userById.name} {data.userById.lastname}
-          </span>
-        );
-      }}
-    </Query>
-  )
-};
 
 const AllBikeRoutes = () => (
   <Query query={GET_ALL_BIKE_ROUTES}>
