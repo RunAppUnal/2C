@@ -4,6 +4,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { Route, NavLink, Redirect, BrowserRouter as Router } from "react-router-dom";
 import { withAuth } from "./auth";
 import MyInfo from './MyInfo/MyInfo'
+import RoutesJoined from './MyInfo/RoutesJoined'
 import MyVehicles from './Vehicles/MyVehicles'
 import AddVehicle from './Vehicles/AddVehicle'
 
@@ -19,10 +20,12 @@ const Profile = withAuth(({ auth }) => {
         <ul className="header">
           <li><NavLink exact to="/profile">Mi información</NavLink></li>
           <li><NavLink to="/profile/my-vehicles">Mis vehículos</NavLink></li>
+          <li><NavLink to="/profile/routes-joined">Rutas a las que me he unido</NavLink></li>
         </ul>
         <div className="content">
           <Route exact path="/profile" component={MyInfo}/>
           <Route path="/profile/my-vehicles" component={MyVehicles}/>
+          <Route path="/profile/routes-joined" component={RoutesJoined}/>
         </div>
       </div>
       </Router>
