@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import '../css/vehicleAndRoute.css';
+import '../css/bikeRoutes.css';
 import registerServiceWorker from '../registerServiceWorker';
 import { withAuth } from "../auth";
+import { Map, geocode } from '../BikeRoutes/Map.js';
 import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
@@ -28,7 +30,7 @@ const GET_INFO_ROUTE = gql`
   	query routeById($routeid: Int!){
 	    routeById(id: $routeid){
 	    	id
-			title
+			  title
 	    	description
 	    	cost
 	    	departure
@@ -36,6 +38,11 @@ const GET_INFO_ROUTE = gql`
 	    	car_id
 	    	spaces_available
 	    	users_in_route
+        from_lat
+        from_lng
+        to_lat
+        to_lng
+        waypoints
 	    }
   	}
 `;
@@ -108,28 +115,47 @@ const RouteInfo = ({ match }) => {
 	        	if(data.routeById.users_in_route.length != 0){
 	        		numUsersInRoute = data.routeById.users_in_route.split(', ');
 	        	}
+
+            let title = data.routeById.title;
+            let description = data.routeById.description;
+            let date = data.routeById.departure.substring(8,10) + " / " + getMonth(data.routeById.departure.substring(5,7)) + " / " + data.routeById.departure.substring(0,4);
+            let cost = "$" + data.routeById.cost;
+            let spaces = data.routeById.spaces_available;
+
+            let from = {lat: data.routeById.from_lat, lng: data.routeById.from_lng};
+            let to = {lat: data.routeById.to_lat, lng: data.routeById.to_lng};
+            let waypoints = JSON.parse(data.routeById.waypoints);
+
 	        	return (
 	        		<div className= "container">
+								<h2 className="section-heading">
+									<span className="underline"><i className="car icon"></i> Ruta de Carpool</span>
+								</h2><br/><br/>
+
+                <h3>{title}</h3>
+                <center>
+                  <p className="content">{description}</p>
+                </center>
+
+                <div className="create map">
+                  <div className="map info">
+                    <h5>Fecha de Salida:</h5>{date}<br/><br/>
+                    <h5>Costo:</h5>{cost}<br/><br/>
+                    <h5>Cupos:</h5>{spaces}
+                  </div>
+
+                  <Map from={from} to={to} waypoints={waypoints} />
+                </div><br/><br/>
+
 	        			<div className="row">
 	        				<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-	        					<h3>Información de la ruta</h3>
-  								<dt>Título</dt>
-							  	<dd>{data.routeById.title}</dd>
-							  	<dt>Descripción</dt>
-							  	<dd>{data.routeById.description}</dd>
-							  	<dt>Costo</dt>
-							  	<dd>{data.routeById.cost}</dd>
-							  	<dt>Fecha de salida</dt>
-							  	<dd>{data.routeById.departure.substring(8,10) + " / " + getMonth(data.routeById.departure.substring(5,7)) + " / " + data.routeById.departure.substring(0,4)}</dd>
-							  	<dt>Cupos disponibles</dt>
-							  	<dd>{data.routeById.spaces_available}</dd>
-							  	<dt>Usuarios en la ruta</dt>
+        					<h3>Usuarios en la ruta</h3>
 							  	<dd>
-							  		<div class="col-lg-12">
-										<div class="main-box no-header clearfix">
-		    								<div class="main-box-body clearfix">
-		        								<div class="table-responsive">
-		        									<table class="table user-list">
+							  		<div className="col-lg-12">
+										<div className="main-box no-header clearfix">
+		    								<div className="main-box-body clearfix">
+		        								<div className="table-responsive">
+		        									<table className="table user-list">
 							                            <thead>
 							                                <tr>
 							                                <th><span>Pasajeros</span></th>
@@ -146,11 +172,11 @@ const RouteInfo = ({ match }) => {
 								                            				<tr>
 											                                    <td>
 											                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-													                                <a href="#" class="user-link">{data.userById.name} {data.userById.lastname}</a>
-													                                <span class="user-subhead">{data.userById.username}</span>
-													                                <span class="label label-default">{data.userById.email}</span>
-													                                <a href={mailTo} class="table-link">
-											                                            <span class="fa fa-envelope-square"> Enviar correo</span>
+													                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
+													                                <span className="user-subhead">{data.userById.username}</span>
+													                                <span className="label label-default">{data.userById.email}</span>
+													                                <a href={mailTo} className="table-link">
+											                                            <span className="fa fa-envelope-square"> Enviar correo</span>
 											                                        </a>
 											                                    </td>
 											                                </tr>
@@ -178,22 +204,23 @@ const RouteInfo = ({ match }) => {
 								<div></div>
 							)}
 
+
 							<Query query={GET_INFO_DRIVER} variables={{ userid: data.routeById.user_id }}>
 	    						{({ loading, error, data }) => {
 	        						if (loading) return "CARGANDO INFORMACIÓN DEL CONDUCTOR...";
 	        						if (error) return `Error! ${error.message}`;
 	        						mailTo = 'mailto:' + "" + data.userById.email;
 	        						return (
-						       			<div class= "container">
-						       				<div class="row">
-						       					<dl class="dl-horizontal col-sm-6 col-md-6 col-lg-6">
+						       			<div className= "container">
+						       				<div className="row">
+						       					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
 						       						<h3>Información del conductor</h3>
 												  	<dd>
-														<div class="col-lg-12">
-															<div class="main-box no-header clearfix">
-							    								<div class="main-box-body clearfix">
-							        								<div class="table-responsive">
-							        									<table class="table user-list">
+														<div className="col-lg-12">
+															<div className="main-box no-header clearfix">
+							    								<div className="main-box-body clearfix">
+							        								<div className="table-responsive">
+							        									<table className="table user-list">
 												                            <thead>
 												                                <tr>
 												                                <th><span>Conductor</span></th>
@@ -203,11 +230,11 @@ const RouteInfo = ({ match }) => {
 								                            					<tr>
 												                                    <td>
 												                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-														                                <a href="#" class="user-link">{data.userById.name} {data.userById.lastname}</a>
-														                                <span class="user-subhead">{data.userById.username}</span>
-														                                <span class="label label-default">{data.userById.email}</span>
-														                                <a href={mailTo} class="table-link">
-												                                            <span class="fa fa-envelope-square"> Enviar correo</span>
+														                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
+														                                <span className="user-subhead">{data.userById.username}</span>
+														                                <span className="label label-default">{data.userById.email}</span>
+														                                <a href={mailTo} className="table-link">
+												                                            <span className="fa fa-envelope-square"> Enviar correo</span>
 												                                        </a>
 												                                    </td>
 												                                </tr>
@@ -229,9 +256,9 @@ const RouteInfo = ({ match }) => {
 	        						if (loading) return "CARGANDO INFORMACIÓN DEL VEHÍCULO...";
 	        						if (error) return `Error! ${error.message}`;
 	        						return (
-						       			<div class= "container">
-						       				<div class="row">
-						       					<dl class="dl-horizontal">
+						       			<div className= "container">
+						       				<div className="row">
+						       					<dl className="dl-horizontal">
 						       						<h3>Información del vehículo</h3>
 					  								<dt>Placa</dt>
 												  	<dd>{data.vehicleById.plate}</dd>
@@ -257,15 +284,15 @@ const RouteInfo = ({ match }) => {
 						) : (isUserInRoute ? (
 								< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
 		          					{( removeUserFromRoute , { loading , error , data }) => (
-		             					<button onClick ={ removeUserFromRoute } class="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
+		             					<button onClick ={ removeUserFromRoute } className="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
 		          					)}
 		        				</ Mutation >
 			           		) : (isSpacesFull ? (
-									<button class="btn" disabled> Cupos completos </button>
+									<button className="btn" disabled> Cupos completos </button>
 				           		) : (
 									< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
 			          					{( addUserFromRoute , { loading , error , data }) => (
-			             					<button onClick ={ addUserFromRoute } class="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
+			             					<button onClick ={ addUserFromRoute } className="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
 			          					)}
 		        					</ Mutation >
 			           			)

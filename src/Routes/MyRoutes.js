@@ -19,7 +19,7 @@ class MyRoutes extends Component {
             <div className="col-sm-6 col-md-6 col-lg-6">
               <div className="row">
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
-                  <NavLink exact to="/my-routes" className="nav-link"><i class="fa fa-eye"></i> Todas mis rutas</NavLink>
+                  <NavLink exact to="/my-routes" className="nav-link"><i className="fa fa-eye"></i> Todas mis rutas</NavLink>
                 </div>
                 <div className="col-sm-4 col-md-4 col-lg-4" id="routesNav">
                   <NavLink exact to="/my-routes/search" className="nav-link"><i className="fa fa-search"></i> Buscar ruta</NavLink>

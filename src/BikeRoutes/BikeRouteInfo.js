@@ -97,6 +97,10 @@ const BikeRouteInfo = ({ match }) => {
 								<h2 className="section-heading">
 									<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
 								</h2><br/><br/>
+								
+								<center>
+									<h5>Creado por:</h5>{<GetUser userId={userid} />}
+								</center><br/><br/>
 
 								<h3>
 									Desde <i className="green point icon"></i>
@@ -111,8 +115,7 @@ const BikeRouteInfo = ({ match }) => {
 								<div className="create map">
 									<div className="map info">
 										<h5>Fecha de Salida:</h5>{date}<br/><br/>
-										<h5>Distancia:</h5>{`${distance} km`}<br/><br/>
-										<h5>Creador(a):</h5>{<GetUser userId={userid} />}
+										<h5>Distancia:</h5>{`${distance} km`}
 									</div>
 
 									<Map from={from} to={to} waypoints={waypoints} />
