@@ -92,6 +92,13 @@ const GET_INFO_USER = gql`
     }
   }
 `;
+const DELETE_ROUTE = gql`
+  	mutation deleteRoute($routeid: Int!){
+	    deleteRoute(id: $routeid){
+	    	id
+	    }
+  	}
+`;
 
 const RouteInfo = ({ match }) => {
 	return (
@@ -185,6 +192,17 @@ const RouteInfo = ({ match }) => {
 									</div>
 							  	</dd>
 							</dl>
+							{isDriver ? (
+								<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
+									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: data.routeById.id }} >
+				          				{( addUserFromRoute , { loading , error , data }) => (
+				             				<button onClick ={ addUserFromRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+				          				)}
+			        				</ Mutation >
+								</dl>
+							) : (
+								<div></div>
+							)}
 
 
 							<Query query={GET_INFO_DRIVER} variables={{ userid: data.routeById.user_id }}>
@@ -261,114 +279,6 @@ const RouteInfo = ({ match }) => {
 	      						}}
 	    					</Query>
 			           	</div>
-
-
-                  <div className="container">
-                      <div className="row">
-                          <div className="col-xs-12 col-md-6">
-                            <h3>Calificaciones</h3><br></br>
-                            <div className="well well-sm">
-                                <div className="row">
-                                  <div className="col-xs-12 col-md-6 text-center">
-                                    <h1 className="rating-num">4<span style={{fontSize: 28 + 'px'}}>/5</span></h1>
-                                    <div className="rating">
-                                        <span className="glyphicon glyphicon-star"></span><span className="glyphicon glyphicon-star">
-                                        </span><span className="glyphicon glyphicon-star"></span><span className="glyphicon glyphicon-star">
-                                        </span><span className="glyphicon glyphicon-star-empty"></span>
-                                    </div>
-                                    <div>
-                                        <span className="glyphicon glyphicon-user"></span>1,050,008 total
-                                    </div>
-                                  </div>
-                                  <div className="col-xs-12 col-md-6">
-                                      <div className="row rating-desc">
-                                        <div className="col-xs-3 col-md-3 text-right">
-                                          <span className="glyphicon glyphicon-star"></span>5
-                                        </div>
-                                        <div className="col-xs-8 col-md-9">
-                                          <div className="progress progress-striped">
-                                            <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
-                                                aria-valuemin="0" aria-valuemax="100" style={{width: 80 + '%'}}>
-                                                <span className="sr-only">80%</span>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="col-xs-3 col-md-3 text-right">
-                                          <span className="glyphicon glyphicon-star"></span>4
-                                        </div>
-                                        <div className="col-xs-8 col-md-9">
-                                            <div className="progress">
-                                                <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20"
-                                                    aria-valuemin="0" aria-valuemax="100" style={{width: 60 + '%'}}>
-                                                    <span className="sr-only">60%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-xs-3 col-md-3 text-right">
-                                          <span className="glyphicon glyphicon-star"></span>3
-                                        </div>
-                                        <div className="col-xs-8 col-md-9">
-                                            <div className="progress">
-                                                <div className="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20"
-                                                    aria-valuemin="0" aria-valuemax="100" style={{width: 40 + '%'}}>
-                                                    <span className="sr-only">40%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-xs-3 col-md-3 text-right">
-                                            <span className="glyphicon glyphicon-star"></span>2
-                                        </div>
-                                        <div className="col-xs-8 col-md-9">
-                                            <div className="progress">
-                                                <div className="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20"
-                                                    aria-valuemin="0" aria-valuemax="100" style={{width: 20 + '%'}}>
-                                                    <span className="sr-only">20%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-xs-3 col-md-3 text-right">
-                                            <span className="glyphicon glyphicon-star"></span>1
-                                        </div>
-                                        <div className="col-xs-8 col-md-9">
-                                            <div className="progress">
-                                                <div className="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80"
-                                                    aria-valuemin="0" aria-valuemax="100" style={{width: 15 + '%'}}>
-                                                    <span className="sr-only">15%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                  </div>
-                                </div>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 						{isDriver ? (
 							<div></div>
 						) : (isUserInRoute ? (
