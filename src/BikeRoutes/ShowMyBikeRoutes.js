@@ -20,6 +20,8 @@ const GET_ALL_BIKE_ROUTES = gql`
       route_distance
       origin
       destination
+      originAddr
+      destinationAddr
       time
     }
   }
@@ -62,18 +64,18 @@ const My_Bike_Routes = () => (
         <Card.Group stackable itemsPerRow="four">
         {
           data.allBikeRoutes.map(route => {
-            geocode({lat: route.origin[1], lng: route.origin[0]}, "originAddr");
-            geocode({lat: route.destination[1], lng: route.destination[0]}, "destinationAddr");
+            let originAddr = route.originAddr;
+            let destinationAddr = route.destinationAddr;
 
             return (
               <div>
                 {route.user_id == currUserId ? (
                   <Card
                     href={`/bikeRoutes/${route.id}`}
-                    header={`${localStorage.getItem('originAddr')} - ${localStorage.getItem('destinationAddr')}`}
+                    header={`${originAddr} - ${destinationAddr}`}
                     meta={<GetUserName userId={route.user_id} />}
                     extra={`Salida: ${
-                      route.time.substring(8, 10) + '/' + route.time.substring(5, 7)+ '/' + 
+                      route.time.substring(8, 10) + '/' + route.time.substring(5, 7)+ '/' +
                       route.time.substring(0, 4) + ' - ' + route.time.substring(11, 16)}`
                     }
                   />
