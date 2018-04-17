@@ -239,7 +239,8 @@ class CreateBikeRoute extends Component {
             <input type="number" ref={node => {this.inputVehicle = node;}} />
           </Form.Field>
           <Button color="teal" fluid={true} type="submit">Crear</Button>
-          {this.props.error && <p>Hubo un error! Intenta de nuevo</p>}
+          {/* {this.props.error && <p>Hubo un error! Intenta de nuevo</p>} */}
+          {this.props.error ? <p>Hubo un error! Intenta de nuevo</p> : this.props.called && <Redirect to='/my-routes'/>}
         </Form>
 
         <div id="map" ref="map"></div>

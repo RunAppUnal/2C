@@ -5,7 +5,7 @@ import '../css/bikeRoutes.css';
 import registerServiceWorker from '../registerServiceWorker';
 import { withAuth } from "../auth";
 import { Map, geocode } from '../BikeRoutes/Map.js';
-import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
+import {Route, NavLink, Redirect, BrowserRouter as Router} from "react-router-dom";
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import $ from 'jquery';
@@ -194,11 +194,14 @@ const RouteInfo = ({ match }) => {
 							</dl>
 							{isDriver ? (
 								<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: data.routeById.id }} >
-				          				{( addUserFromRoute , { loading , error , data }) => (
-				             				<button onClick ={ addUserFromRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
-				          				)}
-			        				</ Mutation >
+									<Mutation  mutation={ DELETE_ROUTE } variables={{ routeid: data.routeById.id }} >
+                    {( addUserFromRoute , {loading, error, data, called }) => (
+                      <div>
+                        <button onClick ={ addUserFromRoute } className="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+                        {error ? <p>Hubo un error! Intenta de nuevo</p> : called && <Redirect to='/my-routes'/>}
+                      </div>
+	          				)}
+          				</Mutation>
 								</dl>
 							) : (
 								<div></div>
