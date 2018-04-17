@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Grid } from 'semantic-ui-react'
 import MapStyles from '../BikeRoutes/mapStyles';
+import { MyVehicles } from '../Queries/GetVehicles';
 import '../css/bikeRoutes.css';
 
 import { Link, Redirect } from "react-router-dom";
@@ -183,10 +184,12 @@ class CreateBikeRoute extends Component {
           let originLng = this.markers[0].position.lng();
           let destinationLat = this.markers[1].position.lat();
           let destinationLng = this.markers[1].position.lng();
+          let vehicle = $('#vehicleSelect').val();
+
           this.props.createRoute({ variables: {
             route: {
               user_id: currUserId,
-              car_id: 1,
+              car_id: vehicle,
               title: this.inputTitle.value,
               description: this.inputDescription.value,
               from_lat: originLat,
@@ -236,10 +239,10 @@ class CreateBikeRoute extends Component {
           </Form.Group>
           <Form.Field>
             <label>Vehiculo:</label>
-            <input type="number" ref={node => {this.inputVehicle = node;}} />
+            <MyVehicles/>
+            {/* <input type="number" ref={node => {this.inputVehicle = node;}} /> */}
           </Form.Field>
           <Button color="teal" fluid={true} type="submit">Crear</Button>
-          {/* {this.props.error && <p>Hubo un error! Intenta de nuevo</p>} */}
           {this.props.error ? <p>Hubo un error! Intenta de nuevo</p> : this.props.called && <Redirect to='/my-routes'/>}
         </Form>
 

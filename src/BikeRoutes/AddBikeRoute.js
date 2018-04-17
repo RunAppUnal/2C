@@ -113,6 +113,7 @@ class CreateBikeRoute extends Component {
               time: this.inputTime.value
             }
           } });
+          console.log(this.props.error);
         }}>
           <Form.Field>
             <label><i className="green point icon"></i> Origen:</label>
@@ -127,7 +128,8 @@ class CreateBikeRoute extends Component {
             <input type="datetime-local" ref={node => {this.inputTime = node;}} />
           </Form.Field>
           <Button color="teal" fluid={true} floated="right" type="submit">Crear</Button>
-          {this.props.error && <p>Hubo un error! Intenta de nuevo</p>}
+          {this.props.error ? <p>Hubo un error! Intenta de nuevo</p> : this.props.called && <Redirect to='/my-routes'/>}
+          {/* {this.props.error && <p>Hubo un error! Intenta de nuevo</p>} */}
         </Form>
 
         <div id="map" ref="map"></div>
