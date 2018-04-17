@@ -49,6 +49,7 @@ const AuthState = withAuth(({ auth }) => {
           <Dropdown.Menu>
             <Link exact="true" to="/profile"><Dropdown.Item><i className="user icon"></i>Mi perfil</Dropdown.Item></Link>
             <Link exact="true" to="/profile/my-vehicles"><Dropdown.Item><i className="car icon"></i>Mis vehiculos</Dropdown.Item></Link>
+            <Link exact="true" to="/profile/routes-joined"><Dropdown.Item><i className="road icon"></i>Rutas unidas</Dropdown.Item></Link>
             <Link to="/logout"><Dropdown.Item><i className="sign out icon"></i>Cerrar Sesión</Dropdown.Item></Link>
           </Dropdown.Menu>
         </Dropdown>

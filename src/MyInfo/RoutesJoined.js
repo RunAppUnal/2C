@@ -65,9 +65,7 @@ const Other_Routes = withAuth(({ auth }) => {
                             <li><span class="fa fa-dollar"> {route.cost}</span></li>
                           </ul>
                         </div>
-                        <div class="social">
-                          <span class="fa fa-star"> 4/5</span>
-                        </div>
+                        <div class="social"></div>
                       </li>
                     </ul>) : (
                     <div></div>
