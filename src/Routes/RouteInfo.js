@@ -128,25 +128,37 @@ const RouteInfo = ({ match }) => {
 
 	        	return (
 	        		<div className= "container">
-								<h2 className="section-heading">
+	        					<h2 className="section-heading">
 									<span className="underline"><i className="car icon"></i> Ruta de Carpool</span>
 								</h2><br/><br/>
-
-                <h3>{title}</h3>
-                <center>
-                  <p className="content">{description}</p>
-                </center>
-
-                <div className="create map">
-                  <div className="map info">
-                    <h5>Fecha de Salida:</h5>{date}<br/><br/>
-                    <h5>Costo:</h5>{cost}<br/><br/>
-                    <h5>Cupos:</h5>{spaces}
-                  </div>
-
-                  <Map from={from} to={to} waypoints={waypoints} />
-                </div><br/><br/>
-
+							
+						<div className="row">
+		        			<div className="col-sm-8 col-md-8 col-lg-8">
+				                <h3>{title}</h3>
+				                <center>
+				                  <p className="content">{description}</p>
+				                </center>
+							</div>
+							{isDriver ? (
+								<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: data.routeById.id }} >
+							        	{( addUserFromRoute , { loading , error , data }) => (
+							            	<button onClick ={ addUserFromRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+							          	)}
+						        	</ Mutation >
+								</dl>
+							) : (
+								<div></div>
+							)}
+						</div>
+                		<div className="create map">
+		                	<div className="map info">
+			                    <h5>Fecha de Salida:</h5>{date}<br/><br/>
+			                    <h5>Costo:</h5>{cost}<br/><br/>
+			                    <h5>Cupos:</h5>{spaces}
+		                  	</div>
+                  			<Map from={from} to={to} waypoints={waypoints} />
+                			</div><br/><br/>
 	        			<div className="row">
 	        				<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
         					<h3>Usuarios en la ruta</h3>
@@ -192,19 +204,6 @@ const RouteInfo = ({ match }) => {
 									</div>
 							  	</dd>
 							</dl>
-							{isDriver ? (
-								<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: data.routeById.id }} >
-				          				{( addUserFromRoute , { loading , error , data }) => (
-				             				<button onClick ={ addUserFromRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
-				          				)}
-			        				</ Mutation >
-								</dl>
-							) : (
-								<div></div>
-							)}
-
-
 							<Query query={GET_INFO_DRIVER} variables={{ userid: data.routeById.user_id }}>
 	    						{({ loading, error, data }) => {
 	        						if (loading) return "CARGANDO INFORMACIÓN DEL CONDUCTOR...";
