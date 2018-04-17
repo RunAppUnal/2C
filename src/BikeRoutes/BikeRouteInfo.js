@@ -36,6 +36,8 @@ const GET_INFO_ROUTE = gql`
 		    }
 		    origin
 		    destination
+		    originAddr
+		    destinationAddr
 		    route_points {
 		      type
 		    }
@@ -89,27 +91,27 @@ const BikeRouteInfo = ({ match }) => {
 				      });
 				    }
 
-						geocode(from, "originAddr");
-						geocode(to, "destinationAddr");
+						let originAddr = data.bikeRoutesById.originAddr;
+						let destinationAddr = data.bikeRoutesById.destinationAddr;
 
 	        	return (
 	        		<div className="container">
 								<h2 className="section-heading">
 									<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
 								</h2><br/><br/>
-								
+
 								<center>
 									<h5>Creado por:</h5>{<GetUser userId={userid} />}
 								</center><br/><br/>
 
 								<h3>
 									Desde <i className="green point icon"></i>
-									{localStorage.getItem('originAddr')}
+									{originAddr}
 								</h3>
 
 								<h3>
 									Hacia <i className="red point icon"></i>
-									{localStorage.getItem('destinationAddr')}
+									{destinationAddr}
 								</h3><br/>
 
 								<div className="create map">
