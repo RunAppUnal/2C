@@ -1,8 +1,10 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import '../css/vehicleAndRoute.css';
+import '../css/bikeRoutes.css';
 import registerServiceWorker from '../registerServiceWorker';
 import { withAuth } from "../auth";
+import { Map, geocode } from '../BikeRoutes/Map.js';
 import {Route, NavLink, BrowserRouter as Router} from "react-router-dom";
 import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
@@ -28,7 +30,7 @@ const GET_INFO_ROUTE = gql`
   	query routeById($routeid: Int!){
 	    routeById(id: $routeid){
 	    	id
-			title
+			  title
 	    	description
 	    	cost
 	    	departure
@@ -36,6 +38,11 @@ const GET_INFO_ROUTE = gql`
 	    	car_id
 	    	spaces_available
 	    	users_in_route
+        from_lat
+        from_lng
+        to_lat
+        to_lng
+        waypoints
 	    }
   	}
 `;
@@ -101,22 +108,41 @@ const RouteInfo = ({ match }) => {
 	        	if(data.routeById.users_in_route.length != 0){
 	        		numUsersInRoute = data.routeById.users_in_route.split(', ');
 	        	}
+
+            let title = data.routeById.title;
+            let description = data.routeById.description;
+            let date = data.routeById.departure.substring(8,10) + " / " + getMonth(data.routeById.departure.substring(5,7)) + " / " + data.routeById.departure.substring(0,4);
+            let cost = "$" + data.routeById.cost;
+            let spaces = data.routeById.spaces_available;
+
+            let from = {lat: data.routeById.from_lat, lng: data.routeById.from_lng};
+            let to = {lat: data.routeById.to_lat, lng: data.routeById.to_lng};
+            let waypoints = JSON.parse(data.routeById.waypoints);
+
 	        	return (
 	        		<div className= "container">
+								<h2 className="section-heading">
+									<span className="underline"><i className="car icon"></i> Ruta de Carpool</span>
+								</h2><br/><br/>
+
+                <h3>{title}</h3>
+                <center>
+                  <p className="content">{description}</p>
+                </center>
+
+                <div className="create map">
+                  <div className="map info">
+                    <h5>Fecha de Salida:</h5>{date}<br/><br/>
+                    <h5>Costo:</h5>{cost}<br/><br/>
+                    <h5>Cupos:</h5>{spaces}
+                  </div>
+
+                  <Map from={from} to={to} waypoints={waypoints} />
+                </div><br/><br/>
+
 	        			<div className="row">
 	        				<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-	        					<h3>Información de la ruta</h3>
-  								<dt>Título</dt>
-							  	<dd>{data.routeById.title}</dd>
-							  	<dt>Descripción</dt>
-							  	<dd>{data.routeById.description}</dd>
-							  	<dt>Costo</dt>
-							  	<dd>{data.routeById.cost}</dd>
-							  	<dt>Fecha de salida</dt>
-							  	<dd>{data.routeById.departure.substring(8,10) + " / " + getMonth(data.routeById.departure.substring(5,7)) + " / " + data.routeById.departure.substring(0,4)}</dd>
-							  	<dt>Cupos disponibles</dt>
-							  	<dd>{data.routeById.spaces_available}</dd>
-							  	<dt>Usuarios en la ruta</dt>
+        					<h3>Usuarios en la ruta</h3>
 							  	<dd>
 							  		<div className="col-lg-12">
 										<div className="main-box no-header clearfix">
@@ -159,6 +185,7 @@ const RouteInfo = ({ match }) => {
 									</div>
 							  	</dd>
 							</dl>
+
 
 							<Query query={GET_INFO_DRIVER} variables={{ userid: data.routeById.user_id }}>
 	    						{({ loading, error, data }) => {
