@@ -1,8 +1,9 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import '../css/vehicleAndRoute.css';
-import registerServiceWorker from '../registerServiceWorker';
+import { DeleteVehicle } from '../Queries/GetVehicles';
+import { MyRoutes } from '../Queries/GetRoutes';
 import { withAuth } from "../auth";
+import '../css/vehicleAndRoute.css';
 
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -13,6 +14,7 @@ var currUserId = localStorage.getItem('currUserId');
 const GET_MY_CARS = gql`
   query myVehicles($userid: Int!){
     myVehicles(user: $userid){
+      id
       plate
       brand
       color
@@ -47,6 +49,7 @@ const My_Vehicles = withAuth(({ auth }) => {
                   <td>{vehicle.model}</td>
                   <td>{vehicle.color}</td>
                   <td>{vehicle.capacity}</td>
+                  <td><DeleteVehicle id={vehicle.id} /></td>
                 </tr>
               )}
             </tbody>
