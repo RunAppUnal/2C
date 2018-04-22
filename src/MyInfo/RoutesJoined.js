@@ -43,6 +43,9 @@ const Other_Routes = withAuth(({ auth }) => {
       {({ loading, error, data }) => {
         if (loading) return "CARGANDO OTRAS RUTAS...";
         if (error) return `Error! ${error.message}`;
+        var now = new Date();
+        now.setHours(now.getHours() - 5);
+        var today = now.toISOString();
         return (
           <Router>
             <div class="row" id="otherRoutesCards">
@@ -65,7 +68,21 @@ const Other_Routes = withAuth(({ auth }) => {
                             <li><span class="fa fa-dollar"> {route.cost}</span></li>
                           </ul>
                         </div>
-                        <div class="social"></div>
+                        <div class="social">
+                          {today <= route.departure ? (
+                            <svg height="30" width="30" title="Disponible">
+                              <circle cx="12" cy="12" r="6" fill="#46f711">
+                                <title>Disponible</title>
+                              </circle>
+                            </svg> 
+                          ) : (
+                            <svg height="30" width="30" title="Disponible">
+                              <circle cx="12" cy="12" r="6" fill="red">
+                                <title>No disponible</title>
+                              </circle>
+                            </svg> 
+                          )}
+                        </div>
                       </li>
                     </ul>) : (
                     <div></div>
