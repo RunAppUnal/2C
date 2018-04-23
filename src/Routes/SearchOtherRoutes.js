@@ -122,13 +122,24 @@ class SearchOtherRoutes extends Component {
   	}
   	render() {
     	return (
-      		<div>
-      			<input type="text" class="form-control" onChange={ this.handleChangeWord } placeholder="Palabra clave (Ej. Fontibón, Universidad...)" />
-      			<input type="number" min="100" step="100" class="form-control" onChange={ this.handleChangeCost } placeholder="Costo (Ej. 2000, 1500...)" />
-      			<input type="number" min="1" step="1" class="form-control" onChange={ this.handleChangeSpace } placeholder="Cupos (Ej. 3, 4...)" />
-      			<input type="date" class="form-control" onChange={ this.handleChangeDate } placeholder="Fecha" />
-        		<Other_Routes userid={currUserId} word={ this.state.word } cost={ this.state.cost } spaces={ this.state.space } date={ this.state.date } />
-      		</div>
+      	<div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6- col-lg-6 active-pink-3 active-pink-4 mb-4">
+              <input type="text" class="form-control" onChange={ this.handleChangeWord } placeholder="Palabra clave (Ej. Fontibón, Universidad...)" aria-label="Search" />
+            </div>
+            <div class="col-sm-12 col-md-6- col-lg-6 active-purple-3 active-purple-4 mb-4">
+              <input type="number" min="100" step="100" class="form-control" onChange={ this.handleChangeCost } placeholder="Costo (Ej. 2000, 1500...)" aria-label="Search" />
+            </div>
+            <div class="col-sm-12 col-md-6- col-lg-6 active-cyan-3 active-cyan-4 mb-4">
+              <input type="number" min="1" step="1" class="form-control" onChange={ this.handleChangeSpace } placeholder="Cupos (Ej. 3, 4...)" aria-label="Search" />
+            </div>
+            <div class="col-sm-12 col-md-6- col-lg-6 active-cyan-3 active-cyan-4 mb-4">
+              <input type="date" class="form-control" onChange={ this.handleChangeDate } placeholder="Fecha" aria-label="Search" />
+            </div>
+          </div>
+          <hr/>
+      		<Other_Routes userid={currUserId} word={ this.state.word } cost={ this.state.cost } spaces={ this.state.space } date={ this.state.date } />
+      	</div>
     	);
   	}
 }
