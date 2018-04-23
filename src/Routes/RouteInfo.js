@@ -130,9 +130,9 @@ const RouteInfo = ({ match }) => {
 
 	        	return (
 	        		<div className= "container">
-	        					<h2 className="section-heading">
-									<span className="underline"><i className="car icon"></i> Ruta de Carpool</span>
-								</h2><br/>
+    					<h2 className="section-heading">
+							<span className="underline"><i className="car icon"></i> Ruta de Carpool</span>
+						</h2><br/>
 						<div className="row">
 		        			<div className="col-sm-8 col-md-8 col-lg-8">
 				                <p className="content">
@@ -147,15 +147,14 @@ const RouteInfo = ({ match }) => {
 		                              			<title>Disponible</title>
 		                            		</circle>
 		                          		</svg> 
-                        			) : (
+	                    			) : (
 			                          	<svg height="20" width="25" title="Disponible">
 			                            	<circle cx="12" cy="12" r="6" fill="red">
 			                              		<title>No disponible</title>
 			                            	</circle>
 			                          	</svg> 
-                        			)}
-				                </p>
-				                
+	                    			)}
+				                </p>     
 							</div>
 							{isDriver ? (
 								<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
@@ -165,8 +164,34 @@ const RouteInfo = ({ match }) => {
 							          	)}
 						        	</ Mutation >
 								</dl>
-							) : (
-								<div></div>
+							) : (today <= data.routeById.departure ? (
+									isUserInRoute ? (
+										<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+											< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
+					          					{( removeUserFromRoute , { loading , error , data }) => (
+					             					<button onClick ={ removeUserFromRoute } className="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
+					          					)}
+					        				</ Mutation >
+					        			</dl>
+					           		) : (isSpacesFull ? (
+					           				<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+												<button className="btn" disabled> Cupos completos </button>
+											</dl>
+							           	) : (
+							           		<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+												< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
+						          					{( addUserFromRoute , { loading , error , data }) => (
+						             					<button onClick ={ addUserFromRoute } className="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
+						          					)}
+					        					</ Mutation >
+					        				</dl>
+					           			)
+									)
+					           	) : (
+					           		<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+										<div>Esta ruta ha finalizado.</div>
+									</dl>
+					           	)
 							)}
 						</div>
                 		<div className="create map">
@@ -176,7 +201,8 @@ const RouteInfo = ({ match }) => {
 			                    <h5>Cupos:</h5>{spaces}
 		                  	</div>
                   			<Map from={from} to={to} waypoints={waypoints} />
-                			</div><br/><br/>
+                		</div><br/><br/>
+	        			
 	        			<div className="row">
 	        				<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
         					<h3>Usuarios en la ruta</h3>
@@ -222,117 +248,75 @@ const RouteInfo = ({ match }) => {
 									</div>
 							  	</dd>
 							</dl>
-							{isDriver ? (
-								<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-									<Mutation  mutation={ DELETE_ROUTE } variables={{ routeid: data.routeById.id }} >
-                    					{( addUserFromRoute , {loading, error, data, called }) => (
-                      						<div>
-                        						<button onClick ={ addUserFromRoute } className="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
-                        						{error ? <p>Hubo un error! Intenta de nuevo</p> : called && <Redirect to='/my-routes'/>}
-                      						</div>
-	          							)}
-          							</Mutation>
-								</dl>
-							) : (
-								<div></div>
-							)}
 							<Query query={GET_INFO_DRIVER} variables={{ userid: data.routeById.user_id }}>
 	    						{({ loading, error, data }) => {
 	        						if (loading) return "CARGANDO INFORMACIÓN DEL CONDUCTOR...";
 	        						if (error) return `Error! ${error.message}`;
 	        						mailTo = 'mailto:' + "" + data.userById.email;
 	        						return (
-						       			<div className= "container">
-						       				<div className="row">
-						       					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-						       						<h3>Información del conductor</h3>
-												  	<dd>
-														<div className="col-lg-12">
-															<div className="main-box no-header clearfix">
-							    								<div className="main-box-body clearfix">
-							        								<div className="table-responsive">
-							        									<table className="table user-list">
-												                            <thead>
-												                                <tr>
-												                                <th><span>Conductor</span></th>
-												                                </tr>
-												                            </thead>
-												                            <tbody>
-								                            					<tr>
-												                                    <td>
-												                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-														                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
-														                                <span className="user-subhead">{data.userById.username}</span>
-														                                <span className="label label-default">{data.userById.email}</span>
-														                                <a href={mailTo} className="table-link">
-												                                            <span className="fa fa-envelope-square"> Enviar correo</span>
-												                                        </a>
-												                                    </td>
-												                                </tr>
-												                            </tbody>
-												                        </table>
-							        								</div>
-							        							</div>
-							        						</div>
-														</div>
-												  	</dd>
-												</dl>
-							            	</div>
-						       			</div>
+				       					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
+				       						<h3>Información del conductor</h3>
+										  	<dd>
+												<div className="col-lg-12">
+													<div className="main-box no-header clearfix">
+					    								<div className="main-box-body clearfix">
+					        								<div className="table-responsive">
+					        									<table className="table user-list">
+										                            <thead>
+										                                <tr>
+										                                <th><span>Conductor</span></th>
+										                                </tr>
+										                            </thead>
+										                            <tbody>
+						                            					<tr>
+										                                    <td>
+										                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
+												                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
+												                                <span className="user-subhead">{data.userById.username}</span>
+												                                <span className="label label-default">{data.userById.email}</span>
+												                                <a href={mailTo} className="table-link">
+										                                            <span className="fa fa-envelope-square"> Enviar correo</span>
+										                                        </a>
+										                                    </td>
+										                                </tr>
+										                            </tbody>
+										                        </table>
+					        								</div>
+					        							</div>
+					        						</div>
+												</div>
+										  	</dd>
+										</dl>
 	        						);
 	      						}}
 	    					</Query>
+	    					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
+	    					</dl>
 	    					<Query query={GET_INFO_VEHICLE} variables={{ vehicleid: data.routeById.car_id }}>
 	    						{({ loading, error, data }) => {
 	        						if (loading) return "CARGANDO INFORMACIÓN DEL VEHÍCULO...";
 	        						if (error) return `Error! ${error.message}`;
 	        						return (
-						       			<div className= "container">
-						       				<div className="row">
-						       					<dl className="dl-horizontal">
-						       						<h3>Información del vehículo</h3>
-					  								<dt>Placa</dt>
-												  	<dd>{data.vehicleById.plate}</dd>
-												  	<dt>Tipo</dt>
-												  	<dd>{data.vehicleById.kind}</dd>
-												  	<dt>Marca</dt>
-												  	<dd>{data.vehicleById.brand}</dd>
-												  	<dt>Modelo</dt>
-												  	<dd>{data.vehicleById.model}</dd>
-												  	<dt>Color</dt>
-												  	<dd>{data.vehicleById.color}</dd>
-												  	<dt>Capacidad</dt>
-												  	<dd>{data.vehicleById.capacity}</dd>
-												</dl>
-							            	</div>
-						       			</div>
+				       					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
+				       						<h3>Información del vehículo</h3>
+			  								<dt>Placa</dt>
+										  	<dd>{data.vehicleById.plate}</dd>
+										  	<dt>Tipo</dt>
+										  	<dd>{data.vehicleById.kind}</dd>
+										  	<dt>Marca</dt>
+										  	<dd>{data.vehicleById.brand}</dd>
+										  	<dt>Modelo</dt>
+										  	<dd>{data.vehicleById.model}</dd>
+										  	<dt>Color</dt>
+										  	<dd>{data.vehicleById.color}</dd>
+										  	<dt>Capacidad</dt>
+										  	<dd>{data.vehicleById.capacity}</dd>
+										</dl>
 	        						);
 	      						}}
 	    					</Query>
 			           	</div>
-			           	{today <= data.routeById.departure ? 
-			           		(isDriver ? (
-			           			<div></div>
-							) : (isUserInRoute ? (
-									< Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
-			          					{( removeUserFromRoute , { loading , error , data }) => (
-			             					<button onClick ={ removeUserFromRoute } className="btn btn-outline-danger" id="removeUserToRouteBtn"> Salirme de la ruta </button>
-			          					)}
-			        				</ Mutation >
-				           		) : (isSpacesFull ? (
-										<button className="btn" disabled> Cupos completos </button>
-					           		) : (
-										< Mutation  mutation = { ADD_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
-				          					{( addUserFromRoute , { loading , error , data }) => (
-				             					<button onClick ={ addUserFromRoute } className="btn btn-outline-success" id="addUserToRouteBtn"> Unirme a la ruta </button>
-				          					)}
-			        					</ Mutation >
-				           			)
-				           		)
-							)
-			           	) : (
-							<div>Esta ruta ha finalizado.</div>
-			           	)}
+			           	
 	          		</div>
 	        	);
 	      	}}
