@@ -86,6 +86,9 @@ const BikeRouteInfo = ({ match }) => {
 	        	if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
 	        	if (error) return `Error! ${error.message}`;
 	        	var isDriver = false;
+	        	var now = new Date();
+        		now.setHours(now.getHours() - 5);
+        		var today = now.toISOString();
 	        	if(data.bikeRoutesById.user_id == currUserId) isDriver = true;
 
 				let userid = data.bikeRoutesById.user_id;
@@ -115,14 +118,27 @@ const BikeRouteInfo = ({ match }) => {
 					</center><br/><br/>
 					<div className="row">
 	        			<div className="col-sm-8 col-md-8 col-lg-8">
-			                <h3>
-								Desde <i className="green point icon"></i>
-								{originAddr}
-							</h3>
-							<h3>
-								Hacia <i className="red point icon"></i>
-								{destinationAddr}
-							</h3><br/>
+
+	        				<p className="content">
+				                	<h5><b>Desde <i className="green point icon"> </i></b> {originAddr}</h5>
+				                	<h5><b>Hacia <i className="red point icon"></i> </b> {destinationAddr}</h5>
+									<h5><b>Estado:</b>
+										{today <= data.bikeRoutesById.time ? (
+			                          		<svg height="20" width="25" title="Disponible">
+			                            		<circle cx="12" cy="12" r="6" fill="#46f711">
+			                              			<title>Disponible</title>
+			                            		</circle>
+			                          		</svg> 
+		                    			) : (
+				                          	<svg height="20" width="25" title="Disponible">
+				                            	<circle cx="12" cy="12" r="6" fill="red">
+				                              		<title>No disponible</title>
+				                            	</circle>
+				                          	</svg> 
+		                    			)}
+		                    		</h5>
+				                </p>     
+
 						</div>
 						{isDriver ? (
 							<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
@@ -138,7 +154,8 @@ const BikeRouteInfo = ({ match }) => {
 					</div>
 					<div className="create map">
 						<div className="map info">
-							<h5>Fecha de Salida:</h5>{date}<br/><br/>
+							<h5>Fecha:</h5>{date}<br/><br/>
+							<h5>Hora:</h5>{data.bikeRoutesById.time.substring(11, 16)}<br/><br/>
 							<h5>Distancia:</h5>{`${distance} km`}
 						</div>
 

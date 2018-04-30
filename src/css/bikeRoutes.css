@@ -42,3 +42,11 @@
 .map.form .ui.teal.button {
   margin-bottom: 0;
 }
+
+#bikeCard .card{
+  margin: 0px;
+}
+#bikeCard #bikeState{
+  margin-top: 14px;
+  text-align: right;
+}
