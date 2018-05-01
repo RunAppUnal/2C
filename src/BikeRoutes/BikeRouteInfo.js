@@ -11,6 +11,22 @@ import gql from "graphql-tag";
 import $ from 'jquery';
 
 var currUserId = localStorage.getItem('currUserId');
+var rad = function(x) {
+  return x * Math.PI / 180;
+};
+
+var getDistance = function(p1, p2) {
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(p2[1] - p1[1]);
+  var dLong = rad(p2[0] - p1[0]);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(p1[1])) * Math.cos(rad(p2[1])) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d/1000; // returns the distance in km
+};
+
 function getMonth(monthNumber){
 	if(monthNumber == '01') return 'Ene';
 	if(monthNumber == '02') return 'Feb';
@@ -29,6 +45,7 @@ function getMonth(monthNumber){
 const GET_INFO_ROUTE = gql`
   	query bikeRoutesById($routeid: ID!){
 	    bikeRoutesById(id: $routeid){
+	    	id
 	    	user_id
     		time
 		    similar_routes {
@@ -95,7 +112,9 @@ const BikeRouteInfo = ({ match }) => {
 				let from = {lat: data.bikeRoutesById.origin[1], lng: data.bikeRoutesById.origin[0]};
 				let to = {lat: data.bikeRoutesById.destination[1], lng: data.bikeRoutesById.destination[0]};
 				let date = data.bikeRoutesById.time.substring(8,10) + " / " + getMonth(data.bikeRoutesById.time.substring(5,7)) + " / " + data.bikeRoutesById.time.substring(0,4);
-				let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
+				//(getDistance([toLng, toLat], [fromLng, fromLat])
+				let distance = getDistance(data.bikeRoutesById.origin, data.bikeRoutesById.destination).toFixed(1)
+				//let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
 				let waypoints = [];
 
 			    for(let i = 0; i < data.bikeRoutesById.route_points.length; i++) {
@@ -110,6 +129,7 @@ const BikeRouteInfo = ({ match }) => {
 
 	        	return (
 	        		<div className="container">
+	        		{console.log(data.bikeRoutesById.destination)}
 					<h2 className="section-heading">
 						<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
 					</h2><br/><br/>
@@ -141,13 +161,19 @@ const BikeRouteInfo = ({ match }) => {
 
 						</div>
 						{isDriver ? (
-							<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
-								< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: matchParam }} >
-						        	{( deleteBikeRoute , { loading , error , data }) => (
-						            	<button onClick ={ deleteBikeRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
-						          	)}
-					        	</ Mutation >
-							</dl>
+							today <= data.bikeRoutesById.time ? (
+								<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+									<a href={`/bikeRoutes/${data.bikeRoutesById.id}/edit`}><button class="btn btn-outline-primary" id="addUserToRouteBtn"> Editar esta ruta</button></a>
+									<br /><br />
+									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: matchParam }} >
+							        	{( deleteBikeRoute , { loading , error , data }) => (
+							            	<button onClick ={ deleteBikeRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+							          	)}
+						        	</ Mutation >					        	
+								</dl>
+							) : (
+								<h5>Esta ruta ha finalizado.</h5>
+							)
 						) : (
 							<div></div>
 						)}

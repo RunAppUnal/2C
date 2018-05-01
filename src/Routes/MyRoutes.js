@@ -32,6 +32,7 @@ class MyRoutes extends Component {
 
             <div className="col-sm-3 col-md-3 col-lg-3"></div>
           </div>
+          <hr/>
           <div className="content">
             <Route exact path="/my-routes" component={Routes}/>
             <Route path="/my-routes/search" component={SearchRoute}/>
