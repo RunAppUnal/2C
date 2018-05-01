@@ -69,59 +69,81 @@ const REMOVE_USER_TO_ROUTE = gql`
 	    }
   	}
 `;
+const DELETE_ROUTE = gql`
+  	mutation deleteBikeRoute($routeid: ID!){
+	    deleteBikeRoute(id: $routeid){
+	    	id
+	    }
+  	}
+`;
+
 
 const BikeRouteInfo = ({ match }) => {
+	var matchParam = match.params.routeid;
 	return (
 	    <Query query={GET_INFO_ROUTE} variables={{ routeid: match.params.routeid }}>
 	    	{({ loading, error, data }) => {
 	        	if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
 	        	if (error) return `Error! ${error.message}`;
+	        	var isDriver = false;
+	        	if(data.bikeRoutesById.user_id == currUserId) isDriver = true;
 
-						let userid = data.bikeRoutesById.user_id;
-						let from = {lat: data.bikeRoutesById.origin[1], lng: data.bikeRoutesById.origin[0]};
-						let to = {lat: data.bikeRoutesById.destination[1], lng: data.bikeRoutesById.destination[0]};
-						let date = data.bikeRoutesById.time.substring(8,10) + " / " + getMonth(data.bikeRoutesById.time.substring(5,7)) + " / " + data.bikeRoutesById.time.substring(0,4);
-						let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
-						let waypoints = [];
+				let userid = data.bikeRoutesById.user_id;
+				let from = {lat: data.bikeRoutesById.origin[1], lng: data.bikeRoutesById.origin[0]};
+				let to = {lat: data.bikeRoutesById.destination[1], lng: data.bikeRoutesById.destination[0]};
+				let date = data.bikeRoutesById.time.substring(8,10) + " / " + getMonth(data.bikeRoutesById.time.substring(5,7)) + " / " + data.bikeRoutesById.time.substring(0,4);
+				let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
+				let waypoints = [];
 
-				    for(let i = 0; i < data.bikeRoutesById.route_points.length; i++) {
-				      waypoints.push({
-				        location: {lat: data.bikeRoutesById.route_points[i][1], lng: data.bikeRoutesById.route_points[i][0]},
-				        stopover: true
-				      });
-				    }
+			    for(let i = 0; i < data.bikeRoutesById.route_points.length; i++) {
+			      waypoints.push({
+			        location: {lat: data.bikeRoutesById.route_points[i][1], lng: data.bikeRoutesById.route_points[i][0]},
+			        stopover: true
+			      });
+			    }
 
-						let originAddr = data.bikeRoutesById.originAddr;
-						let destinationAddr = data.bikeRoutesById.destinationAddr;
+				let originAddr = data.bikeRoutesById.originAddr;
+				let destinationAddr = data.bikeRoutesById.destinationAddr;
 
 	        	return (
 	        		<div className="container">
-								<h2 className="section-heading">
-									<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
-								</h2><br/><br/>
+					<h2 className="section-heading">
+						<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
+					</h2><br/><br/>
+					<center>
+						<h5>Creado por:</h5>{<GetUser userId={userid} />}
+					</center><br/><br/>
+					<div className="row">
+	        			<div className="col-sm-8 col-md-8 col-lg-8">
+			                <h3>
+								Desde <i className="green point icon"></i>
+								{originAddr}
+							</h3>
+							<h3>
+								Hacia <i className="red point icon"></i>
+								{destinationAddr}
+							</h3><br/>
+						</div>
+						{isDriver ? (
+							<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+								< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: matchParam }} >
+						        	{( deleteBikeRoute , { loading , error , data }) => (
+						            	<button onClick ={ deleteBikeRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+						          	)}
+					        	</ Mutation >
+							</dl>
+						) : (
+							<div></div>
+						)}
+					</div>
+					<div className="create map">
+						<div className="map info">
+							<h5>Fecha de Salida:</h5>{date}<br/><br/>
+							<h5>Distancia:</h5>{`${distance} km`}
+						</div>
 
-								<center>
-									<h5>Creado por:</h5>{<GetUser userId={userid} />}
-								</center><br/><br/>
-
-								<h3>
-									Desde <i className="green point icon"></i>
-									{originAddr}
-								</h3>
-
-								<h3>
-									Hacia <i className="red point icon"></i>
-									{destinationAddr}
-								</h3><br/>
-
-								<div className="create map">
-									<div className="map info">
-										<h5>Fecha de Salida:</h5>{date}<br/><br/>
-										<h5>Distancia:</h5>{`${distance} km`}
-									</div>
-
-									<Map from={from} to={to} waypoints={waypoints} />
-								</div>
+						<Map from={from} to={to} waypoints={waypoints} />
+					</div>
 	          	</div>
 	        	);
 	      	}}
