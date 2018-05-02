@@ -31,7 +31,7 @@ const My_Vehicles = withAuth(({ auth }) => {
         if (loading) return "CARGANDO TUS VEHÍCULOS...";
         if (error) return `Error! ${error.message}`;
         return (
-          <table>
+          <table id="vehiclesTable">
             <thead>
               <tr>
                 <th><b>Placa</b></th>
@@ -39,6 +39,7 @@ const My_Vehicles = withAuth(({ auth }) => {
                 <th><b>Modelo</b></th>
                 <th><b>Color</b></th>
                 <th><b>Capacidad</b></th>
+                <th><b>Acciones</b></th>
               </tr>
             </thead>
             <tbody>
@@ -49,7 +50,16 @@ const My_Vehicles = withAuth(({ auth }) => {
                   <td>{vehicle.model}</td>
                   <td>{vehicle.color}</td>
                   <td>{vehicle.capacity}</td>
-                  <td><DeleteVehicle id={vehicle.id} /></td>
+                  <td>
+                    <div class="row" id="editDeleteVehicle">
+                      <div class="col-sm-6 col-md-6 col-lg-6">
+                        <DeleteVehicle id={vehicle.id}  />
+                      </div>
+                      <div class="col-sm-6 col-md-6 col-lg-6">
+                        <a href={`/profile/my-vehicles/${vehicle.id}/edit`}><button class="btn btn-outline-primary" id="addUserToRouteBtn"> Editar</button></a>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
               )}
             </tbody>

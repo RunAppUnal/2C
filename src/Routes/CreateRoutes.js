@@ -207,34 +207,34 @@ class CreateBikeRoute extends Component {
         }}>
           <Form.Field>
             <label>Nombre de la ruta:</label>
-            <input ref={node => {this.inputTitle = node;}} />
+            <input ref={node => {this.inputTitle = node;}} required/>
           </Form.Field>
           <Form.Field>
             <label>Descripción:</label>
-            <input ref={node => {this.inputDescription = node;}} />
+            <input ref={node => {this.inputDescription = node;}} required/>
           </Form.Field>
           <Form.Group widths="equal">
             <Form.Field>
               <label><i className="green point icon"></i> Origen:</label>
-              <input id="origin" ref={node => {this.inputFrom = node;}} onBlur={this.goToPos.bind(this)} />
+              <input id="origin" ref={node => {this.inputFrom = node;}} onBlur={this.goToPos.bind(this)} required />
             </Form.Field>
             <Form.Field>
               <label><i className="red point icon"></i> Destino:</label>
-              <input id="destination" ref={node => {this.inputTo = node;}} onBlur={this.goToPos.bind(this)} />
+              <input id="destination" ref={node => {this.inputTo = node;}} onBlur={this.goToPos.bind(this)} required />
             </Form.Field>
           </Form.Group>
           <Form.Group>
             <Form.Field width="9">
               <label>Fecha:</label>
-              <input type="datetime-local" ref={node => {this.inputDate = node;}} />
+              <input type="datetime-local" ref={node => {this.inputDate = node;}} required />
             </Form.Field>
             <Form.Field width="4">
               <label>Precio:</label>
-              <input type="number" ref={node => {this.inputCost = node;}} />
+              <input type="number" ref={node => {this.inputCost = node;}} required />
             </Form.Field>
             <Form.Field width="3">
               <label>Cupos:</label>
-              <input type="number" ref={node => {this.inputSpaces = node;}} />
+              <input type="number" ref={node => {this.inputSpaces = node;}} required />
             </Form.Field>
           </Form.Group>
           <Form.Field>
