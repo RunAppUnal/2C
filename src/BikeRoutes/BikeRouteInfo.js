@@ -112,9 +112,7 @@ const BikeRouteInfo = ({ match }) => {
 				let from = {lat: data.bikeRoutesById.origin[1], lng: data.bikeRoutesById.origin[0]};
 				let to = {lat: data.bikeRoutesById.destination[1], lng: data.bikeRoutesById.destination[0]};
 				let date = data.bikeRoutesById.time.substring(8,10) + " / " + getMonth(data.bikeRoutesById.time.substring(5,7)) + " / " + data.bikeRoutesById.time.substring(0,4);
-				//(getDistance([toLng, toLat], [fromLng, fromLat])
 				let distance = getDistance(data.bikeRoutesById.origin, data.bikeRoutesById.destination).toFixed(1)
-				//let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
 				let waypoints = [];
 
 			    for(let i = 0; i < data.bikeRoutesById.route_points.length; i++) {

@@ -157,13 +157,19 @@ const RouteInfo = ({ match }) => {
 				                </p>     
 							</div>
 							{isDriver ? (
-								<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
-									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: data.routeById.id }} >
-							        	{( addUserFromRoute , { loading , error , data }) => (
-							            	<button onClick ={ addUserFromRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
-							          	)}
-						        	</ Mutation >
-								</dl>
+								today <= data.routeById.departure ? (
+									<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+										<a href={`/route/${data.routeById.id}/edit`}><button class="btn btn-outline-primary" id="addUserToRouteBtn"> Editar esta ruta</button></a>
+										<br /><br />
+										< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: data.routeById.id }} >
+								        	{( addUserFromRoute , { loading , error , data }) => (
+								            	<button onClick ={ addUserFromRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+								          	)}
+							        	</ Mutation >
+									</dl>
+								) : (
+									<h5>Esta ruta ha finalizado.</h5>
+								)								
 							) : (today <= data.routeById.departure ? (
 									isUserInRoute ? (
 										<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
@@ -188,9 +194,7 @@ const RouteInfo = ({ match }) => {
 					           			)
 									)
 					           	) : (
-					           		<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
-										<div>Esta ruta ha finalizado.</div>
-									</dl>
+					           		<h5>Esta ruta ha finalizado.</h5>
 					           	)
 							)}
 						</div>

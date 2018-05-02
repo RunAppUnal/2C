@@ -7,29 +7,50 @@ import '../css/bikeRoutes.css';
 
 import { Link, Redirect } from "react-router-dom";
 import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 
 var currUserId = localStorage.getItem('currUserId');
+var fromLng, fromLat, toLng, toLat, id, title, description, cost, spaces_available, time;
 
-const CREATE_ROUTE = gql`
-  mutation createRoute($route: RouteInput!) {
-    createRoute(route: $route){
+const UPDATE_ROUTE = gql`
+  mutation updateRoute($id: Int!, $route: RouteInput!) {
+    updateRoute(id: $id, route: $route){
       id
     }
   }
 `;
+const GET_INFO_ROUTE = gql`
+  	query routeById($routeid: Int!){
+	    routeById(id: $routeid){
+	    	id
+			title
+	    	description
+	    	cost
+	    	departure
+	    	user_id
+	    	car_id
+	    	spaces_available
+	    	users_in_route
+	        from_lat
+	        from_lng
+	        to_lat
+	        to_lng
+	        waypoints
+	    }
+  	}
+`;
 
-class CreateBikeRoute extends Component {
+class UpdateRoute extends Component {
   componentDidMount() {
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer;
     this.waypoints = [];
     this.from = {
-      pos: {lat: 4.6381938, lng: -74.0862351},
+      pos: {lat: fromLat, lng: fromLng},
       input: this.inputFrom
     };
     this.to = {
-      pos: {lat: 4.6154977, lng: -74.0704757},
+      pos: {lat: toLat, lng: toLng},
       input: this.inputTo
     };
 
@@ -184,8 +205,8 @@ class CreateBikeRoute extends Component {
           let destinationLat = this.markers[1].position.lat();
           let destinationLng = this.markers[1].position.lng();
           let vehicle = $('#vehicleSelect').val();
-
-          this.props.createRoute({ variables: {
+          this.props.updateRoute({ variables: {
+          	id: id,
             route: {
               user_id: currUserId,
               car_id: vehicle,
@@ -206,11 +227,11 @@ class CreateBikeRoute extends Component {
         }}>
           <Form.Field>
             <label>Nombre de la ruta:</label>
-            <input ref={node => {this.inputTitle = node;}} required/>
+            <input ref={node => {this.inputTitle = node;}} required defaultValue={title} />
           </Form.Field>
           <Form.Field>
             <label>Descripción:</label>
-            <input ref={node => {this.inputDescription = node;}} required/>
+            <input ref={node => {this.inputDescription = node;}} required defaultValue={description} />
           </Form.Field>
           <Form.Group widths="equal">
             <Form.Field>
@@ -225,15 +246,15 @@ class CreateBikeRoute extends Component {
           <Form.Group>
             <Form.Field width="9">
               <label>Fecha:</label>
-              <input type="datetime-local" ref={node => {this.inputDate = node;}} required />
+              <input type="datetime-local" ref={node => {this.inputDate = node;}} required defaultValue={time} />
             </Form.Field>
             <Form.Field width="4">
               <label>Precio:</label>
-              <input type="number" ref={node => {this.inputCost = node;}} required />
+              <input type="number" ref={node => {this.inputCost = node;}} required defaultValue={cost} />
             </Form.Field>
             <Form.Field width="3">
               <label>Cupos:</label>
-              <input type="number" ref={node => {this.inputSpaces = node;}} required />
+              <input type="number" ref={node => {this.inputSpaces = node;}} required value={spaces_available} disabled />
             </Form.Field>
           </Form.Group>
           <Form.Field>
@@ -241,7 +262,7 @@ class CreateBikeRoute extends Component {
             <MyVehicles/>
             {/* <input type="number" ref={node => {this.inputVehicle = node;}} /> */}
           </Form.Field>
-          <Button color="teal" fluid={true} type="submit">Crear</Button>
+          <Button color="teal" fluid={true} type="submit">Actualizar</Button>
           {this.props.error ? <p>Hubo un error! Intenta de nuevo</p> : this.props.called && <Redirect to='/my-routes'/>}
         </Form>
 
@@ -251,25 +272,46 @@ class CreateBikeRoute extends Component {
   }
 };
 
-
-class CreateRoute extends Component {
-  render() {
+const EditRoute = ({ match }) => {
     return(
-      <div>
-        <br/><br/>
-        <h2 className="section-heading"><i className="plus icon"></i> Nueva Ruta de Carpool</h2>
-        <h3 className="section-subheading">Crea tu propia ruta para que ganes algo de dinero extra llevando a otros</h3>
+		<Query query={GET_INFO_ROUTE} variables={{ routeid: match.params.routeid }}>
+      		{({ loading, error, data }) => {
+        		if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
+        		if (error) return `Error! ${error.message}`;
+        		var isDriver = false;
+		        if(data.routeById.user_id == currUserId) isDriver = true;
+		        fromLng = data.routeById.from_lng;
+		        fromLat = data.routeById.from_lat;
+		        toLng = data.routeById.to_lng;
+		        toLat = data.routeById.to_lat;
+		        title = data.routeById.title;
+		        description = data.routeById.description;
+		        cost = data.routeById.cost;
+		        spaces_available = data.routeById.spaces_available;
+		        time = data.routeById.departure.substring(0, 16);
+		        id = match.params.routeid;
+		        return (
+		        	<div>
+		        		{isDriver ? (
+		        			<div>
+						        <br/><br/>
+						        <h2 className="section-heading"><i className="edit icon"></i> Actualización de Ruta de Carpool</h2>
+						        <h3 className="section-subheading">Actualiza la información de tu ruda de Carpool.</h3>
 
-
-        <Mutation mutation={CREATE_ROUTE}>
-         {(createRoute, { loading, error, called }) => (
-           <CreateBikeRoute createRoute={createRoute} loading={loading} error={error} called={called} />
-         )}
-        </Mutation>
-      </div>
+						        <Mutation mutation={UPDATE_ROUTE}>
+						         {(updateRoute, { loading, error, called }) => (
+						           <UpdateRoute updateRoute={updateRoute} loading={loading} error={error} called={called} />
+						         )}
+						        </Mutation>
+						    </div>
+						):(
+              				<Redirect to={`/route/${data.routeById.id}`}/>
+            			)}
+				    </div>
+				);
+        	}}
+        </Query>
     )
-  }
 }
 
-
-export default CreateRoute;
+export default EditRoute;

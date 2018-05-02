@@ -125,6 +125,7 @@ class UpdateBikeRoute extends Component {
           let originLng = this.markers[0].position.lng();
           let destinationLat = this.markers[1].position.lat();
           let destinationLng = this.markers[1].position.lng();
+          
           this.props.updateBikeRoute({ variables: {
             id: id,
             bikeRoute: {
@@ -136,7 +137,6 @@ class UpdateBikeRoute extends Component {
               time: this.inputTime.value
             }
           } });
-          console.log(this.props.error);
         }}>
           <Form.Field>
             <label><i className="green point icon"></i> Origen:</label>

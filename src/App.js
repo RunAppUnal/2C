@@ -6,6 +6,7 @@ import Profile from './Profile';
 import MyRoutes from './Routes/MyRoutes'
 import OtherRoutes from './Routes/OtherRoutes';
 import RouteInfo from './Routes/RouteInfo';
+import EditRoute from './Routes/EditRoute';
 import BikeRoutes from './BikeRoutes';
 import MyBikeRoutes from './BikeRoutes/MyBikeRoutes';
 import BikeRouteInfo from './BikeRoutes/BikeRouteInfo';
@@ -91,6 +92,7 @@ class App extends Component {
             <PrivateRoute path="/routes" component={OtherRoutes}/>
             <PrivateRoute path="/my-routes" component={MyRoutes}/>
             <Route exact path="/route/:routeid" component={RouteInfo}/>
+            <Route exact path="/route/:routeid/edit" component={EditRoute}/>
             <PrivateRoute path="/bikeRoutes" component={BikeRoutes}/>
             <PrivateRoute path="/my-bikeRoutes" component={MyBikeRoutes}/>
             <PrivateRoute path="/bikeRoutes/new" component={MyBikeRoutes}/>
