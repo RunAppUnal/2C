@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Card } from 'semantic-ui-react'
+
 import { Query, Mutation } from "react-apollo";
 import { Redirect } from "react-router-dom";
 import gql from "graphql-tag";
@@ -43,6 +45,51 @@ class MyVehicles extends Component {
 }
 
 
+const GET_VEHICLE_DATA = gql`
+  query vehicleById($userid: Int!){
+    vehicleById(id: $userid){
+      plate
+      user_id
+      kind
+      model
+      color
+      capacity
+      brand
+    }
+  }
+`;
+
+class GetVehicle extends Component {
+  render() {
+    let userid = this.props.userId;
+
+    return (
+      <Query query={GET_VEHICLE_DATA} variables={{ userid: this.props.id }}>
+        {({ loading, error, data }) => {
+          if (loading) return "Cargando...";
+          if (error) return `Error! ${error.message}`;
+          const extra = (
+            <div>
+              <h6 style={{display:"inline-block"}}>Color:</h6> {data.vehicleById.color} <br/>
+              <h6 style={{display:"inline-block"}}>Capacidad:</h6> {data.vehicleById.capacity}
+            </div>
+          )
+
+          return (
+            <Card
+              image={`/images/cars/car_${this.props.id%6}.jpg`}
+              header={`${data.vehicleById.brand} - ${data.vehicleById.model}`}
+              meta={data.vehicleById.kind}
+              description={extra}
+            />
+          );
+        }}
+      </Query>
+    )
+  }
+};
+
+
 const DELETE_VEHICLE = gql`
   mutation deleteVehicle($id: Int!){
     deleteVehicle(id: $id){
@@ -73,4 +120,4 @@ class DeleteVehicle extends Component {
 
 
 
-export { MyVehicles, DeleteVehicle };
+export { MyVehicles, DeleteVehicle, GetVehicle };
