@@ -22,39 +22,62 @@ const LOGIN_USER= gql`
     }
   }
 `;
+const LOGIN_USER2= gql`
+mutation auth($email: String!, $password: String!){
+  auth(auth:{
+    email: $email,
+    password: $password
+  }) {
+    email
+    answer
+  }
+}
+`;
 
 const LoginUser = () => {
   let inputEmail, inputPassword;
 
   return (
-    <Mutation mutation={LOGIN_USER} ignoreResults={false} >
-      {(login, { loading, error, data, called }) => (
-        <div>
-          <Form id="login" loading={loading} onSubmit={e => {
+    <Mutation mutation={LOGIN_USER2} ignoreResults={false} >
+      {(auth, { loading, error, data, called }) => {
+        return(
+          <Mutation mutation={LOGIN_USER} ignoreResults={false} >
+          {(login, { loading, error, data, called }) => (
+            <div>
+            <Form id="login" loading={loading} onSubmit={e => {
               e.preventDefault();
-              login({ variables: {
+              auth({ variables: {
                 email: inputEmail.value,
                 password: inputPassword.value
               } })
               .then(data => {
-                localStorage.setItem('currUserId', data.data.login.id);
-                localStorage.setItem('currUserName', data.data.login.name);
+                login({ variables: {
+                  email: inputEmail.value + "@unal.edu.co",
+                  password: inputPassword.value
+                } })
+                .then(data => {
+                  localStorage.setItem('currUserId', data.data.login.id);
+                  localStorage.setItem('currUserName', data.data.login.name);
+                });
               });
             }}>
             <Form.Field>
-              <label>Correo</label>
-              <input ref={node => {inputEmail = node;}} />
+            <label>Correo</label>
+            <input ref={node => {inputEmail = node;}} />
             </Form.Field>
             <Form.Field>
-              <label>Contraseña</label>
-              <input type='password' ref={node => {inputPassword = node;}} />
+            <label>Contraseña</label>
+            <input type='password' ref={node => {inputPassword = node;}} />
             </Form.Field>
             <Button type='submit'>Iniciar Sesión</Button>
-          </Form>
-          {loading && <p>Loading...</p>}
-          {error && <p>Hubo un error! Intenta de nuevo</p>}
-        </div>
-      )}
+            </Form>
+            {loading && <p>Loading...</p>}
+            {error && <p>Hubo un error! Intenta de nuevo</p>}
+            </div>
+          )}
+          </Mutation>
+        )
+      }}
     </Mutation>
   );
 };

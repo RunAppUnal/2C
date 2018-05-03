@@ -11,7 +11,7 @@ import { Link, Redirect } from 'react-router-dom'
 const CREATE_USER = gql`
   mutation createUser($user: UserInput!) {
     createUser(user:$user){
-      userid
+      id
     }
   }
 `;
