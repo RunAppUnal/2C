@@ -53,10 +53,10 @@ const My_Vehicles = withAuth(({ auth }) => {
                   <td>
                     <div class="row" id="editDeleteVehicle">
                       <div class="col-sm-6 col-md-6 col-lg-6">
-                        <DeleteVehicle id={vehicle.id}  />
+                        <a href={`/profile/my-vehicles/${vehicle.id}/edit`}><button class="btn btn-outline-primary" id="addUserToRouteBtn"> Editar</button></a>
                       </div>
                       <div class="col-sm-6 col-md-6 col-lg-6">
-                        <a href={`/profile/my-vehicles/${vehicle.id}/edit`}><button class="btn btn-outline-primary" id="addUserToRouteBtn"> Editar</button></a>
+                        <DeleteVehicle id={vehicle.id}  />
                       </div>
                     </div>
                   </td>

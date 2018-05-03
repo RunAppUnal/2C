@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import Home from './home';
 import Profile from './Profile';
+import AddVehicle from './Vehicles/AddVehicle';
 import MyRoutes from './Routes/MyRoutes'
 import OtherRoutes from './Routes/OtherRoutes';
 import RouteInfo from './Routes/RouteInfo';
@@ -12,6 +13,7 @@ import MyBikeRoutes from './BikeRoutes/MyBikeRoutes';
 import BikeRouteInfo from './BikeRoutes/BikeRouteInfo';
 import AddBikeRoute from './BikeRoutes/AddBikeRoute';
 import EditBikeRoute from './BikeRoutes/EditBikeRoute';
+import RoutesJoined from './MyInfo/RoutesJoined';
 import { Login, Logout } from './login/login';
 import Signup from './login/signup';
 import { Dropdown, Button } from 'semantic-ui-react'
@@ -89,6 +91,7 @@ class App extends Component {
             <NotLoggedInRoute path="/signup" component={Signup}/>
 
             <PrivateRoute path="/profile" component={Profile}/>
+            <PrivateRoute path="/profile/my-vehicles/new" component={AddVehicle}/>
             <PrivateRoute path="/routes" component={OtherRoutes}/>
             <PrivateRoute path="/my-routes" component={MyRoutes}/>
             <Route exact path="/route/:routeid" component={RouteInfo}/>

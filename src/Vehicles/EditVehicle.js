@@ -42,6 +42,8 @@ const EditVehicle = ({ match }) => {
 			let color = data.vehicleById.color;
 			let capacity = data.vehicleById.capacity;
 			let brand = data.vehicleById.brand;
+			var currentDate = new Date();
+  			var currentYear = currentDate.getFullYear();
 			var isDriver = false;
         	if(data.vehicleById.user_id == currUserId) isDriver = true;
 			return (
@@ -70,29 +72,34 @@ const EditVehicle = ({ match }) => {
 					            <Form.Group widths='equal'>
 					            	<Form.Field>
 					                	<label>Placa</label>
-					                	<input ref={node => {inputPlate = node;}} defaultValue={plate} style={{textTransform: "uppercase"}} placeholder="Ej: AAA-111, AAA-11A, ..."/>
+					                	<input type="text" pattern="^([A-Za-z]{3}[-][0-9]{3})?([A-Za-z]{3}[-][0-9]{2}?[A-Za-z]{1})?$" ref={node => {inputPlate = node;}} defaultValue={plate} style={{textTransform: "uppercase"}} placeholder="Ej: AAA-111, AAA-11A, ..." required/>
 					              	</Form.Field>
 					              	<Form.Field>
 						                <label>Tipo</label>
-					                	<input ref={node => {inputKind = node;}} defaultValue={kind} style={{textTransform: "capitalize"}} placeholder="Carro o Moto" />
+						                <select ref={node => {inputKind = node;}} defaultValue={kind} style={{textTransform: "capitalize"}} placeholder="Carro o Moto" required>
+						                	<option value="Carro">Carro</option>
+						                  	<option value="Moto">Moto</option>
+                						</select>
 					              	</Form.Field>
 					            </Form.Group>
-					            <Form.Field>
-					            	<label>Marca</label>
-					              	<input ref={node => {inputBrand = node;}} defaultValue={brand} style={{textTransform: "capitalize"}} placeholder="Ej: Renault, Yamaha, ..." />
-					            </Form.Field>
+					            <Form.Group widths='equal'>
+					            	<Form.Field>
+					            		<label>Marca</label>
+					              		<input type="text" pattern="^([A-Za-z]+)?$" ref={node => {inputBrand = node;}} defaultValue={brand} style={{textTransform: "capitalize"}} placeholder="Ej: Renault, Yamaha, ..." required/>
+					            	</Form.Field>
+					            	<Form.Field>
+					                	<label>Modelo</label>
+					                	<input type="number" size="4" min={currentYear - 50} max={currentYear + 1} ref={node => {inputModel = node;}} defaultValue={model} style={{textTransform: "capitalize"}} placeholder="Ej: 2010, 2015, ..." required/>
+					              	</Form.Field>
+					            </Form.Group>					            
 					            <Form.Group widths='equal'>
 					              	<Form.Field>
-					                	<label>Modelo</label>
-					                	<input type='number' ref={node => {inputModel = node;}} defaultValue={model} style={{textTransform: "capitalize"}} placeholder="Ej: 2010, 2015, ..." />
-					              	</Form.Field>
-					              	<Form.Field>
 						                <label>Color</label>
-						                <input ref={node => {inputColor = node;}} defaultValue={color} style={{textTransform: "capitalize"}} placeholder="Ej: Rojo, Azul, ..." />
+						                <input type="text" pattern="^([A-Za-z]+)?$" ref={node => {inputColor = node;}} defaultValue={color} style={{textTransform: "capitalize"}} placeholder="Ej: Rojo, Azul, ..." required/>
 					              	</Form.Field>
 					              	<Form.Field>
 						                <label>Capacidad</label>
-						                <input type='number' ref={node => {inputCapacity = node;}} defaultValue={capacity} placeholder="Ej: 4, 2, ..." />
+						                <input type='number' min="1" ref={node => {inputCapacity = node;}} defaultValue={capacity} placeholder="Ej: 4, 2, ..." required/>
 					              	</Form.Field>
 					            </Form.Group>
 					            <Button type='submit'>Actualizar vehículo</Button>

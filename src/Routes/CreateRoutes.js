@@ -229,17 +229,16 @@ class CreateBikeRoute extends Component {
             </Form.Field>
             <Form.Field width="4">
               <label>Precio:</label>
-              <input type="number" ref={node => {this.inputCost = node;}} required />
+              <input type="number" min="100" step="100" ref={node => {this.inputCost = node;}} required />
             </Form.Field>
             <Form.Field width="3">
               <label>Cupos:</label>
-              <input type="number" ref={node => {this.inputSpaces = node;}} required />
+              <input type="number" min="1" step="1" ref={node => {this.inputSpaces = node;}} required />
             </Form.Field>
           </Form.Group>
           <Form.Field>
             <label>Vehiculo:</label>
             <MyVehicles/>
-            {/* <input type="number" ref={node => {this.inputVehicle = node;}} /> */}
           </Form.Field>
           <Button color="teal" fluid={true} type="submit">Crear</Button>
           {this.props.error ? <p>Hubo un error! Intenta de nuevo</p> : this.props.called && <Redirect to='/my-routes'/>}
