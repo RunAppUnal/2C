@@ -17,7 +17,7 @@ const CREATE_USER = gql`
 `;
 
 const CreateUser = () => {
-  let inputUsername, inputEmail, inputPassword, inputName, inputLastname, inputCellphone;
+  let inputUsername, inputEmail, inputPassword, inputPasswordConfirmation, inputName, inputLastname, inputCellphone;
 
   return (
     <Mutation mutation={CREATE_USER}>
@@ -28,24 +28,15 @@ const CreateUser = () => {
               createUser({ variables: {
                 user: {
                   username: inputUsername.value,
-                  email: inputEmail.value,
                   password: inputPassword.value,
+                  password_confirmation: inputPasswordConfirmation.value,
+                  email: inputEmail.value,
                   name: inputName.value,
                   lastname: inputLastname.value,
                   cellphone: inputCellphone.value,
                 }
               } });
             }}>
-            {/* <Form.Group widths='equal'>
-              <Form.Input label='Nombre' ref={node => {inputName = node;}} />
-              <Form.Input label='Apellido' ref={node => {inputLastname = node;}} />
-            </Form.Group>
-            <Form.Input label='Usuario' ref={node => {inputUsername = node;}} />
-            <Form.Group widths='equal'>
-              <Form.Input label='Email' type='email' ref={node => {inputEmail = node;}} />
-              <Form.Input label='Celular' type='tel' ref={node => {inputCellphone = node;}} />
-            </Form.Group>
-            <Form.Input label='Contraseña' type='password' ref={node => {inputPassword = node;}} /> */}
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Nombre</label>
@@ -70,10 +61,16 @@ const CreateUser = () => {
                 <input type='tel' ref={node => {inputCellphone = node;}} />
               </Form.Field>
             </Form.Group>
-            <Form.Field>
-              <label>Contraseña</label>
-              <input type='password' ref={node => {inputPassword = node;}} />
-            </Form.Field>
+            <Form.Group widths='equal'>
+              <Form.Field>
+                <label>Contraseña</label>
+                <input type='password' ref={node => {inputPassword = node;}} />
+              </Form.Field>
+              <Form.Field>
+                <label>Confirmar contraseña</label>
+                <input type='password' ref={node => {inputPasswordConfirmation = node;}} />
+              </Form.Field>
+            </Form.Group>
             <Button type='submit'>Registrarse</Button>
           </Form>
           {error ? <p>Hubo un error! Intenta de nuevo</p> : called && <Redirect to='/login'/>}
