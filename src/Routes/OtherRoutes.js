@@ -18,7 +18,7 @@ class OtherRoutes extends Component {
             <div className="col-sm-4 col-md-4 col-lg-4">
               <div className="row">
                 <div className="col-sm-6 col-md-6 col-lg-6" id="routesNav">
-                  <NavLink exact to="/routes" className="nav-link"><i class="fa fa-eye"></i> Todas las rutas</NavLink>
+                  <NavLink exact to="/routes" className="nav-link"><i className="fa fa-eye"></i> Todas las rutas</NavLink>
                 </div>
                 <div className="col-sm-6 col-md-6 col-lg-6" id="routesNav">
                   <NavLink exact to="/routes/search" className="nav-link"><i className="fa fa-search"></i> Buscar ruta</NavLink>
@@ -28,6 +28,7 @@ class OtherRoutes extends Component {
 
             <div className="col-sm-4 col-md-4 col-lg-4"></div>
           </div>
+          <hr/>
           <div className="content">
             <Route exact path="/routes" component={Routes}/>
             <Route exact path="/routes/search" component={SearchRoute}/>

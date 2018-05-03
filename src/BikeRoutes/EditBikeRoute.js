@@ -1,31 +1,52 @@
 /* eslint-disable */
 import React, { Component } from 'react';
-import { Button, Form, Grid } from 'semantic-ui-react'
 import MapStyles from './mapStyles';
 import '../css/bikeRoutes.css';
-
-import { Link, Redirect } from "react-router-dom";
+import { Button, Form } from 'semantic-ui-react'
+import { Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
+import $ from 'jquery';
+import { Link, Redirect } from "react-router-dom";
 
 var currUserId = localStorage.getItem('currUserId');
+var fromLng, fromLat, toLng, toLat, originAddr, destinationAddr, time, id;
 
-const CREATE_BIKE_ROUTE = gql`
-  mutation createBikeRoute($bikeRoute: BikeRouteInput!) {
-    createBikeRoute(bikeRoute: $bikeRoute){
+const UPDATE_BIKE_ROUTE = gql`
+  mutation updateBikeRoute($id: ID!, $bikeRoute: BikeRouteInput!) {
+    updateBikeRoute(id: $id, bikeRoute: $bikeRoute){
       id
     }
   }
 `;
+const GET_INFO_ROUTE = gql`
+    query bikeRoutesById($routeid: ID!){
+      bikeRoutesById(id: $routeid){
+        id
+        user_id
+        time
+        similar_routes {
+          id
+        }
+        origin
+        destination
+        originAddr
+        destinationAddr
+        route_points {
+          type
+        }
+        route_distance
+      }
+    }
+`;
 
-class CreateBikeRoute extends Component {
+class UpdateBikeRoute extends Component {
   componentDidMount() {
     this.from = {
-      pos: {lat: 4.6381938, lng: -74.0862351},
+      pos: {lat: fromLat, lng: fromLng},
       input: this.inputFrom
     };
     this.to = {
-      pos: {lat: 4.6381938, lng: -74.0862351},
+      pos: {lat: toLat, lng: toLng},
       input: this.inputTo
     };
 
@@ -104,11 +125,14 @@ class CreateBikeRoute extends Component {
           let originLng = this.markers[0].position.lng();
           let destinationLat = this.markers[1].position.lat();
           let destinationLng = this.markers[1].position.lng();
-          this.props.createBikeRoute({ variables: {
+          this.props.updateBikeRoute({ variables: {
+            id: id,
             bikeRoute: {
               user_id: currUserId,
               origin: [originLng, originLat],
               destination: [destinationLng, destinationLat],
+              originAddr: this.inputFrom.value,
+              destinationAddr: this.inputTo.value,
               time: this.inputTime.value
             }
           } });
@@ -126,9 +150,9 @@ class CreateBikeRoute extends Component {
             <label>Fecha de Salida:</label>
             <input type="datetime-local" ref={node => {this.inputTime = node;}} />
           </Form.Field>
-          <Button color="teal" fluid={true} floated="right" type="submit">Crear</Button>
-          {this.props.error ? <p>Hubo un error! Intenta de nuevo</p> : this.props.called && <Redirect to='/my-routes'/>}
-          {/* {this.props.error && <p>Hubo un error! Intenta de nuevo</p>} */}
+          <Button color="teal" fluid={true} floated="right" type="submit">Actualizar</Button>
+          {this.props.error ? <p>Hubo un error! Intenta de nuevo</p> : this.props.called && <Redirect to={`/bikeRoutes/${id}`}/>}
+          
         </Form>
 
         <div id="map" ref="map"></div>
@@ -138,25 +162,44 @@ class CreateBikeRoute extends Component {
   }
 };
 
+const EditBikeRoute = ({ match }) => {
+  var matchParam = match.params.routeid;
+  return (
+    <Query query={GET_INFO_ROUTE} variables={{ routeid: match.params.routeid }}>
+      {({ loading, error, data }) => {
+        if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
+        if (error) return `Error! ${error.message}`;
+        var isDriver = false;
+        if(data.bikeRoutesById.user_id == currUserId) isDriver = true;
+        fromLng = data.bikeRoutesById.origin[0];
+        fromLat = data.bikeRoutesById.origin[1];
+        toLng = data.bikeRoutesById.destination[0];
+        toLat = data.bikeRoutesById.destination[1];
+        originAddr = data.bikeRoutesById.originAddr;
+        destinationAddr = data.bikeRoutesById.destinationAddr;
+        time = data.bikeRoutesById.time.substring(0, 16);
+        id = match.params.routeid;
+        return (
+          <div>
+            {isDriver ? (
+              <div>
+                <br/><br/>
+                <h2 className="section-heading"><i className="edit icon"></i> Actualiza tu ruta en Bici</h2>
+                <h3 className="section-subheading">Modifica la información de tu ruta en bicicleta.</h3>
+                <Mutation mutation={UPDATE_BIKE_ROUTE}>
+                  {(updateBikeRoute, { loading, error, called }) => (
+                    <UpdateBikeRoute updateBikeRoute={updateBikeRoute} loading={loading} error={error} called={called} />
+                  )}
+                </Mutation>
+              </div>
+            ):(
+              <Redirect to={`/bikeRoutes/${data.bikeRoutesById.id}`}/>
+            )}
+          </div>
+        );
+      }}
+    </Query>
+  )
+};
 
-class AddBikeRoute extends Component {
-  render() {
-    return(
-      <div>
-        <br/><br/>
-        <h2 className="section-heading"><i className="plus icon"></i> Nueva Ruta en Bici</h2>
-        <h3 className="section-subheading">Crea tu propia ruta para encontrar otras similares</h3>
-
-
-        <Mutation mutation={CREATE_BIKE_ROUTE}>
-         {(createBikeRoute, { loading, error, called }) => (
-           <CreateBikeRoute createBikeRoute={createBikeRoute} loading={loading} error={error} called={called} />
-         )}
-        </Mutation>
-      </div>
-    )
-  }
-}
-
-
-export default AddBikeRoute;
+export default EditBikeRoute;

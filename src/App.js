@@ -10,6 +10,7 @@ import BikeRoutes from './BikeRoutes';
 import MyBikeRoutes from './BikeRoutes/MyBikeRoutes';
 import BikeRouteInfo from './BikeRoutes/BikeRouteInfo';
 import AddBikeRoute from './BikeRoutes/AddBikeRoute';
+import EditBikeRoute from './BikeRoutes/EditBikeRoute';
 import { Login, Logout } from './login/login';
 import Signup from './login/signup';
 import { Dropdown, Button } from 'semantic-ui-react'
@@ -94,6 +95,7 @@ class App extends Component {
             <PrivateRoute path="/my-bikeRoutes" component={MyBikeRoutes}/>
             <PrivateRoute path="/bikeRoutes/new" component={MyBikeRoutes}/>
             <Route exact path="/bikeRoutes/:routeid" component={BikeRouteInfo}/>
+            <Route exact path="/bikeRoutes/:routeid/edit" component={EditBikeRoute}/>
           </div>
 
           <footer>

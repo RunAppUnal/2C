@@ -11,6 +11,22 @@ import gql from "graphql-tag";
 import $ from 'jquery';
 
 var currUserId = localStorage.getItem('currUserId');
+var rad = function(x) {
+  return x * Math.PI / 180;
+};
+
+var getDistance = function(p1, p2) {
+  var R = 6378137; // Earth’s mean radius in meter
+  var dLat = rad(p2[1] - p1[1]);
+  var dLong = rad(p2[0] - p1[0]);
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rad(p1[1])) * Math.cos(rad(p2[1])) *
+    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return d/1000; // returns the distance in km
+};
+
 function getMonth(monthNumber){
 	if(monthNumber == '01') return 'Ene';
 	if(monthNumber == '02') return 'Feb';
@@ -28,21 +44,22 @@ function getMonth(monthNumber){
 
 const GET_INFO_ROUTE = gql`
 	query bikeRoutesById($routeid: ID!){
-		bikeRoutesById(id: $routeid){
-			user_id
-			time
-			similar_routes {
-				id
-			}
-			origin
-			destination
-			originAddr
-			destinationAddr
-			route_points {
-				type
-			}
-			route_distance
-		}
+    bikeRoutesById(id: $routeid){
+    	id
+    	user_id
+  		time
+	    similar_routes {
+	      id
+	    }
+	    origin
+	    destination
+	    originAddr
+	    destinationAddr
+	    route_points {
+	      type
+	    }
+	    route_distance
+    }
 	}
 `;
 const GET_INFO_USER = gql`
@@ -81,18 +98,23 @@ const DELETE_ROUTE = gql`
 const BikeRouteInfo = ({ match }) => {
 	var matchParam = match.params.routeid;
 	return (
-		<Query query={GET_INFO_ROUTE} variables={{ routeid: match.params.routeid }}>
-			{({ loading, error, data }) => {
-				if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
-				if (error) return `Error! ${error.message}`;
-				var isDriver = false;
-				if(data.bikeRoutesById.user_id == currUserId) isDriver = true;
+    <Query query={GET_INFO_ROUTE} variables={{ routeid: match.params.routeid }}>
+  	{({ loading, error, data }) => {
+      	if (loading) return "CARGANDO INFORMACIÓN DE LA RUTA...";
+      	if (error) return `Error! ${error.message}`;
+      	var isDriver = false;
+      	var now = new Date();
+    		now.setHours(now.getHours() - 5);
+    		var today = now.toISOString();
+      	if(data.bikeRoutesById.user_id == currUserId) isDriver = true;
 
 				let userid = data.bikeRoutesById.user_id;
 				let from = {lat: data.bikeRoutesById.origin[1], lng: data.bikeRoutesById.origin[0]};
 				let to = {lat: data.bikeRoutesById.destination[1], lng: data.bikeRoutesById.destination[0]};
 				let date = data.bikeRoutesById.time.substring(8,10) + " / " + getMonth(data.bikeRoutesById.time.substring(5,7)) + " / " + data.bikeRoutesById.time.substring(0,4);
-				let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
+				//(getDistance([toLng, toLat], [fromLng, fromLat])
+				let distance = getDistance(data.bikeRoutesById.origin, data.bikeRoutesById.destination).toFixed(1)
+				//let distance = parseInt(data.bikeRoutesById.route_distance / 100) / 10;
 				let waypoints = [];
 
 				for(let i = 0; i < data.bikeRoutesById.route_points.length; i++) {
@@ -105,46 +127,93 @@ const BikeRouteInfo = ({ match }) => {
 				let originAddr = data.bikeRoutesById.originAddr;
 				let destinationAddr = data.bikeRoutesById.destinationAddr;
 
-				return (
-					<div className="container">
-						<h2 className="section-heading">
-							<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
-						</h2><br/><br/>
-						<center>
-							<h5>Creado por:</h5>{<GetUser userId={userid} />}
-						</center><br/><br/>
-						<div className="row">
-							<div className="col-sm-8 col-md-8 col-lg-8">
-								<h3>
-									Desde <i className="green point icon"></i>
-									{originAddr}
-								</h3>
-								<h3>
-									Hacia <i className="red point icon"></i>
-									{destinationAddr}
-								</h3><br/>
-							</div>
-							{isDriver ? (
-								<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
-									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: matchParam }} >
-									{( deleteBikeRoute , { loading , error , data }) => (
-										<button onClick ={ deleteBikeRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
-									)}
-								</ Mutation >
-							</dl>
-						) : (
-							<div></div>
-						)}
-					</div>
-					<div className="create map">
-						<div className="map info">
-							<h5>Fecha de Salida:</h5>{date}<br/><br/>
-							<h5>Distancia:</h5>{`${distance} km`}
-						</div>
+// <<<<<<< HEAD
+// 				return (
+// 					<div className="container">
+// 						<h2 className="section-heading">
+// 							<span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
+// 						</h2><br/><br/>
+// 						<center>
+// 							<h5>Creado por:</h5>{<GetUser userId={userid} />}
+// 						</center><br/><br/>
+// 						<div className="row">
+// 							<div className="col-sm-8 col-md-8 col-lg-8">
+// 								<h3>
+// 									Desde <i className="green point icon"></i>
+// 									{originAddr}
+// 								</h3>
+// 								<h3>
+// 									Hacia <i className="red point icon"></i>
+// 									{destinationAddr}
+// 								</h3><br/>
+// 							</div>
+// 							{isDriver ? (
+// 								<dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+// 									< Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: matchParam }} >
+// 									{( deleteBikeRoute , { loading , error , data }) => (
+// 										<button onClick ={ deleteBikeRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+// 									)}
+// 								</ Mutation >
+// 							</dl>
+// =======
+	        	return (
+              <div className="container">
+                <h2 className="section-heading">
+                  <span className="underline"><i className="bicycle icon"></i> Ruta en Bici</span>
+                </h2><br/><br/>
 
-						<Map from={from} to={to} waypoints={waypoints} />
-					</div>
-				</div>
+                <center>
+                  <h5>Creado por:</h5>{<GetUser userId={userid} />}
+                </center><br/><br/>
+
+                <div className="row">
+                  <div className="col-sm-8 col-md-8 col-lg-8">
+                    <p className="content">
+                      <h5><b>Desde <i className="green point icon"> </i></b> {originAddr}</h5>
+                      <h5><b>Hacia <i className="red point icon"></i> </b> {destinationAddr}</h5>
+                      <h5><b>Estado:</b>
+                      {today <= data.bikeRoutesById.time ? (
+                        <svg height="20" width="25" title="Disponible">
+                          <circle cx="12" cy="12" r="6" fill="#46f711">
+                            <title>Disponible</title>
+                          </circle>
+                        </svg>
+                      ) : (
+                        <svg height="20" width="25" title="Disponible">
+                          <circle cx="12" cy="12" r="6" fill="red">
+                            <title>No disponible</title>
+                          </circle>
+                        </svg>
+                      )}
+                    </h5>
+                  </p>
+                </div>
+
+                {isDriver ? (
+                  today <= data.bikeRoutesById.time ? (
+                    <dl className="dl-horizontal col-sm-4 col-md-4 col-lg-4">
+                      <a href={`/bikeRoutes/${data.bikeRoutesById.id}/edit`}><button class="btn btn-outline-primary" id="addUserToRouteBtn"> Editar esta ruta</button></a>
+                      <br /><br />
+                      <Mutation  mutation = { DELETE_ROUTE } variables = {{ routeid: matchParam }} >
+                      {( deleteBikeRoute , { loading , error , data }) => (
+                        <button onClick ={ deleteBikeRoute } class="btn btn-outline-danger" id="addUserToRouteBtn"> Eliminar esta ruta</button>
+                      )}
+                      </Mutation>
+                    </dl>
+                  ) : (<h5>Esta ruta ha finalizado.</h5>)
+// >>>>>>> profile
+                ) : (<div></div>)}
+            </div>
+            <div className="create map">
+              <div className="map info">
+                <h5>Fecha:</h5>{date}<br/><br/>
+                <h5>Hora:</h5>{data.bikeRoutesById.time.substring(11, 16)}<br/><br/>
+                <h5>Distancia:</h5>{`${distance} km`}
+              </div>
+
+              <Map from={from} to={to} waypoints={waypoints} />
+            </div>
+          </div>
 			);
 		}}
 	</Query>

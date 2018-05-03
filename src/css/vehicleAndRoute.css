@@ -69,7 +69,7 @@ h2{
     margin: 0px;
     padding: 0px;
     display:inline-block;
-    width: 80%;
+    width: 100%;
 }
 .event-list > li {
     background-color: rgb(255, 255, 255);
@@ -110,15 +110,14 @@ h2{
 }
 .event-list > li > .info {
     padding-top: 5px;
-    text-align: center;
 }
 .event-list > li > .info > .title {
-    font-size: 17pt;
+    font-size: 13pt;
     font-weight: 700;
     margin: 0px;
 }
 .event-list > li > .info > .desc {
-    font-size: 13pt;
+    font-size: 10pt;
     font-weight: 300;
     margin: 0px;
 }
@@ -314,3 +313,39 @@ a {
 .progress-bar { text-align: left; }
 .rating-desc .col-md-3 {padding-right: 0px;}
 .sr-only { margin-left: 5px;overflow: visible;clip: auto; }
+
+
+/* --------------- Route search style -------------- */
+.active-pink-4 input[type=text]:focus:not([readonly]) {
+    border: 1px solid #f48fb1;
+    box-shadow: 0 0 0 1px #f48fb1;
+}
+.active-pink-3 input[type=text] {
+    border: 1px solid #f48fb1;
+    box-shadow: 0 0 0 1px #f48fb1;
+}
+.active-purple-4 input[type=number]:focus:not([readonly]) {
+    border: 1px solid #ce93d8;
+    box-shadow: 0 0 0 1px #ce93d8;
+}
+.active-purple-3 input[type=number] {
+    border: 1px solid #ce93d8;
+    box-shadow: 0 0 0 1px #ce93d8;
+}
+.active-cyan-4 input[type=number]:focus:not([readonly]) {
+    border: 1px solid #4dd0e1;
+    box-shadow: 0 0 0 1px #4dd0e1;
+}
+.active-cyan-3 input[type=number] {
+    border: 1px solid #4dd0e1;
+    box-shadow: 0 0 0 1px #4dd0e1;
+}
+.active-cyan-4 input[type=date]:focus:not([readonly]) {
+    border: 1px solid #68efad;
+    box-shadow: 0 0 0 1px #68efad;
+}
+.active-cyan-3 input[type=date] {
+    border: 1px solid #68efad;
+    box-shadow: 0 0 0 1px #68efad;
+}
+/* --------------------------------------------- */

@@ -183,6 +183,14 @@ const RouteInfo = ({ match }) => {
             }
           </div>
 
+          <h5>Calificaciones y Reseñas</h5><br/>
+          <div className="ui cards">
+            {numUsersInRoute.length ?
+              numUsersInRoute.map(user => <GetUser userId={user}/>) :
+              <p>Ningún usuario se ha unido aún. !Sé el primero!</p>
+            }
+          </div>
+
           {isDriver ? (<div></div>) : (isUserInRoute ? (
             <Mutation  mutation = { REMOVE_USER_TO_ROUTE } variables = {{ routeid: data.routeById.id, userid: currUserId }} >
             {( removeUserFromRoute , { loading , error , data }) => (

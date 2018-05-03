@@ -32,23 +32,46 @@ const AllBikeRoutes = () => (
     {({ loading, error, data }) => {
       if (loading) return "CARGANDO OTRAS RUTAS...";
       if (error) return `Error! ${error.message}`;
+      var now = new Date();
+      now.setHours(now.getHours() - 5);
+      var today = now.toISOString();
       var time = (date) => `${date.getHours()%12}:${date.getMinutes()}${date.getHours()>12 ? "pm" : "am"}`
       return (
-        <Card.Group stackable itemsPerRow="four">
+        <Card.Group stackable itemsPerRow="4">
         {
           data.allBikeRoutes.map(route => {
-            geocode({lat: route.origin[1], lng: route.origin[0]}, "originAddr");
-            geocode({lat: route.destination[1], lng: route.destination[0]}, "destinationAddr");
+            let originAddr = route.originAddr;
+            let destinationAddr = route.destinationAddr;
 
             return (
               <div>
                 {route.user_id != currUserId ? (
-                  <Card
-                    href={`/bikeRoutes/${route.id}`}
-                    header={`${localStorage.getItem('originAddr')} - ${localStorage.getItem('destinationAddr')}`}
-                    meta={<GetUserName userId={route.user_id} />}
-                    extra={`Hora Salida: ${time(new Date(route.time))}`}
-                  />
+                  <div id="bikeCard">
+                    <div id="bikeState">
+                      {today <= route.time ? (
+                        <svg height="18" width="18" title="Disponible">
+                          <circle cx="12" cy="12" r="6" fill="#46f711">
+                            <title>Disponible</title>
+                          </circle>
+                        </svg> 
+                      ) : (
+                        <svg height="30" width="30" title="Disponible">
+                          <circle cx="12" cy="12" r="6" fill="red">
+                            <title>No disponible</title>
+                          </circle>
+                        </svg> 
+                      )}
+                    </div>
+                    <Card
+                      href={`/bikeRoutes/${route.id}`}
+                      header={`${localStorage.getItem('originAddr')} - ${localStorage.getItem('destinationAddr')}`}
+                      meta={<GetUserName userId={route.user_id} />}
+                      extra={`Salida: ${
+                        route.time.substring(8, 10) + '/' + route.time.substring(5, 7)+ '/' +
+                        route.time.substring(0, 4) + ' - ' + route.time.substring(11, 16)}`
+                      }
+                    />
+                  </div>
                 ): (
                   <div></div>
                 )}

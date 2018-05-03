@@ -43,14 +43,17 @@ const Other_Routes = (data) => {
       {({ loading, error, data }) => {
         if (loading) return "CARGANDO OTRAS RUTAS...";
         if (error) return '';//`Error! ${error.message}`;
+        var now = new Date();
+        now.setHours(now.getHours() - 5);
+        var today = now.toISOString();
         return (
         	<Router>
             <div class="row" id="otherRoutesCards">
               {data.searchOtherRoutes.map(route =>
-                <div class="col-xs-12 col-sm-offset-12 col-sm-12">
+                <div class="col-xs-12 col-sm-offset-6 col-sm-6">
                   <ul class="event-list">
                     <li>
-                      <time datetime="2014-07-20">
+                      <time>
                         <span class="day">{route.departure.substring(8, 10)}</span>
                         <span class="month">{getMonth(route.departure.substring(5, 7))}</span>
                         <span class="year">{route.departure.substring(0, 4)}</span>
@@ -65,6 +68,19 @@ const Other_Routes = (data) => {
                         </ul>
                       </div>
                       <div class="social">
+                        {today <= route.departure ? (
+                          <svg height="30" width="30" title="Disponible">
+                            <circle cx="12" cy="12" r="6" fill="#46f711">
+                              <title>Disponible</title>
+                            </circle>
+                          </svg> 
+                        ) : (
+                          <svg height="30" width="30" title="Disponible">
+                            <circle cx="12" cy="12" r="6" fill="red">
+                              <title>No disponible</title>
+                            </circle>
+                          </svg> 
+                        )}
                       </div>
                     </li>
                   </ul> 
@@ -106,13 +122,24 @@ class SearchOtherRoutes extends Component {
   	}
   	render() {
     	return (
-      		<div>
-      			<input type="text" class="form-control" onChange={ this.handleChangeWord } placeholder="Palabra clave (Ej. Fontibón, Universidad...)" />
-      			<input type="number" min="100" step="100" class="form-control" onChange={ this.handleChangeCost } placeholder="Costo (Ej. 2000, 1500...)" />
-      			<input type="number" min="1" step="1" class="form-control" onChange={ this.handleChangeSpace } placeholder="Cupos (Ej. 3, 4...)" />
-      			<input type="date" class="form-control" onChange={ this.handleChangeDate } placeholder="Fecha" />
-        		<Other_Routes userid={currUserId} word={ this.state.word } cost={ this.state.cost } spaces={ this.state.space } date={ this.state.date } />
-      		</div>
+      	<div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6- col-lg-6 active-pink-3 active-pink-4 mb-4">
+              <input type="text" class="form-control" onChange={ this.handleChangeWord } placeholder="Palabra clave (Ej. Fontibón, Universidad...)" aria-label="Search" />
+            </div>
+            <div class="col-sm-12 col-md-6- col-lg-6 active-purple-3 active-purple-4 mb-4">
+              <input type="number" min="100" step="100" class="form-control" onChange={ this.handleChangeCost } placeholder="Costo (Ej. 2000, 1500...)" aria-label="Search" />
+            </div>
+            <div class="col-sm-12 col-md-6- col-lg-6 active-cyan-3 active-cyan-4 mb-4">
+              <input type="number" min="1" step="1" class="form-control" onChange={ this.handleChangeSpace } placeholder="Cupos (Ej. 3, 4...)" aria-label="Search" />
+            </div>
+            <div class="col-sm-12 col-md-6- col-lg-6 active-cyan-3 active-cyan-4 mb-4">
+              <input type="date" class="form-control" onChange={ this.handleChangeDate } placeholder="Fecha" aria-label="Search" />
+            </div>
+          </div>
+          <hr/>
+      		<Other_Routes userid={currUserId} word={ this.state.word } cost={ this.state.cost } spaces={ this.state.space } date={ this.state.date } />
+      	</div>
     	);
   	}
 }
