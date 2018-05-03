@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import '../css/vehicleAndRoute.css';
 import '../css/bikeRoutes.css';
 import registerServiceWorker from '../registerServiceWorker';
-import { withAuth } from "../auth";
+import { GetUser } from '../Queries/GetUser';
+import { GetVehicle } from '../Queries/GetVehicles';
 import { Map, geocode } from '../BikeRoutes/Map.js';
 import {Route, NavLink, Redirect, BrowserRouter as Router} from "react-router-dom";
 import { Query, Mutation } from "react-apollo";
@@ -27,60 +28,60 @@ function getMonth(monthNumber){
 }
 
 const GET_INFO_ROUTE = gql`
-  	query routeById($routeid: Int!){
-	    routeById(id: $routeid){
-	    	id
-			  title
-	    	description
-	    	cost
-	    	departure
-	    	user_id
-	    	car_id
-	    	spaces_available
-	    	users_in_route
-        from_lat
-        from_lng
-        to_lat
-        to_lng
-        waypoints
-	    }
-  	}
+  query routeById($routeid: Int!){
+    routeById(id: $routeid){
+      id
+      title
+      description
+      cost
+      departure
+      user_id
+      car_id
+      spaces_available
+      users_in_route
+      from_lat
+      from_lng
+      to_lat
+      to_lng
+      waypoints
+    }
+  }
 `;
 const GET_INFO_DRIVER = gql`
-  	query userById($userid: Int!){
-	    userById(userid: $userid){
-			name
-			lastname
-			username
-			email
-	    }
-  	}
+  query userById($userid: Int!){
+    userById(userid: $userid){
+      name
+      lastname
+      username
+      email
+    }
+  }
 `;
 const GET_INFO_VEHICLE = gql`
-  	query vehicleById($vehicleid: Int!){
-	    vehicleById(id: $vehicleid){
-			plate
-		    kind
-		    model
-		    color
-		    capacity
-		    brand
-	    }
-  	}
+  query vehicleById($vehicleid: Int!){
+    vehicleById(id: $vehicleid){
+      plate
+      kind
+      model
+      color
+      capacity
+      brand
+    }
+  }
 `;
 const ADD_USER_TO_ROUTE = gql`
-  	mutation addUserFromRoute($routeid: Int!, $userid: Int!){
-	    addUserFromRoute(id: $routeid, userid: $userid){
-	    	users_in_route
-	    }
-  	}
+  mutation addUserFromRoute($routeid: Int!, $userid: Int!){
+    addUserFromRoute(id: $routeid, userid: $userid){
+      users_in_route
+    }
+  }
 `;
 const REMOVE_USER_TO_ROUTE = gql`
-  	mutation removeUserFromRoute($routeid: Int!, $userid: Int!){
-	    removeUserFromRoute(id: $routeid, userid: $userid){
-	    	users_in_route
-	    }
-  	}
+  mutation removeUserFromRoute($routeid: Int!, $userid: Int!){
+    removeUserFromRoute(id: $routeid, userid: $userid){
+      users_in_route
+    }
+  }
 `;
 const GET_INFO_USER = gql`
   query userById($userid: Int!){
@@ -93,11 +94,11 @@ const GET_INFO_USER = gql`
   }
 `;
 const DELETE_ROUTE = gql`
-  	mutation deleteRoute($routeid: Int!){
-	    deleteRoute(id: $routeid){
-	    	id
-	    }
-  	}
+  mutation deleteRoute($routeid: Int!){
+    deleteRoute(id: $routeid){
+      id
+    }
+  }
 `;
 
 const RouteInfo = ({ match }) => {
@@ -127,7 +128,6 @@ const RouteInfo = ({ match }) => {
 	            let from = {lat: data.routeById.from_lat, lng: data.routeById.from_lng};
 	            let to = {lat: data.routeById.to_lat, lng: data.routeById.to_lng};
 	            let waypoints = JSON.parse(data.routeById.waypoints);
-
 	        	return (
 	        		<div className= "container">
     					<h2 className="section-heading">
@@ -206,121 +206,23 @@ const RouteInfo = ({ match }) => {
 		                  	</div>
                   			<Map from={from} to={to} waypoints={waypoints} />
                 		</div><br/><br/>
-	        			
-	        			<div className="row">
-	        				<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-        					<h3>Usuarios en la ruta</h3>
-							  	<dd>
-							  		<div className="col-lg-12">
-										<div className="main-box no-header clearfix">
-		    								<div className="main-box-body clearfix">
-		        								<div className="table-responsive">
-		        									<table className="table user-list">
-							                            <thead>
-							                                <tr>
-							                                <th><span>Pasajeros</span></th>
-							                                </tr>
-							                            </thead>
-							                            <tbody>
-							                            	{numUsersInRoute.map(user =>
-							                            		<Query query={GET_INFO_USER} variables={{ userid: user }}>
-										    						{({ loading, error, data }) => {
-										        						if (loading) return "CARGANDO INFORMACIÓN DEL PASAJERO...";
-										        						if (error) return `Error! ${error.message}`;
-										        						mailTo = 'mailto:' + "" + data.userById.email;
-										        						return (
-								                            				<tr>
-											                                    <td>
-											                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-													                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
-													                                <span className="user-subhead">{data.userById.username}</span>
-													                                <span className="label label-default">{data.userById.email}</span>
-													                                <a href={mailTo} className="table-link">
-											                                            <span className="fa fa-envelope-square"> Enviar correo</span>
-											                                        </a>
-											                                    </td>
-											                                </tr>
-										        						);
-										      						}}
-										    					</Query>
-							                                )}
-							                            </tbody>
-							                        </table>
-		        								</div>
-		        							</div>
-		        						</div>
-									</div>
-							  	</dd>
-							</dl>
-							<Query query={GET_INFO_DRIVER} variables={{ userid: data.routeById.user_id }}>
-	    						{({ loading, error, data }) => {
-	        						if (loading) return "CARGANDO INFORMACIÓN DEL CONDUCTOR...";
-	        						if (error) return `Error! ${error.message}`;
-	        						mailTo = 'mailto:' + "" + data.userById.email;
-	        						return (
-				       					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-				       						<h3>Información del conductor</h3>
-										  	<dd>
-												<div className="col-lg-12">
-													<div className="main-box no-header clearfix">
-					    								<div className="main-box-body clearfix">
-					        								<div className="table-responsive">
-					        									<table className="table user-list">
-										                            <thead>
-										                                <tr>
-										                                <th><span>Conductor</span></th>
-										                                </tr>
-										                            </thead>
-										                            <tbody>
-						                            					<tr>
-										                                    <td>
-										                                        <img src="https://bootdey.com/img/Content/user_1.jpg" alt=""/>
-												                                <a href="#" className="user-link">{data.userById.name} {data.userById.lastname}</a>
-												                                <span className="user-subhead">{data.userById.username}</span>
-												                                <span className="label label-default">{data.userById.email}</span>
-												                                <a href={mailTo} className="table-link">
-										                                            <span className="fa fa-envelope-square"> Enviar correo</span>
-										                                        </a>
-										                                    </td>
-										                                </tr>
-										                            </tbody>
-										                        </table>
-					        								</div>
-					        							</div>
-					        						</div>
-												</div>
-										  	</dd>
-										</dl>
-	        						);
-	      						}}
-	    					</Query>
-	    					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-	    					</dl>
-	    					<Query query={GET_INFO_VEHICLE} variables={{ vehicleid: data.routeById.car_id }}>
-	    						{({ loading, error, data }) => {
-	        						if (loading) return "CARGANDO INFORMACIÓN DEL VEHÍCULO...";
-	        						if (error) return `Error! ${error.message}`;
-	        						return (
-				       					<dl className="dl-horizontal col-sm-6 col-md-6 col-lg-6">
-				       						<h3>Información del vehículo</h3>
-			  								<dt>Placa</dt>
-										  	<dd>{data.vehicleById.plate}</dd>
-										  	<dt>Tipo</dt>
-										  	<dd>{data.vehicleById.kind}</dd>
-										  	<dt>Marca</dt>
-										  	<dd>{data.vehicleById.brand}</dd>
-										  	<dt>Modelo</dt>
-										  	<dd>{data.vehicleById.model}</dd>
-										  	<dt>Color</dt>
-										  	<dd>{data.vehicleById.color}</dd>
-										  	<dt>Capacidad</dt>
-										  	<dd>{data.vehicleById.capacity}</dd>
-										</dl>
-	        						);
-	      						}}
-	    					</Query>
-			           	</div>
-			           	
+                		<div className="ui two column grid">
+				            <div className="column">
+				            	<h5>Información del conductor:</h5>
+				              	<GetUser userId={data.routeById.user_id} />
+				            </div>
+				            <div className="column">
+				            	<h5>Información del vehículo:</h5>
+				              	<GetVehicle id={data.routeById.car_id}/>
+				            </div>
+				        </div><br/><br/>
+				        <h5>Usuarios en la ruta</h5><br/>
+				        <div className="ui cards">
+				        	{numUsersInRoute.length ?
+				            	numUsersInRoute.map(user => <GetUser userId={user}/>) :
+				              	<p>Ningún usuario se ha unido aún. !Sé el primero!</p>
+				            }
+				        </div>		           	
 	          		</div>
 	        	);
 	      	}}
@@ -329,12 +231,12 @@ const RouteInfo = ({ match }) => {
 };
 
 $(document).ready(function(){
-	$('#addUserToRouteBtn').click(function(){
-		window.location.reload(true);
-	});
-	$('#removeUserToRouteBtn').click(function(){
-		window.location.reload(true);
-	});
+  $('#addUserToRouteBtn').click(function(){
+    window.location.reload(true);
+  });
+  $('#removeUserToRouteBtn').click(function(){
+    window.location.reload(true);
+  });
 });
 
 
