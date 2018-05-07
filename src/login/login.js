@@ -22,7 +22,7 @@ const LOGIN_USER= gql`
     }
   }
 `;
-const LOGIN_USER2= gql`
+const LOGIN_LDAP= gql`
 mutation auth($email: String!, $password: String!){
   auth(auth:{
     email: $email,
@@ -38,7 +38,7 @@ const LoginUser = () => {
   let inputEmail, inputPassword;
 
   return (
-    <Mutation mutation={LOGIN_USER2} ignoreResults={false} >
+    <Mutation mutation={LOGIN_LDAP} ignoreResults={false} >
       {(auth, { loading, error, data, called }) => {
         return(
           <Mutation mutation={LOGIN_USER} ignoreResults={false} >
@@ -56,8 +56,12 @@ const LoginUser = () => {
                   password: inputPassword.value
                 } })
                 .then(data => {
-                  localStorage.setItem('currUserId', data.data.login.id);
-                  localStorage.setItem('currUserName', data.data.login.name);
+                  if(data.data.answer) {
+                    localStorage.setItem('currUserId', data.data.login.id);
+                    localStorage.setItem('currUserName', data.data.login.name);
+                  } else {
+                    // mostrar error de autenticación
+                  }
                 });
               });
             }}>
