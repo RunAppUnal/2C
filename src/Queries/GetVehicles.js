@@ -109,9 +109,7 @@ class DeleteVehicle extends Component {
     return (
       <Mutation mutation={DELETE_VEHICLE} variables={{ id: this.props.id }} >
         {( deleteVehicle , {loading, error, data, called }) => (
-          <div>
-            <button onClick ={ deleteVehicle } className="btn btn-outline-danger" id="removeButton">Eliminar</button>
-          </div>
+        <button onClick ={ deleteVehicle } className="btn btn-outline-danger" id="removeButton">Eliminar</button>
         )}
       </Mutation>
     )

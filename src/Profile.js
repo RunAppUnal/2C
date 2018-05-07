@@ -8,6 +8,7 @@ import MyInfo from './MyInfo/MyInfo'
 import RoutesJoined from './MyInfo/RoutesJoined'
 import MyVehicles from './Vehicles/MyVehicles'
 import AddVehicle from './Vehicles/AddVehicle'
+import EditVehicle from './Vehicles/EditVehicle';
 
 import ApolloClient from "apollo-boost";
 import { Query } from "react-apollo";
@@ -25,7 +26,8 @@ const Profile = withAuth(({ auth }) => {
         </ul>
         <div className="content">
           <Route exact path="/profile" component={MyInfo}/>
-          <Route path="/profile/my-vehicles" component={MyVehicles}/>
+          <Route exact path="/profile/my-vehicles" component={MyVehicles}/>
+          <Route exact path="/profile/my-vehicles/:vehicleid/edit" component={EditVehicle}/>
           <Route path="/profile/routes-joined" component={RoutesJoined}/>
         </div>
       </div>

@@ -3,48 +3,47 @@ import React from 'react';
 import { Button, Form } from 'semantic-ui-react'
 import '../css/signup.css';
 import { update, withAuth } from "../auth";
-
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { Link, Redirect } from 'react-router-dom'
 
 
 const LOGIN_USER= gql`
-  mutation loginUser($username: String!, $password: String!){
+  mutation login($email: String!, $password: String!){
     login(
-       username: $username,
+       email: $email,
        password: $password
     ){
-       userid
-       username
-       email
-       name
-       lastname
+        id
+        username
+        email
+        name
+        lastname
     }
   }
 `;
 
 const LoginUser = () => {
-  let inputUsername, inputPassword;
+  let inputEmail, inputPassword;
 
   return (
     <Mutation mutation={LOGIN_USER} ignoreResults={false} >
-      {(loginUser, { loading, error, data, called }) => (
+      {(login, { loading, error, data, called }) => (
         <div>
           <Form id="login" loading={loading} onSubmit={e => {
               e.preventDefault();
-              loginUser({ variables: {
-                username: inputUsername.value,
+              login({ variables: {
+                email: inputEmail.value,
                 password: inputPassword.value
               } })
               .then(data => {
-                localStorage.setItem('currUserId', data.data.login.userid);
+                localStorage.setItem('currUserId', data.data.login.id);
                 localStorage.setItem('currUserName', data.data.login.name);
-              });;
+              });
             }}>
             <Form.Field>
-              <label>Usuario</label>
-              <input ref={node => {inputUsername = node;}} />
+              <label>Correo</label>
+              <input ref={node => {inputEmail = node;}} />
             </Form.Field>
             <Form.Field>
               <label>Contraseña</label>

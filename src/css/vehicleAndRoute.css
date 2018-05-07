@@ -232,6 +232,16 @@ h2{
     }
 }
 
+#editDeleteVehicle div{
+    text-align: center;
+}
+#editDeleteVehicle div button{
+    width: 60%;
+}
+#vehiclesTable thead tr th, #vehiclesTable tbody tr td{
+    text-align: center;
+}
+
 /*---------------------------------------------------------- */
 
 /* ---------------- Users in route style -------------------- */
@@ -349,3 +359,4 @@ a {
     box-shadow: 0 0 0 1px #68efad;
 }
 /* --------------------------------------------- */
+
