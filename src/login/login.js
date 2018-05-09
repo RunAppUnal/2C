@@ -15,10 +15,10 @@ const LOGIN_USER= gql`
        password: $password
     ){
         id
-        username
-        email
         name
-        lastname
+        token
+        client
+        uid
     }
   }
 `;
@@ -50,23 +50,27 @@ const LoginUser = () => {
                 email: inputEmail.value,
                 password: inputPassword.value
               } })
-              .then(data => {
-                login({ variables: {
-                  email: inputEmail.value + "@unal.edu.co",
-                  password: inputPassword.value
-                } })
-                .then(data => {
-                  if(data.data.answer) {
-                    localStorage.setItem('currUserId', data.data.login.id);
-                    localStorage.setItem('currUserName', data.data.login.name);
-                  } else {
-                    // mostrar error de autenticación
-                  }
-                });
+              .then(auth => {
+                let answer = auth.data.auth.answer;
+                if(answer) {
+                  login({ variables: {
+                    email: inputEmail.value + "@unal.edu.co",
+                    password: inputPassword.value
+                  } })
+                  .then(login => {
+                    let user = login.data.login;
+                    localStorage.setItem('currUserId', user.id);
+                    localStorage.setItem('currUserName', user.name);
+                    localStorage.setItem('currUserUid', user.uid);
+                    localStorage.setItem('currUserToken', user.token);
+                    localStorage.setItem('currUserClient', user.client);
+                  });
+                } else {
+                }
               });
             }}>
             <Form.Field>
-            <label>Correo</label>
+            <label>Usuario</label>
             <input ref={node => {inputEmail = node;}} />
             </Form.Field>
             <Form.Field>
@@ -96,9 +100,4 @@ const Login = () => (
   </div>
 );
 
-const Logout = () => {
-  localStorage.setItem('currUserId', 0);
-  return <Redirect to='/login'/>;
-};
-
-export { Login, Logout };
+export { Login };
