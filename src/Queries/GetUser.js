@@ -8,7 +8,7 @@ import gql from "graphql-tag";
 const GET_USER_DATA = gql`
   query userById($userid: Int!){
     userById(userid: $userid){
-      userid
+      id
       name
       lastname
       username
@@ -36,7 +36,7 @@ class GetUser extends Component {
 
           return (
             <Card className="user"
-              image={`/images/users/user_${data.userById.userid%3}.jpg`}
+              image={`/images/users/user_${data.userById.id%3}.jpg`}
               header={`${data.userById.name} ${data.userById.lastname}`}
               meta={data.userById.username}
               description={extra}

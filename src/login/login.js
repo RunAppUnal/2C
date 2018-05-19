@@ -71,11 +71,11 @@ const LoginUser = () => {
             }}>
             <Form.Field>
             <label>Usuario</label>
-            <input ref={node => {inputEmail = node;}} />
+            <input ref={node => {inputEmail = node;}} required />
             </Form.Field>
             <Form.Field>
             <label>Contraseña</label>
-            <input type='password' ref={node => {inputPassword = node;}} />
+            <input type='password' ref={node => {inputPassword = node;}} required />
             </Form.Field>
             <Button type='submit'>Iniciar Sesión</Button>
             </Form>
