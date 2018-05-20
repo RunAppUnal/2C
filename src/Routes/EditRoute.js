@@ -23,7 +23,7 @@ const GET_INFO_ROUTE = gql`
   	query routeById($routeid: Int!){
 	    routeById(id: $routeid){
 	    	id
-			title
+			 title
 	    	description
 	    	cost
 	    	departure
@@ -31,11 +31,11 @@ const GET_INFO_ROUTE = gql`
 	    	car_id
 	    	spaces_available
 	    	users_in_route
-	        from_lat
-	        from_lng
-	        to_lat
-	        to_lng
-	        waypoints
+        from_lat
+        from_lng
+        to_lat
+        to_lng
+        waypoints
 	    }
   	}
 `;
@@ -219,7 +219,6 @@ class UpdateRoute extends Component {
               waypoints:JSON.stringify(this.waypoints),
               departure: this.inputDate.value,
               cost: this.inputCost.value,
-              users_in_route: "",
               active: true,
               spaces_available:this.inputSpaces.value
             }

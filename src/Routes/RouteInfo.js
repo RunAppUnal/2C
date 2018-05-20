@@ -123,6 +123,7 @@ const RouteInfo = ({ match }) => {
 	            let title = data.routeById.title;
 	            let description = data.routeById.description;
 	            let date = data.routeById.departure.substring(8,10) + " / " + getMonth(data.routeById.departure.substring(5,7)) + " / " + data.routeById.departure.substring(0,4);
+	            let time = data.routeById.departure.substring(11,16);
 	            let cost = "$" + data.routeById.cost;
 	            let spaces = data.routeById.spaces_available;
 	            let from = {lat: data.routeById.from_lat, lng: data.routeById.from_lng};
@@ -201,28 +202,34 @@ const RouteInfo = ({ match }) => {
                 		<div className="create map">
 		                	<div className="map info">
 			                    <h5>Fecha de Salida:</h5>{date}<br/><br/>
+			                    <h5>Hora:</h5>{time}<br/><br/>
 			                    <h5>Costo:</h5>{cost}<br/><br/>
 			                    <h5>Cupos:</h5>{spaces}
 		                  	</div>
                   			<Map from={from} to={to} waypoints={waypoints} />
                 		</div><br/><br/>
                 		<div className="ui two column grid">
-				            <div className="column">
+				            <div className="column col-sm-6">
 				            	<h5>Información del conductor:</h5>
 				              	<GetUser userId={data.routeById.user_id} />
 				            </div>
-				            <div className="column">
+				            <div className="column col-sm-6">
 				            	<h5>Información del vehículo:</h5>
 				              	<GetVehicle id={data.routeById.car_id}/>
 				            </div>
 				        </div><br/><br/>
-				        <h5>Usuarios en la ruta</h5><br/>
-				        <div className="ui cards">
-				        	{numUsersInRoute.length ?
-				            	numUsersInRoute.map(user => <GetUser userId={user}/>) :
-				              	<p>Ningún usuario se ha unido aún. !Sé el primero!</p>
-				            }
+				        <div className="ui one column grid">
+				            <div className="column">
+				            	<h5>Usuarios en la ruta</h5>
+				            	{numUsersInRoute.length ?
+				        			numUsersInRoute.map(user => 
+				        				<GetUser userId={user}/>
+				        			) :
+				            		<p>Ningún usuario se ha unido aún. !Sé el primero!</p>
+				        		}
+				            </div>
 				        </div>
+
 	          		</div>
 	        	);
 	      	}}

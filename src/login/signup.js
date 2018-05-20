@@ -40,35 +40,35 @@ const CreateUser = () => {
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Nombre</label>
-                <input ref={node => {inputName = node;}} />
+                <input ref={node => {inputName = node;}} required />
               </Form.Field>
               <Form.Field>
                 <label>Apellido</label>
-                <input ref={node => {inputLastname = node;}} />
+                <input ref={node => {inputLastname = node;}} required />
               </Form.Field>
             </Form.Group>
             <Form.Field>
               <label>Usuario</label>
-              <input ref={node => {inputUsername = node;}} />
+              <input ref={node => {inputUsername = node;}} required />
             </Form.Field>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Email</label>
-                <input type='email' ref={node => {inputEmail = node;}} />
+                <input type='email' ref={node => {inputEmail = node;}} placeholder="alguien@unal.edu.co" required />
               </Form.Field>
               <Form.Field>
                 <label>Celular</label>
-                <input type='tel' ref={node => {inputCellphone = node;}} />
+                <input type='tel' ref={node => {inputCellphone = node;}} required />
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Contraseña</label>
-                <input type='password' ref={node => {inputPassword = node;}} />
+                <input type='password' ref={node => {inputPassword = node;}} required />
               </Form.Field>
               <Form.Field>
                 <label>Confirmar contraseña</label>
-                <input type='password' ref={node => {inputPasswordConfirmation = node;}} />
+                <input type='password' ref={node => {inputPasswordConfirmation = node;}} required />
               </Form.Field>
             </Form.Group>
             <Button type='submit'>Registrarse</Button>

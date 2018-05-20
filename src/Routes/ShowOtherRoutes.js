@@ -51,43 +51,47 @@ const Other_Routes = withAuth(({ auth }) => {
         return (
           <Router>
             <div className="row" id="otherRoutesCards">
-              {data.otherRoutes.map(route =>
-                <div className="col-xs-12 col-sm-offset-6 col-sm-6">
-                  <ul className="event-list">
-                    <li>
-                      <time>
-                        <span className="day">{route.departure.substring(8, 10)}</span>
-                        <span className="month">{getMonth(route.departure.substring(5, 7))}</span>
-                        <span className="year">{route.departure.substring(0, 4)}</span>
-                        <span className="time">ALL DAY</span>
-                      </time>
-                      <div className="info">
-                        <h2 className="title"><NavLink to={`/route/${route.id}`} onClick={() => window.location.reload()}>{route.title}</NavLink></h2>
-                        <p className="desc">{route.description}</p>
-                        <ul className="infoUL">
-                          <li><span className="fa fa-users"> {route.spaces_available}</span></li>
-                          <li><span className="fa fa-dollar"> {route.cost}</span></li>
-                        </ul>
-                      </div>
-                      <div className="social">
-                        {today <= route.departure ? (
-                          <svg height="30" width="30" title="Disponible">
-                            <circle cx="12" cy="12" r="6" fill="#46f711">
-                              <title>Disponible</title>
-                            </circle>
-                          </svg> 
-                        ) : (
-                          <svg height="30" width="30" title="Disponible">
-                            <circle cx="12" cy="12" r="6" fill="red">
-                              <title>No disponible</title>
-                            </circle>
-                          </svg> 
-                        )}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              )}
+              {data.otherRoutes.length > 0 ? (
+                data.otherRoutes.map(route =>
+                  <div className="col-xs-12 col-sm-offset-6 col-sm-6">
+                    <ul className="event-list">
+                      <li>
+                        <time>
+                          <span className="day">{route.departure.substring(8, 10)}</span>
+                          <span className="month">{getMonth(route.departure.substring(5, 7))}</span>
+                          <span className="year">{route.departure.substring(0, 4)}</span>
+                          <span className="time">ALL DAY</span>
+                        </time>
+                        <div className="info">
+                          <h2 className="title"><NavLink to={`/route/${route.id}`} onClick={() => window.location.reload()}>{route.title}</NavLink></h2>
+                          <p className="desc">{route.description}</p>
+                          <ul className="infoUL">
+                            <li><span className="fa fa-users"> {route.spaces_available}</span></li>
+                            <li><span className="fa fa-dollar"> {route.cost}</span></li>
+                          </ul>
+                        </div>
+                        <div className="social">
+                          {today <= route.departure ? (
+                            <svg height="30" width="30" title="Disponible">
+                              <circle cx="12" cy="12" r="6" fill="#46f711">
+                                <title>Disponible</title>
+                              </circle>
+                            </svg> 
+                          ) : (
+                            <svg height="30" width="30" title="Disponible">
+                              <circle cx="12" cy="12" r="6" fill="red">
+                                <title>No disponible</title>
+                              </circle>
+                            </svg> 
+                          )}
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                )
+                ):(
+                  <p>No hay rutas para mostrar.</p>
+                )}
             </div>
           </Router>
         );
