@@ -1,15 +1,9 @@
 version: '2'
 
 services:
-
   runapp_wa:
     container_name: runapp_wa
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - '.:/runapp_wa'
-      - '/runapp_wa/node_modules'
+    image: jesusfchavarro/2c_runapp_wa
     ports:
       - '3000:3000'
     environment:
